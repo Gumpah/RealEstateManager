@@ -11,7 +11,8 @@
         android:id="@+id/toolbar_mainActivity"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"/>
+        android:layout_height="?attr/actionBarSize"
+        style="@style/ToolBarStyle"/>
 
     <FrameLayout
         android:id="@+id/frameLayout_fragmentContainer"

@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData;
 import com.openclassrooms.realestatemanager.data.daos.PropertyDao;
 import com.openclassrooms.realestatemanager.data.model.Property;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PropertyRepository {

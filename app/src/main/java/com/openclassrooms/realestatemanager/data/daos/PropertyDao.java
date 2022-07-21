@@ -8,6 +8,7 @@ import androidx.room.Update;
 
 import com.openclassrooms.realestatemanager.data.model.Property;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Dao

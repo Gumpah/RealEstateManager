@@ -1,28 +1,34 @@
 package com.openclassrooms.realestatemanager.ui;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.openclassrooms.realestatemanager.R;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.openclassrooms.realestatemanager.data.model.Property;
 import com.openclassrooms.realestatemanager.databinding.FragmentPropertiesListBinding;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PropertiesListFragment extends Fragment {
 
     private FragmentPropertiesListBinding binding;
     private RecyclerView mRecyclerView;
+    private PropertyViewModel mPropertyViewModel;
+    private PropertiesListAdapter mListPropertiesAdapter;
+    private ClickCallback mCallback;
 
-    public PropertiesListFragment() {
-        // Required empty public constructor
+    public PropertiesListFragment(ClickCallback callback) {
+        mCallback = callback;
     }
 
     @Override
@@ -31,9 +37,13 @@ public class PropertiesListFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentPropertiesListBinding.inflate(inflater, container, false);
+        initRecyclerView();
+        configureViewModel();
+        setData();
+        setClickListener();
         return binding.getRoot();
     }
 
@@ -44,16 +54,33 @@ public class PropertiesListFragment extends Fragment {
         mRecyclerView.addItemDecoration(dividerItemDecoration);
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireActivity());
         mRecyclerView.setLayoutManager(layoutManager);
-        PropertiesListAdapter mListPropertiesAdapter = new PropertiesListAdapter();
+        mListPropertiesAdapter = new PropertiesListAdapter(new ArrayList<>());
         mRecyclerView.setAdapter(mListPropertiesAdapter);
     }
 
-    /*
-    public static PropertiesListFragment newInstance(String param1, String param2) {
-        PropertiesListFragment fragment = new PropertiesListFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
+    private void configureViewModel() {
+        mPropertyViewModel = new ViewModelProvider(requireActivity(), PropertyViewModelFactory.getInstance(requireContext())).get(PropertyViewModel.class);
     }
-     */
+
+    private void setData() {
+        mPropertyViewModel.getPropertiesLiveData().observe(getViewLifecycleOwner(), list -> {
+            mListPropertiesAdapter.setData(list);
+        });
+        mPropertyViewModel.getProperties();
+    }
+
+    private void setClickListener() {
+        binding.fabAddProperty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCallback.myClickCallback("propertiesList");
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setData();
+    }
 }

@@ -1,51 +1,62 @@
 package com.openclassrooms.realestatemanager.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding;
 import com.openclassrooms.realestatemanager.utils.Utils;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.Objects;
 
-    private TextView textViewMain;
-    private TextView textViewQuantity;
-    private Button buttonMain;
-    private Utils mUtils;
+public class MainActivity extends AppCompatActivity implements ClickCallback {
+
+    private ActivityMainBinding binding;
+    private PropertyViewModel mPropertyViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        textViewMain = findViewById(R.id.activity_main_activity_text_view_main);
-        textViewQuantity = findViewById(R.id.activity_main_activity_text_view_quantity);
-        buttonMain = findViewById(R.id.button);
-
-        mUtils = new Utils();
-
-        configureTextViewMain();
-        configureTextViewQuantity();
-        setClickListener();
+        initUI(savedInstanceState);
+        configureViewModel();
+        setSupportActionBar(binding.toolbarMainActivity);
     }
 
-    private void configureTextViewMain(){
-        textViewMain.setTextSize(15);
-        textViewMain.setText("Le premier bien immobilier enregistré vaut ");
+    private void initUI(Bundle savedInstanceState) {
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().
+                    replace(R.id.frameLayout_fragmentContainer, new PropertiesListFragment(this), "PropertiesList")
+                    .addToBackStack("PropertiesList")
+                    .commit();
+        }
     }
 
-    private void configureTextViewQuantity(){
-        String quantity = String.valueOf(Utils.convertDollarToEuro(100));
-        textViewQuantity.setTextSize(20);
-        textViewQuantity.setText(quantity);
+    private void configureViewModel() {
+        mPropertyViewModel = new ViewModelProvider(this, PropertyViewModelFactory.getInstance(this)).get(PropertyViewModel.class);
     }
 
-    private void setClickListener() {
-        buttonMain.setOnClickListener(v -> {
-            buttonMain.setText(String.valueOf(mUtils.isInternetAvailable(this)));
-        });
+    @Override
+    public void myClickCallback(String fragment) {
+        if (Objects.equals(fragment, "propertiesList")) {
+            getSupportFragmentManager().beginTransaction().
+                    replace(R.id.frameLayout_fragmentContainer, new AddPropertyFragment(this), "AddProperty")
+                    .addToBackStack("AddProperty")
+                    .commit();
+        }
+
+        if (Objects.equals(fragment, "addProperty")) {
+            System.out.println("test");
+            getSupportFragmentManager().popBackStack();
+        }
     }
 }

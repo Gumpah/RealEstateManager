@@ -9,12 +9,14 @@ import androidx.lifecycle.ViewModelProvider;
 import com.openclassrooms.realestatemanager.data.Database;
 import com.openclassrooms.realestatemanager.data.PropertyRepository;
 
-import org.jetbrains.annotations.NotNull;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class PropertyViewModelFactory implements ViewModelProvider.Factory {
 
     private static PropertyViewModelFactory factory;
     private final PropertyRepository mPropertyRepository;
+    private final Executor mExecutor;
 
     public static PropertyViewModelFactory getInstance(Context context) {
         if (factory == null) {
@@ -30,14 +32,15 @@ public class PropertyViewModelFactory implements ViewModelProvider.Factory {
     private PropertyViewModelFactory(Context context) {
         Database database = Database.getDatabase(context);
         mPropertyRepository = new PropertyRepository(database.propertyDao());
+        mExecutor = Executors.newSingleThreadExecutor();
     }
 
     @SuppressWarnings("unchecked")
     @NonNull
     @Override
-    public <T extends ViewModel> T create(@NonNull @NotNull Class<T> modelClass) {
+    public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if (modelClass.isAssignableFrom(PropertyViewModel.class)) {
-            return (T) new PropertyViewModel(mPropertyRepository);
+            return (T) new PropertyViewModel(mPropertyRepository, mExecutor);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }

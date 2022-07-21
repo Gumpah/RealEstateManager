@@ -6,6 +6,7 @@ left to right direction
 class Property {
 String property_type
 Double price
+int surface
 int rooms_count
 String description
 String[] media_uri_list
