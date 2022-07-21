@@ -16,7 +16,7 @@ public class PropertyRepository {
         mPropertyDao = propertyDao;
     }
 
-    public LiveData<List<Property>> getProperties() { return mPropertyDao.getProperties(); }
+    public List<Property> getProperties() { return mPropertyDao.getProperties(); }
 
     public LiveData<Property> getPropertyById(long propertyId) { return mPropertyDao.getPropertyById(propertyId); }
 

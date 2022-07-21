@@ -15,7 +15,7 @@ public class PropertyViewModel extends ViewModel {
 
     private PropertyRepository mPropertyRepository;
     private Executor mExecutor;
-    private LiveData<List<Property>> mProperties;
+    private MutableLiveData<List<Property>> mProperties;
 
     public PropertyViewModel(PropertyRepository propertyRepository, Executor executor) {
         mPropertyRepository = propertyRepository;
@@ -26,7 +26,7 @@ public class PropertyViewModel extends ViewModel {
     public LiveData<List<Property>> getPropertiesLiveData() { return mProperties; }
 
     public void getProperties() { mExecutor.execute(() -> {
-        mProperties = mPropertyRepository.getProperties();
+        mProperties.postValue(mPropertyRepository.getProperties());
     });  }
 
     public LiveData<Property> getPropertyById(long propertyId) { return mPropertyRepository.getPropertyById(propertyId); }

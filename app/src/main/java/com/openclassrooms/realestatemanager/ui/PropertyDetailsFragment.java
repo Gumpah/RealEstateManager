@@ -2,13 +2,20 @@ package com.openclassrooms.realestatemanager.ui;
 
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.databinding.FragmentPropertiesListBinding;
+import com.openclassrooms.realestatemanager.databinding.FragmentPropertyDetailsBinding;
 
 public class PropertyDetailsFragment extends Fragment {
+
+    private FragmentPropertyDetailsBinding binding;
+    private PropertyViewModel mPropertyViewModel;
 
     public PropertyDetailsFragment() {
         // Required empty public constructor
@@ -22,15 +29,12 @@ public class PropertyDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_property_details, container, false);
+        binding = FragmentPropertyDetailsBinding.inflate(inflater, container, false);
+        configureViewModel();
+        return binding.getRoot();
     }
 
-    /*
-    public static PropertyDetailsFragment newInstance(String param1, String param2) {
-        PropertyDetailsFragment fragment = new PropertyDetailsFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
+    private void configureViewModel() {
+        mPropertyViewModel = new ViewModelProvider(requireActivity(), PropertyViewModelFactory.getInstance(requireContext())).get(PropertyViewModel.class);
     }
-     */
 }

@@ -1,14 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.PropertyDetailsFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.PropertyDetailsFragment"
+    android:padding="16dp">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/textView_media"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/grey"
+        android:textSize="16sp"
+        android:text="Media"/>
 
-</FrameLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_medias"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/textView_media" />
+
+    <TextView
+        android:id="@+id/textView_descriptionTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/recyclerView_medias"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/grey"
+        android:textSize="16sp"
+        android:text="Description"/>
+
+    <TextView
+        android:id="@+id/textView_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/grey"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/textView_descriptionTitle"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout_container1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/textView_description"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/constraintLayout_container2"
+        app:layout_constraintHorizontal_weight="1">
+
+        <TextView
+            android:id="@+id/textView_surfaceTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:drawablePadding="8dp"
+            android:gravity="center"
+            android:textColor="@color/grey"
+            android:textSize="14sp"
+            android:text="Surface"
+            app:drawableTint="@color/grey"
+            app:drawableLeftCompat="@drawable/ic_baseline_crop_free_24" />
+
+        <TextView
+            android:id="@+id/textView_surface"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/textView_surfaceTitle"
+            app:layout_constraintStart_toStartOf="@id/textView_surfaceTitle"
+            android:textColor="@color/grey"/>
+
+        <TextView
+            android:id="@+id/textView_roomsCountTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/textView_surface"
+            app:layout_constraintStart_toStartOf="parent"
+            android:drawablePadding="8dp"
+            android:gravity="center"
+            android:textColor="@color/grey"
+            android:textSize="14sp"
+            android:text="Rooms count"
+            app:drawableLeftCompat="@drawable/ic_baseline_home_24"
+            app:drawableTint="@color/grey" />
+
+        <TextView
+            android:id="@+id/textView_roomsCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/textView_roomsCountTitle"
+            app:layout_constraintStart_toStartOf="@id/textView_surfaceTitle"
+            android:textColor="@color/grey"/>
+
+        <TextView
+            android:id="@+id/textView_bathroomsCountTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/textView_roomsCount"
+            app:layout_constraintStart_toStartOf="parent"
+            android:drawablePadding="8dp"
+            android:gravity="center"
+            android:textColor="@color/grey"
+            android:textSize="14sp"
+            android:text="Bathrooms count"
+            app:drawableLeftCompat="@drawable/ic_baseline_shower_24"
+            app:drawableTint="@color/grey" />
+
+        <TextView
+            android:id="@+id/textView_bathroomsCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/textView_bathroomsCountTitle"
+            app:layout_constraintStart_toStartOf="@id/textView_surfaceTitle"
+            android:textColor="@color/grey"/>
+
+        <TextView
+            android:id="@+id/textView_bedroomsCountTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/textView_bathroomsCount"
+            app:layout_constraintStart_toStartOf="parent"
+            android:drawablePadding="8dp"
+            android:gravity="center"
+            android:textColor="@color/grey"
+            android:textSize="14sp"
+            android:text="Bedrooms count"
+            app:drawableLeftCompat="@drawable/ic_baseline_king_bed_24"
+            app:drawableTint="@color/grey" />
+
+        <TextView
+            android:id="@+id/textView_bedroomsCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/textView_bedroomsCountTitle"
+            app:layout_constraintStart_toStartOf="@id/textView_surfaceTitle"
+            android:textColor="@color/grey"/>
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout_container2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintTop_toTopOf="@id/constraintLayout_container1"
+        app:layout_constraintStart_toEndOf="@id/constraintLayout_container1"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/textView_locationTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:drawablePadding="8dp"
+            android:gravity="center"
+            android:textColor="@color/grey"
+            android:textSize="14sp"
+            android:text="Location"
+            app:drawableLeftCompat="@drawable/ic_baseline_location_on_24"
+            app:drawableTint="@color/grey" />
+
+        <TextView
+            android:id="@+id/textView_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/textView_locationTitle"
+            app:layout_constraintStart_toStartOf="@id/textView_locationTitle"
+            android:textColor="@color/grey"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
