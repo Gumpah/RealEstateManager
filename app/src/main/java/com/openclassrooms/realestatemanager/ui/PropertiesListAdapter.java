@@ -19,8 +19,9 @@ public class PropertiesListAdapter extends RecyclerView.Adapter<PropertiesListAd
     public List<Property> mProperties;
     private ClickCallback mCallback;
 
-    public PropertiesListAdapter(ArrayList<Property> list) {
+    public PropertiesListAdapter(ArrayList<Property> list, ClickCallback callback) {
         mProperties = list;
+        mCallback = callback;
     }
 
     @NonNull
@@ -33,6 +34,7 @@ public class PropertiesListAdapter extends RecyclerView.Adapter<PropertiesListAd
     @Override
     public void onBindViewHolder(@NonNull PropertiesListAdapter.PropertiesListViewHolder holder, int position) {
         holder.bind(mProperties.get(position));
+        holder.setClickListener(mCallback, mProperties.get(position));
     }
 
     @Override
@@ -63,6 +65,15 @@ public class PropertiesListAdapter extends RecyclerView.Adapter<PropertiesListAd
             binding.textViewLocation.setText(property.getAddress());
             binding.textViewPrice.setText(String.valueOf(property.getPrice()));
             binding.textViewPropertyType.setText(property.getProperty_type());
+        }
+
+        void setClickListener(ClickCallback callback, Property property) {
+            binding.constraintLayoutContainerClickable.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    callback.propertiesListAdapterCallback(property);
+                }
+            });
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.openclassrooms.realestatemanager.ui;
 
+import com.openclassrooms.realestatemanager.data.model.Property;
+
 public interface ClickCallback {
-    void myClickCallback(String string);
+    void propertiesListAdapterCallback(Property property);
 }

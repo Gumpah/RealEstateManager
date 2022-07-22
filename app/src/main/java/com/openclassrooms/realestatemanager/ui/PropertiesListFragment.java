@@ -13,13 +13,14 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.data.model.Property;
 import com.openclassrooms.realestatemanager.databinding.FragmentPropertiesListBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PropertiesListFragment extends Fragment {
+public class PropertiesListFragment extends Fragment implements ClickCallback {
 
     private FragmentPropertiesListBinding binding;
     private RecyclerView mRecyclerView;
@@ -27,8 +28,7 @@ public class PropertiesListFragment extends Fragment {
     private PropertiesListAdapter mListPropertiesAdapter;
     private ClickCallback mCallback;
 
-    public PropertiesListFragment(ClickCallback callback) {
-        mCallback = callback;
+    public PropertiesListFragment() {
     }
 
     @Override
@@ -54,7 +54,7 @@ public class PropertiesListFragment extends Fragment {
         mRecyclerView.addItemDecoration(dividerItemDecoration);
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireActivity());
         mRecyclerView.setLayoutManager(layoutManager);
-        mListPropertiesAdapter = new PropertiesListAdapter(new ArrayList<>());
+        mListPropertiesAdapter = new PropertiesListAdapter(new ArrayList<>(), this);
         mRecyclerView.setAdapter(mListPropertiesAdapter);
     }
 
@@ -70,11 +70,19 @@ public class PropertiesListFragment extends Fragment {
     }
 
     private void setClickListener() {
-        binding.fabAddProperty.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCallback.myClickCallback("propertiesList");
-            }
+        binding.fabAddProperty.setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager().beginTransaction().
+                    replace(R.id.frameLayout_fragmentContainer, new AddPropertyFragment(), "AddProperty")
+                    .addToBackStack("AddProperty")
+                    .commit();
         });
+    }
+
+    @Override
+    public void propertiesListAdapterCallback(Property property) {
+        requireActivity().getSupportFragmentManager().beginTransaction().
+                replace(R.id.frameLayout_fragmentContainer, new PropertyDetailsFragment(property), "PropertyDetails")
+                .addToBackStack("PropertyDetails")
+                .commit();
     }
 }

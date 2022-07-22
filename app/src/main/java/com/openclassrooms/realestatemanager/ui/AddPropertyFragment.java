@@ -12,12 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.data.model.Media;
 import com.openclassrooms.realestatemanager.data.model.Property;
 import com.openclassrooms.realestatemanager.data.model.PropertyStatus;
 import com.openclassrooms.realestatemanager.databinding.FragmentAddPropertyBinding;
 import com.openclassrooms.realestatemanager.databinding.FragmentPropertiesListBinding;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class AddPropertyFragment extends Fragment {
 
@@ -25,8 +27,7 @@ public class AddPropertyFragment extends Fragment {
     private PropertyViewModel mPropertyViewModel;
     private ClickCallback mClickCallback;
 
-    public AddPropertyFragment(ClickCallback callback) {
-        mClickCallback = callback;
+    public AddPropertyFragment() {
     }
 
     @Override
@@ -122,9 +123,12 @@ public class AddPropertyFragment extends Fragment {
             binding.textInputLayoutAddress.setError("Can't be empty");
             return;
         }
-        System.out.println("A / created");
         Property property = new Property(propertyType, Double.valueOf(price), Integer.parseInt(surface), Integer.parseInt(roomsCount), description, address, PropertyStatus.AVAILABLE, marketEntryDate, agent);
-        mPropertyViewModel.insertProperty(property);
+        System.out.println("Test1" + property.getId());
+        ArrayList<Media> medias = new ArrayList<>();
+        medias.add(new Media("test1", "chambre"));
+        medias.add(new Media("test2", "salon"));
+        mPropertyViewModel.insertPropertyAndMedias(property, medias);
         requireActivity().getSupportFragmentManager().popBackStack();
     }
 }

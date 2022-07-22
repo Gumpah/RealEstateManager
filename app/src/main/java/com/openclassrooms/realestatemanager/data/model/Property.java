@@ -33,7 +33,6 @@ public class Property {
         this.address = address;
         this.status = status;
         this.market_entry = market_entry;
-        this.sold = sold;
         this.agent = agent;
     }
 

@@ -5,10 +5,12 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.openclassrooms.realestatemanager.data.PropertyRepository;
+import com.openclassrooms.realestatemanager.data.model.Media;
 import com.openclassrooms.realestatemanager.data.model.Property;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executor;
 
 public class PropertyViewModel extends ViewModel {
@@ -42,4 +44,17 @@ public class PropertyViewModel extends ViewModel {
     public void deleteProperty(long propertyId) { mExecutor.execute(() -> {
         mPropertyRepository.deleteProperty(propertyId);
     });  }
+
+    public void insertPropertyAndMedias(Property property, ArrayList<Media> medias) {
+        mExecutor.execute(() -> {
+            long propertyId = mPropertyRepository.insertProperty(property);
+            if (medias != null && !medias.isEmpty()) {
+                ArrayList<Media> mediaList = new ArrayList<>();
+                for (Media media : medias) {
+                    media.setPropertyId(propertyId);
+                    mediaList.add(media);
+                }
+                mPropertyRepository.insertMultipleMedias(mediaList);
+            }
+        });  }
 }

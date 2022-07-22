@@ -21,7 +21,7 @@ public interface PropertyDao {
     LiveData<Property> getPropertyById(long propertyId);
 
     @Insert
-    void insertProperty(Property property);
+    long insertProperty(Property property);
 
     @Update
     void updateProperty(Property property);

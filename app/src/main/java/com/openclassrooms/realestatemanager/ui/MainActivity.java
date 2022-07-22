@@ -9,12 +9,13 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.data.model.Property;
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding;
 import com.openclassrooms.realestatemanager.utils.Utils;
 
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements ClickCallback {
+public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private PropertyViewModel mPropertyViewModel;
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements ClickCallback {
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().
-                    replace(R.id.frameLayout_fragmentContainer, new PropertiesListFragment(this), "PropertiesList")
+                    replace(R.id.frameLayout_fragmentContainer, new PropertiesListFragment(), "PropertiesList")
                     .addToBackStack("PropertiesList")
                     .commit();
         }
@@ -43,20 +44,5 @@ public class MainActivity extends AppCompatActivity implements ClickCallback {
 
     private void configureViewModel() {
         mPropertyViewModel = new ViewModelProvider(this, PropertyViewModelFactory.getInstance(this)).get(PropertyViewModel.class);
-    }
-
-    @Override
-    public void myClickCallback(String fragment) {
-        if (Objects.equals(fragment, "propertiesList")) {
-            getSupportFragmentManager().beginTransaction().
-                    replace(R.id.frameLayout_fragmentContainer, new AddPropertyFragment(this), "AddProperty")
-                    .addToBackStack("AddProperty")
-                    .commit();
-        }
-
-        if (Objects.equals(fragment, "addProperty")) {
-            System.out.println("test");
-            getSupportFragmentManager().popBackStack();
-        }
     }
 }

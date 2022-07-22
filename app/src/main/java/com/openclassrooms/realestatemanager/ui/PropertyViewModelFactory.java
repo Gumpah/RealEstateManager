@@ -31,7 +31,7 @@ public class PropertyViewModelFactory implements ViewModelProvider.Factory {
 
     private PropertyViewModelFactory(Context context) {
         Database database = Database.getDatabase(context);
-        mPropertyRepository = new PropertyRepository(database.propertyDao());
+        mPropertyRepository = new PropertyRepository(database.propertyDao(), database.mediaDao());
         mExecutor = Executors.newSingleThreadExecutor();
     }
 
