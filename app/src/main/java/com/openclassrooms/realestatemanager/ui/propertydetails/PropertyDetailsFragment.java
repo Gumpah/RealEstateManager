@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.ui.propertydetails;
 
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,14 +14,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.data.model.Property;
 import com.openclassrooms.realestatemanager.databinding.FragmentPropertyDetailsBinding;
 import com.openclassrooms.realestatemanager.ui.PropertyViewModel;
 import com.openclassrooms.realestatemanager.ui.PropertyViewModelFactory;
+import com.openclassrooms.realestatemanager.ui.callbacks.DisplayMediaCallback;
 
 import java.util.ArrayList;
 
-public class PropertyDetailsFragment extends Fragment {
+public class PropertyDetailsFragment extends Fragment implements DisplayMediaCallback {
 
     private FragmentPropertyDetailsBinding binding;
     private PropertyViewModel mPropertyViewModel;
@@ -73,7 +76,17 @@ public class PropertyDetailsFragment extends Fragment {
         mRecyclerView.addItemDecoration(dividerItemDecoration);
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
-        mPropertyDetailsMediasAdapter = new PropertyDetailsMediasAdapter(new ArrayList<>());
+        mPropertyDetailsMediasAdapter = new PropertyDetailsMediasAdapter(new ArrayList<>(), this);
         mRecyclerView.setAdapter(mPropertyDetailsMediasAdapter);
+    }
+
+
+    @Override
+    public void displayMediaCallback(String uriString) {
+        Uri uri = Uri.parse(uriString);
+        requireActivity().getSupportFragmentManager().beginTransaction().
+                replace(R.id.frameLayout_fragmentContainer, new MediaDisplayFragment(uri), "MediaDisplay")
+                .addToBackStack("MediaDisplay")
+                .commit();
     }
 }

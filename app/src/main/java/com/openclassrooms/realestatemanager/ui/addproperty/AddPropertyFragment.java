@@ -38,7 +38,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class AddPropertyFragment extends Fragment {
+public class AddPropertyFragment extends Fragment implements AddPropertyCallback {
 
     private FragmentAddPropertyBinding binding;
     private PropertyViewModel mPropertyViewModel;
@@ -77,7 +77,7 @@ public class AddPropertyFragment extends Fragment {
         mRecyclerView.addItemDecoration(dividerItemDecoration);
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireActivity());
         mRecyclerView.setLayoutManager(layoutManager);
-        mAddPropertyMediasAdapter = new AddPropertyMediasAdapter(new ArrayList<>());
+        mAddPropertyMediasAdapter = new AddPropertyMediasAdapter(new ArrayList<>(), this);
         mRecyclerView.setAdapter(mAddPropertyMediasAdapter);
     }
 
@@ -188,5 +188,12 @@ public class AddPropertyFragment extends Fragment {
         Property property = new Property(propertyType, Double.valueOf(price), Integer.parseInt(surface), Integer.parseInt(roomsCount), description, address, PropertyStatus.AVAILABLE, marketEntryDate, agent);
         mPropertyViewModel.insertPropertyAndMedias(property, mediaList);
         requireActivity().getSupportFragmentManager().popBackStack();
+    }
+
+
+    @Override
+    public void removeMedia(int index) {
+        mBitmapList.remove(index);
+        mAddPropertyMediasAdapter.setData(mBitmapList);
     }
 }

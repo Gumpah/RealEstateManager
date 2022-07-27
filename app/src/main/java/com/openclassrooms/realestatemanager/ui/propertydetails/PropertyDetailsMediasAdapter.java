@@ -11,16 +11,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.openclassrooms.realestatemanager.data.model.Media;
 import com.openclassrooms.realestatemanager.databinding.PropertyDetailsImageItemBinding;
+import com.openclassrooms.realestatemanager.ui.callbacks.DisplayMediaCallback;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PropertyDetailsMediasAdapter extends RecyclerView.Adapter<PropertyDetailsMediasAdapter.PropertyDetailsMediasViewHolder> {
 
-    public List<Media> mMediaList;
+    private List<Media> mMediaList;
+    private DisplayMediaCallback mCallback;
 
-    public PropertyDetailsMediasAdapter(ArrayList<Media> list) {
+    public PropertyDetailsMediasAdapter(ArrayList<Media> list, DisplayMediaCallback callback) {
         mMediaList = list;
+        mCallback = callback;
     }
 
     @NonNull
@@ -33,7 +36,7 @@ public class PropertyDetailsMediasAdapter extends RecyclerView.Adapter<PropertyD
     @Override
     public void onBindViewHolder(@NonNull PropertyDetailsMediasAdapter.PropertyDetailsMediasViewHolder holder, int position) {
         holder.bind(mMediaList.get(position));
-        holder.setClickListener();
+        holder.setClickListener(mCallback, mMediaList.get(position).getMedia_uri());
     }
 
     @Override
@@ -68,11 +71,11 @@ public class PropertyDetailsMediasAdapter extends RecyclerView.Adapter<PropertyD
             binding.textViewMediaTitle.setText(media.getName());
         }
 
-        void setClickListener() {
+        void setClickListener(DisplayMediaCallback callback, String media_uri) {
             binding.constraintLayoutContainer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    callback.displayMediaCallback(media_uri);
                 }
             });
         }

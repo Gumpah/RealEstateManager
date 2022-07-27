@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.openclassrooms.realestatemanager.data.model.Property;
 import com.openclassrooms.realestatemanager.databinding.AddPropertyImageItemBinding;
 import com.openclassrooms.realestatemanager.databinding.PropertyListItemBinding;
+import com.openclassrooms.realestatemanager.ui.callbacks.AddPropertyCallback;
 import com.openclassrooms.realestatemanager.ui.callbacks.ClickCallback;
 
 import java.util.ArrayList;
@@ -20,10 +21,12 @@ import java.util.List;
 
 public class AddPropertyMediasAdapter extends RecyclerView.Adapter<AddPropertyMediasAdapter.AddPropertyMediasViewHolder> {
 
-    public List<Bitmap> mBitmapList;
+    private List<Bitmap> mBitmapList;
+    private AddPropertyCallback mCallback;
 
-    public AddPropertyMediasAdapter(ArrayList<Bitmap> list) {
+    public AddPropertyMediasAdapter(ArrayList<Bitmap> list, AddPropertyCallback callback) {
         mBitmapList = list;
+        mCallback = callback;
     }
 
     @NonNull
@@ -36,6 +39,7 @@ public class AddPropertyMediasAdapter extends RecyclerView.Adapter<AddPropertyMe
     @Override
     public void onBindViewHolder(@NonNull AddPropertyMediasAdapter.AddPropertyMediasViewHolder holder, int position) {
         holder.bind(mBitmapList.get(position));
+        holder.setClickListener(mCallback, position);
     }
 
     @Override
@@ -68,6 +72,15 @@ public class AddPropertyMediasAdapter extends RecyclerView.Adapter<AddPropertyMe
                     .centerCrop()
                     .circleCrop()
                     .into(binding.imageViewPropertyImage);
+        }
+
+        void setClickListener(AddPropertyCallback callback, int position) {
+            binding.imageButtonDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    callback.removeMedia(position);
+                }
+            });
         }
     }
 }
