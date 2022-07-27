@@ -18,11 +18,13 @@ public class PropertyViewModel extends ViewModel {
     private PropertyRepository mPropertyRepository;
     private Executor mExecutor;
     private MutableLiveData<List<Property>> mProperties;
+    private MutableLiveData<List<Media>> mMedias;
 
     public PropertyViewModel(PropertyRepository propertyRepository, Executor executor) {
         mPropertyRepository = propertyRepository;
         mExecutor = executor;
         mProperties = new MutableLiveData<>();
+        mMedias = new MutableLiveData<>();
     }
 
     public LiveData<List<Property>> getPropertiesLiveData() { return mProperties; }
@@ -56,5 +58,14 @@ public class PropertyViewModel extends ViewModel {
                 }
                 mPropertyRepository.insertMultipleMedias(mediaList);
             }
-        });  }
+        });
+    }
+
+    public LiveData<List<Media>> getMediasByPropertyId() { return mMedias; }
+
+    public void getMediasByPropertyId(long propertyId) {
+        mExecutor.execute(() -> {
+            mMedias.postValue(mPropertyRepository.getMediasByPropertyId(propertyId));
+        });
+    }
 }

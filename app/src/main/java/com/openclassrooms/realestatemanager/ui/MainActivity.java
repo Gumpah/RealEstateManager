@@ -5,15 +5,10 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.data.model.Property;
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding;
-import com.openclassrooms.realestatemanager.utils.Utils;
-
-import java.util.Objects;
+import com.openclassrooms.realestatemanager.ui.propertieslist.PropertiesListFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,9 +32,9 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().
                     replace(R.id.frameLayout_fragmentContainer, new PropertiesListFragment(), "PropertiesList")
-                    .addToBackStack("PropertiesList")
                     .commit();
         }
+
     }
 
     private void configureViewModel() {

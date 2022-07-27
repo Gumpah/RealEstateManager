@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.ui;
+package com.openclassrooms.realestatemanager.ui.callbacks;
 
 import com.openclassrooms.realestatemanager.data.model.Property;
 

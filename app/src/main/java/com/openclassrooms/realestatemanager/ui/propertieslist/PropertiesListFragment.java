@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.ui;
+package com.openclassrooms.realestatemanager.ui.propertieslist;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,9 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.data.model.Property;
 import com.openclassrooms.realestatemanager.databinding.FragmentPropertiesListBinding;
+import com.openclassrooms.realestatemanager.ui.addproperty.AddPropertyFragment;
+import com.openclassrooms.realestatemanager.ui.callbacks.ClickCallback;
+import com.openclassrooms.realestatemanager.ui.propertydetails.PropertyDetailsFragment;
+import com.openclassrooms.realestatemanager.ui.PropertyViewModel;
+import com.openclassrooms.realestatemanager.ui.PropertyViewModelFactory;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class PropertiesListFragment extends Fragment implements ClickCallback {
 

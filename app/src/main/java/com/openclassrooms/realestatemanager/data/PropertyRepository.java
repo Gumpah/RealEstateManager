@@ -34,4 +34,8 @@ public class PropertyRepository {
     public void insertMedia(Media media) { mMediaDao.insertMedia(media); }
 
     public void insertMultipleMedias(List<Media> medias) { mMediaDao.insertMultipleMedias(medias); }
+
+    public List<Media> getMediasByPropertyId(long propertyId) {
+        return mMediaDao.getMediasByPropertyId(propertyId);
+    }
 }

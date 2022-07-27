@@ -9,7 +9,6 @@ Double price
 int surface
 int rooms_count
 String description
-String[] media_uri_list
 String address
 Property_status status
 Date market_entry
@@ -22,6 +21,10 @@ AVAILABLE
 SOLD
 }
 
-Property "1" *-- "1" Property_status
+class Media {
+String uri
+}
+
+Property "1" -- "0..*" Media
 
 @enduml
