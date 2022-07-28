@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.ui;
+package com.openclassrooms.realestatemanager.ui.viewmodels;
 
 import android.content.Context;
 
@@ -14,7 +14,7 @@ import java.util.concurrent.Executors;
 
 public class PropertyViewModelFactory implements ViewModelProvider.Factory {
 
-    private static PropertyViewModelFactory factory;
+    private static volatile PropertyViewModelFactory factory;
     private final PropertyRepository mPropertyRepository;
     private final Executor mExecutor;
 

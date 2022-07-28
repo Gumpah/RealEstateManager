@@ -48,6 +48,7 @@ public class Utils {
      * @param context
      * @return
      */
+    @SuppressWarnings("deprecation")
     public static boolean isInternetAvailable (Context context) {
         ConnectivityManager mConnectivityManager = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

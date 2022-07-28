@@ -1,9 +1,10 @@
 package com.openclassrooms.realestatemanager.utils;
 
 import android.content.ContentResolver;
-import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.ImageDecoder;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
 
 import java.io.File;
@@ -13,11 +14,17 @@ import java.util.Calendar;
 
 public class FileStoring {
 
+    @SuppressWarnings("deprecation")
     public static Bitmap convertUriToBitmap(Uri uri, ContentResolver contentResolver) {
         Bitmap bitmap = null;
         if (uri != null) {
             try {
-                bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri);
+                if (Build.VERSION.SDK_INT < 28) {
+                    bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri);
+                } else {
+                    ImageDecoder.Source source = ImageDecoder.createSource(contentResolver, uri);
+                    bitmap = ImageDecoder.decodeBitmap(source);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

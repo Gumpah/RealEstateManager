@@ -20,28 +20,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.openclassrooms.realestatemanager.BuildConfig;
 import com.openclassrooms.realestatemanager.data.model.Media;
 import com.openclassrooms.realestatemanager.data.model.Property;
 import com.openclassrooms.realestatemanager.data.model.PropertyStatus;
 import com.openclassrooms.realestatemanager.databinding.FragmentAddPropertyBinding;
 import com.openclassrooms.realestatemanager.ui.callbacks.AddPropertyCallback;
-import com.openclassrooms.realestatemanager.ui.callbacks.ClickCallback;
-import com.openclassrooms.realestatemanager.ui.PropertyViewModel;
-import com.openclassrooms.realestatemanager.ui.PropertyViewModelFactory;
-import com.openclassrooms.realestatemanager.ui.propertieslist.PropertiesListAdapter;
+import com.openclassrooms.realestatemanager.ui.viewmodels.PlacesViewModel;
+import com.openclassrooms.realestatemanager.ui.viewmodels.PlacesViewModelFactory;
+import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModel;
+import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModelFactory;
 import com.openclassrooms.realestatemanager.utils.FileStoring;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class AddPropertyFragment extends Fragment implements AddPropertyCallback {
 
     private FragmentAddPropertyBinding binding;
     private PropertyViewModel mPropertyViewModel;
+    private PlacesViewModel mPlacesViewModel;
     private ArrayList<Bitmap> mBitmapList;
     private RecyclerView mRecyclerView;
     private AddPropertyMediasAdapter mAddPropertyMediasAdapter;
@@ -63,11 +62,13 @@ public class AddPropertyFragment extends Fragment implements AddPropertyCallback
         initRecyclerView();
         setMediaClickListener();
         setClickListener();
+        mPlacesViewModel.fetchPlaces(BuildConfig.MAPS_API_KEY, "48.8335697,2.2553826");
         return binding.getRoot();
     }
 
     private void configureViewModel() {
         mPropertyViewModel = new ViewModelProvider(requireActivity(), PropertyViewModelFactory.getInstance(requireContext())).get(PropertyViewModel.class);
+        mPlacesViewModel = new ViewModelProvider(requireActivity(), PlacesViewModelFactory.getInstance()).get(PlacesViewModel.class);
     }
 
     private void initRecyclerView() {

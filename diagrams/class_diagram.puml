@@ -25,6 +25,19 @@ class Media {
 String uri
 }
 
+class Place {
+String name
+LatLng position
+String address
+String place_type
+}
+
+class Property_place {
+}
+
 Property "1" -- "0..*" Media
+
+Property "1..*" -- "0..*" Place
+(Property, Place) .. Property_place
 
 @enduml

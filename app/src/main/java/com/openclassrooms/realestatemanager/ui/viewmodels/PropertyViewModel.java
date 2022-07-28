@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.ui;
+package com.openclassrooms.realestatemanager.ui.viewmodels;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

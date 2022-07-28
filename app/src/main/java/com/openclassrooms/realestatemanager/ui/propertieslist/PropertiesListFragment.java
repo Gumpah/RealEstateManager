@@ -18,8 +18,8 @@ import com.openclassrooms.realestatemanager.databinding.FragmentPropertiesListBi
 import com.openclassrooms.realestatemanager.ui.addproperty.AddPropertyFragment;
 import com.openclassrooms.realestatemanager.ui.callbacks.ClickCallback;
 import com.openclassrooms.realestatemanager.ui.propertydetails.PropertyDetailsFragment;
-import com.openclassrooms.realestatemanager.ui.PropertyViewModel;
-import com.openclassrooms.realestatemanager.ui.PropertyViewModelFactory;
+import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModel;
+import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModelFactory;
 
 import java.util.ArrayList;
 

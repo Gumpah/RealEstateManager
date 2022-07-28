@@ -3,14 +3,15 @@ package com.openclassrooms.realestatemanager.data.model;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(foreignKeys = @ForeignKey(entity = Property.class,
+@Entity(indices = @Index("propertyId"), foreignKeys = @ForeignKey(entity = Property.class,
         parentColumns = "property_id",
         childColumns = "propertyId"))
 public class Media {
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "media_id")
+    @ColumnInfo(name = "media_id", index = true)
     public long id = 0;
     long propertyId;
     String media_uri;

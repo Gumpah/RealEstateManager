@@ -17,8 +17,8 @@ import android.view.ViewGroup;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.data.model.Property;
 import com.openclassrooms.realestatemanager.databinding.FragmentPropertyDetailsBinding;
-import com.openclassrooms.realestatemanager.ui.PropertyViewModel;
-import com.openclassrooms.realestatemanager.ui.PropertyViewModelFactory;
+import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModel;
+import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModelFactory;
 import com.openclassrooms.realestatemanager.ui.callbacks.DisplayMediaCallback;
 
 import java.util.ArrayList;

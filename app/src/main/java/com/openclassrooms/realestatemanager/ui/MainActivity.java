@@ -9,6 +9,8 @@ import android.view.View;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding;
 import com.openclassrooms.realestatemanager.ui.propertieslist.PropertiesListFragment;
+import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModel;
+import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModelFactory;
 
 public class MainActivity extends AppCompatActivity {
 
