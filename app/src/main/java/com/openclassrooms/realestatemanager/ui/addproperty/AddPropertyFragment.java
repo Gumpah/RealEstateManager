@@ -20,19 +20,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.net.PlacesClient;
-import com.openclassrooms.realestatemanager.BuildConfig;
-import com.openclassrooms.realestatemanager.data.model.Media;
-import com.openclassrooms.realestatemanager.data.model.Property;
-import com.openclassrooms.realestatemanager.data.model.PropertyStatus;
+import com.openclassrooms.realestatemanager.data.model.entities.Media;
+import com.openclassrooms.realestatemanager.data.model.entities.Property;
+import com.openclassrooms.realestatemanager.data.model.entities.PropertyStatus;
 import com.openclassrooms.realestatemanager.databinding.FragmentAddPropertyBinding;
-import com.openclassrooms.realestatemanager.ui.callbacks.AddPropertyCallback;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PlacesViewModel;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PlacesViewModelFactory;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModel;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModelFactory;
-import com.openclassrooms.realestatemanager.utils.FileStoring;
+import com.openclassrooms.realestatemanager.utils.FileManager;
 
 import java.util.ArrayList;
 
@@ -62,7 +58,7 @@ public class AddPropertyFragment extends Fragment implements AddPropertyCallback
         initRecyclerView();
         setMediaClickListener();
         setClickListener();
-        mPlacesViewModel.fetchPlaces(BuildConfig.MAPS_API_KEY, "48.8335697,2.2553826");
+        //mPlacesViewModel.fetchPlaces(BuildConfig.MAPS_API_KEY, "48.8335697,2.2553826");
         return binding.getRoot();
     }
 
@@ -107,44 +103,44 @@ public class AddPropertyFragment extends Fragment implements AddPropertyCallback
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), i -> {
                 if (i.getResultCode() == Activity.RESULT_OK && i.getData() != null) {
                     Uri selectedImageUri = i.getData().getData();
-                    Bitmap bitmap = FileStoring.convertUriToBitmap(selectedImageUri, requireActivity().getContentResolver());
+                    Bitmap bitmap = FileManager.convertUriToBitmap(selectedImageUri, requireActivity().getContentResolver());
                     mBitmapList.add(bitmap);
                     mAddPropertyMediasAdapter.setData(mBitmapList);
                 }
             });
 
     private void onSubmit() {
-        String address = "";
-        if (binding.textInputLayoutAddress.getEditText() != null) {
-            address = binding.textInputLayoutAddress.getEditText().getText().toString();
-        }
-        String agent = "";
-        if (binding.textInputLayoutAgent.getEditText() != null) {
-            agent = binding.textInputLayoutAgent.getEditText().getText().toString();
-        }
-        String description = "";
-        if (binding.textInputLayoutDescription.getEditText() != null) {
-            description = binding.textInputLayoutDescription.getEditText().getText().toString();
-        }
-        String marketEntryDate = "";
-        if (binding.textInputLayoutMarketEntryDate.getEditText() != null) {
-            marketEntryDate = binding.textInputLayoutMarketEntryDate.getEditText().getText().toString();
+        String propertyType = "";
+        if (binding.textInputLayoutPropertyType.getEditText() != null) {
+            propertyType = binding.textInputLayoutPropertyType.getEditText().getText().toString();
         }
         String price = "";
         if (binding.textInputLayoutPrice.getEditText() != null) {
             price = binding.textInputLayoutPrice.getEditText().getText().toString();
         }
-        String propertyType = "";
-        if (binding.textInputLayoutPropertyType.getEditText() != null) {
-            propertyType = binding.textInputLayoutPropertyType.getEditText().getText().toString();
+        String surface = "";
+        if (binding.textInputLayoutSurface.getEditText() != null) {
+            surface = binding.textInputLayoutSurface.getEditText().getText().toString();
         }
         String roomsCount = "";
         if (binding.textInputLayoutRoomsCount.getEditText() != null) {
             roomsCount = binding.textInputLayoutRoomsCount.getEditText().getText().toString();
         }
-        String surface = "";
-        if (binding.textInputLayoutSurface.getEditText() != null) {
-            surface = binding.textInputLayoutSurface.getEditText().getText().toString();
+        String description = "";
+        if (binding.textInputLayoutDescription.getEditText() != null) {
+            description = binding.textInputLayoutDescription.getEditText().getText().toString();
+        }
+        String address = "";
+        if (binding.textInputLayoutAddress.getEditText() != null) {
+            address = binding.textInputLayoutAddress.getEditText().getText().toString();
+        }
+        String marketEntryDate = "";
+        if (binding.textInputLayoutMarketEntryDate.getEditText() != null) {
+            marketEntryDate = binding.textInputLayoutMarketEntryDate.getEditText().getText().toString();
+        }
+        String agent = "";
+        if (binding.textInputLayoutAgent.getEditText() != null) {
+            agent = binding.textInputLayoutAgent.getEditText().getText().toString();
         }
 
         if (address.isEmpty()) {
@@ -181,7 +177,7 @@ public class AddPropertyFragment extends Fragment implements AddPropertyCallback
         }
         ArrayList<Media> mediaList = new ArrayList<>();
         for (Bitmap bitmap : mBitmapList) {
-            Uri storedImage = FileStoring.createFile(bitmap, requireActivity().getFilesDir());
+            Uri storedImage = FileManager.createFile(bitmap, requireActivity().getFilesDir());
             if (storedImage != null) {
                 mediaList.add(new Media(storedImage.toString(), "Image"));
             }

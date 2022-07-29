@@ -12,19 +12,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 
-public class FileStoring {
+public class FileManager {
 
-    @SuppressWarnings("deprecation")
+    //@SuppressWarnings("deprecation")
     public static Bitmap convertUriToBitmap(Uri uri, ContentResolver contentResolver) {
         Bitmap bitmap = null;
         if (uri != null) {
             try {
-                if (Build.VERSION.SDK_INT < 28) {
-                    bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri);
-                } else {
-                    ImageDecoder.Source source = ImageDecoder.createSource(contentResolver, uri);
-                    bitmap = ImageDecoder.decodeBitmap(source);
-                }
+                bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri);
             } catch (IOException e) {
                 e.printStackTrace();
             }

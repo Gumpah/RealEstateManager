@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.data.model;
+package com.openclassrooms.realestatemanager.data.model.entities;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -10,6 +10,7 @@ import androidx.room.PrimaryKey;
         parentColumns = "property_id",
         childColumns = "propertyId"))
 public class Media {
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "media_id", index = true)
     public long id = 0;

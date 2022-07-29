@@ -13,23 +13,22 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.data.model.Property;
+import com.openclassrooms.realestatemanager.data.model.entities.Property;
 import com.openclassrooms.realestatemanager.databinding.FragmentPropertiesListBinding;
 import com.openclassrooms.realestatemanager.ui.addproperty.AddPropertyFragment;
-import com.openclassrooms.realestatemanager.ui.callbacks.ClickCallback;
 import com.openclassrooms.realestatemanager.ui.propertydetails.PropertyDetailsFragment;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModel;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModelFactory;
 
 import java.util.ArrayList;
 
-public class PropertiesListFragment extends Fragment implements ClickCallback {
+public class PropertiesListFragment extends Fragment implements PropertyListCallback {
 
     private FragmentPropertiesListBinding binding;
     private RecyclerView mRecyclerView;
     private PropertyViewModel mPropertyViewModel;
     private PropertiesListAdapter mListPropertiesAdapter;
-    private ClickCallback mCallback;
+    private PropertyListCallback mCallback;
 
     public PropertiesListFragment() {
     }

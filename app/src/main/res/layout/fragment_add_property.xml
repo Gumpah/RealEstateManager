@@ -16,12 +16,24 @@
             android:layout_height="wrap_content"
             android:padding="16dp">
 
+            <TextView
+                android:id="@+id/textView_details"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textColor="@color/grey"
+                android:text="Details"
+                android:textSize="20sp"/>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout_propertyType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView_details"
                 app:boxStrokeColor="@color/colorAccent"
+                android:layout_marginTop="12dp"
                 android:hint="Property type"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 

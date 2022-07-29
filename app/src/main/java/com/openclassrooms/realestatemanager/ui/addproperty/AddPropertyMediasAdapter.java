@@ -10,11 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.openclassrooms.realestatemanager.data.model.Property;
 import com.openclassrooms.realestatemanager.databinding.AddPropertyImageItemBinding;
-import com.openclassrooms.realestatemanager.databinding.PropertyListItemBinding;
-import com.openclassrooms.realestatemanager.ui.callbacks.AddPropertyCallback;
-import com.openclassrooms.realestatemanager.ui.callbacks.ClickCallback;
 
 import java.util.ArrayList;
 import java.util.List;

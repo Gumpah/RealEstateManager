@@ -1,16 +1,12 @@
-package com.openclassrooms.realestatemanager.data.model;
+package com.openclassrooms.realestatemanager.data.model.entities;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Index;
 import androidx.room.PrimaryKey;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 @Entity
 public class Property {
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "property_id", index = true)
     public long id = 0;

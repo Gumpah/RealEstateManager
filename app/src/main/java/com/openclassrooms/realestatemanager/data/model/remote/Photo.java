@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.data.model.placenearby;
+package com.openclassrooms.realestatemanager.data.model.remote;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;

@@ -9,9 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.openclassrooms.realestatemanager.data.model.Media;
+import com.openclassrooms.realestatemanager.data.model.entities.Media;
 import com.openclassrooms.realestatemanager.databinding.PropertyDetailsImageItemBinding;
-import com.openclassrooms.realestatemanager.ui.callbacks.DisplayMediaCallback;
 
 import java.util.ArrayList;
 import java.util.List;

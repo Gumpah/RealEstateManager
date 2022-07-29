@@ -8,9 +8,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.openclassrooms.realestatemanager.data.model.Property;
+import com.openclassrooms.realestatemanager.data.model.entities.Property;
 import com.openclassrooms.realestatemanager.databinding.PropertyListItemBinding;
-import com.openclassrooms.realestatemanager.ui.callbacks.ClickCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +17,9 @@ import java.util.List;
 public class PropertiesListAdapter extends RecyclerView.Adapter<PropertiesListAdapter.PropertiesListViewHolder> {
 
     public List<Property> mProperties;
-    private ClickCallback mCallback;
+    private PropertyListCallback mCallback;
 
-    public PropertiesListAdapter(ArrayList<Property> list, ClickCallback callback) {
+    public PropertiesListAdapter(ArrayList<Property> list, PropertyListCallback callback) {
         mProperties = list;
         mCallback = callback;
     }
@@ -68,7 +67,7 @@ public class PropertiesListAdapter extends RecyclerView.Adapter<PropertiesListAd
             binding.textViewPropertyType.setText(property.getProperty_type());
         }
 
-        void setClickListener(ClickCallback callback, Property property) {
+        void setClickListener(PropertyListCallback callback, Property property) {
             binding.constraintLayoutContainerClickable.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -7,8 +7,8 @@ import androidx.room.RoomDatabase;
 
 import com.openclassrooms.realestatemanager.data.daos.MediaDao;
 import com.openclassrooms.realestatemanager.data.daos.PropertyDao;
-import com.openclassrooms.realestatemanager.data.model.Media;
-import com.openclassrooms.realestatemanager.data.model.Property;
+import com.openclassrooms.realestatemanager.data.model.entities.Media;
+import com.openclassrooms.realestatemanager.data.model.entities.Property;
 
 @androidx.room.Database(entities = {Property.class, Media.class}, version = 1, exportSchema = false)
 public abstract class Database extends RoomDatabase {

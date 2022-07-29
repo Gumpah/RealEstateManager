@@ -1,6 +1,6 @@
 package com.openclassrooms.realestatemanager.data;
 
-import com.openclassrooms.realestatemanager.data.model.placenearby.PlacesNearbyResult;
+import com.openclassrooms.realestatemanager.data.model.remote.PlacesNearbyResult;
 
 import java.util.concurrent.TimeUnit;
 
