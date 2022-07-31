@@ -2,4 +2,11 @@
     <string name="app_name">Real Estate Manager</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Toolbar titles -->
+    <string name="toolbar_addProperty_title">Add a property</string>
+    <string name="toolbar_mediaDisplay_title">Media</string>
+    <string name="toolbar_propertyList_title">Property list</string>
+    <string name="toolbar_propertyDetails_title">Property details</string>
+    <string name="toolbar_propertyListMap_title">Property map</string>
 </resources>

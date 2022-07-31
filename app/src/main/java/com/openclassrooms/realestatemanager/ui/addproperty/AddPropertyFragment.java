@@ -24,6 +24,7 @@ import com.openclassrooms.realestatemanager.data.model.entities.Media;
 import com.openclassrooms.realestatemanager.data.model.entities.Property;
 import com.openclassrooms.realestatemanager.data.model.entities.PropertyStatus;
 import com.openclassrooms.realestatemanager.databinding.FragmentAddPropertyBinding;
+import com.openclassrooms.realestatemanager.ui.propertydetails.PropertyDetailsPagerAdapter;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PlacesViewModel;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PlacesViewModelFactory;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModel;
@@ -40,6 +41,7 @@ public class AddPropertyFragment extends Fragment implements AddPropertyCallback
     private ArrayList<Bitmap> mBitmapList;
     private RecyclerView mRecyclerView;
     private AddPropertyMediasAdapter mAddPropertyMediasAdapter;
+    private PropertyDetailsPagerAdapter mPropertyDetailsPagerAdapter;
 
     public AddPropertyFragment() {
     }

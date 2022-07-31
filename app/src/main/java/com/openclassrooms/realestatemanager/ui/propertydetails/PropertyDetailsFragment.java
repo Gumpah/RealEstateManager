@@ -1,19 +1,19 @@
 package com.openclassrooms.realestatemanager.ui.propertydetails;
 
+import android.annotation.SuppressLint;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.data.model.entities.Property;
 import com.openclassrooms.realestatemanager.databinding.FragmentPropertyDetailsBinding;
@@ -27,8 +27,7 @@ public class PropertyDetailsFragment extends Fragment implements DisplayMediaCal
     private FragmentPropertyDetailsBinding binding;
     private PropertyViewModel mPropertyViewModel;
     private Property mProperty;
-    private RecyclerView mRecyclerView;
-    private PropertyDetailsMediasAdapter mPropertyDetailsMediasAdapter;
+    private PropertyDetailsPagerAdapter mPropertyDetailsPagerAdapter;
 
     public PropertyDetailsFragment(Property property) {
         mProperty = property;
@@ -39,14 +38,16 @@ public class PropertyDetailsFragment extends Fragment implements DisplayMediaCal
         super.onCreate(savedInstanceState);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentPropertyDetailsBinding.inflate(inflater, container, false);
         configureViewModel();
         initUI();
-        initRecyclerView();
+        initViewPager();
         initMedias();
+        setMapButtonClickListener();
         return binding.getRoot();
     }
 
@@ -63,22 +64,15 @@ public class PropertyDetailsFragment extends Fragment implements DisplayMediaCal
 
     private void initMedias() {
         mPropertyViewModel.getMediasByPropertyId().observe(getViewLifecycleOwner(), medias -> {
-            mPropertyDetailsMediasAdapter.setData(medias);
+            mPropertyDetailsPagerAdapter.setData(medias);
         });
         mPropertyViewModel.getMediasByPropertyId(mProperty.getId());
     }
 
-    private void initRecyclerView() {
-        mRecyclerView = binding.recyclerViewMedias;
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(requireContext(),
-                DividerItemDecoration.HORIZONTAL);
-        mRecyclerView.addItemDecoration(dividerItemDecoration);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false);
-        mRecyclerView.setLayoutManager(layoutManager);
-        mPropertyDetailsMediasAdapter = new PropertyDetailsMediasAdapter(new ArrayList<>(), this);
-        mRecyclerView.setAdapter(mPropertyDetailsMediasAdapter);
+    private void initViewPager() {
+        mPropertyDetailsPagerAdapter = new PropertyDetailsPagerAdapter(requireContext(), new ArrayList<>(), this);
+        binding.viewPagerMedias.setAdapter(mPropertyDetailsPagerAdapter);
     }
-
 
     @Override
     public void displayMediaCallback(String uriString) {
@@ -88,4 +82,21 @@ public class PropertyDetailsFragment extends Fragment implements DisplayMediaCal
                 .addToBackStack("MediaDisplay")
                 .commit();
     }
+
+    private void setMapButtonClickListener() {
+        binding.buttonMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFragmentMap();
+            }
+        });
+    }
+
+    private void showFragmentMap() {
+        requireActivity().getSupportFragmentManager().beginTransaction().
+                replace(R.id.frameLayout_fragmentContainer, new PropertyDetailsMapFragment(), "PropertyDetailsMap")
+                .addToBackStack("PropertyDetailsMap")
+                .commit();
+    }
+
 }

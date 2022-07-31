@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
 
         initUI(savedInstanceState);
         configureViewModel();
-        setSupportActionBar(binding.toolbarMainActivity);
     }
 
     private void initUI(Bundle savedInstanceState) {
