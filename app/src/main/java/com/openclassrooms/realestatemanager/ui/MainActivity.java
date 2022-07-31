@@ -7,10 +7,14 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.data.model.PropertyType;
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding;
 import com.openclassrooms.realestatemanager.ui.propertieslist.PropertiesListFragment;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModel;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModelFactory;
+import com.openclassrooms.realestatemanager.utils.Utils;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,5 +44,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void configureViewModel() {
         mPropertyViewModel = new ViewModelProvider(this, PropertyViewModelFactory.getInstance(this)).get(PropertyViewModel.class);
+        Utils.getPropertyTypesInUserLanguage(this, PropertyType.types);
     }
 }

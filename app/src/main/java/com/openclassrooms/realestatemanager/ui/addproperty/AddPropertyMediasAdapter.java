@@ -66,7 +66,6 @@ public class AddPropertyMediasAdapter extends RecyclerView.Adapter<AddPropertyMe
             Glide.with(binding.getRoot())
                     .load(bitmap)
                     .centerCrop()
-                    .circleCrop()
                     .into(binding.imageViewPropertyImage);
         }
 

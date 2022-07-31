@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Real Estate Manager</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- Toolbar titles -->
@@ -11,13 +11,13 @@
     <string name="toolbar_propertyListMap_title">Property map</string>
 
     <!-- Property types -->
-    <string name="flat">Flat</string>
+    <string name="flat">Appartement</string>
     <string name="loft">Loft</string>
     <string name="duplex">Duplex</string>
     <string name="penthouse">Penthouse</string>
-    <string name="castle">Castle</string>
-    <string name="cabin">Cabin</string>
+    <string name="castle">Château</string>
+    <string name="cabin">Cabine</string>
     <string name="chalet">Chalet</string>
-    <string name="barn">Barn</string>
-    <string name="farmhouse">Farmhouse</string>
+    <string name="barn">Grange</string>
+    <string name="farmhouse">Ferme</string>
 </resources>

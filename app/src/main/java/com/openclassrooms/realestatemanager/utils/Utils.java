@@ -7,8 +7,11 @@ import android.net.NetworkCapabilities;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 
+import com.openclassrooms.realestatemanager.data.model.PropertyType;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -68,5 +71,19 @@ public class Utils {
             }
         }
         return false;
+    }
+
+    public static ArrayList<String> getPropertyTypesInUserLanguage(Context context, ArrayList<String> propertyTypes) {
+        ArrayList<String> propertyTypesTranslated = new ArrayList<>();
+        for (String propertyType : propertyTypes) {
+            int st = context.getResources().getIdentifier(propertyType, "string", context.getPackageName());
+            propertyTypesTranslated.add(context.getString(st));
+        }
+        return propertyTypesTranslated;
+    }
+
+    public static String getPropertyTypeInUserLanguage(Context context, String type) {
+        int st = context.getResources().getIdentifier(type, "string", context.getPackageName());
+        return context.getString(st);
     }
 }
