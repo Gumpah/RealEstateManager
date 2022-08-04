@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.data.model;
+package com.openclassrooms.realestatemanager.data.model.entities;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,5 +14,4 @@ public class PropertyType {
             "chalet",
             "barn",
             "farmhouse"));
-
 }

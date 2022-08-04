@@ -20,4 +20,19 @@
     <string name="chalet">Chalet</string>
     <string name="barn">Barn</string>
     <string name="farmhouse">Farmhouse</string>
+
+    <!-- Main activity -->
+
+    <!-- Add property fragment -->
+    <!-- image item -->
+
+    <!-- Media display fragment -->
+
+    <!-- Property list fragment -->
+    <!-- list item -->
+
+    <!-- Property details fragment -->
+    <!-- image item -->
+    <!-- map -->
+
 </resources>

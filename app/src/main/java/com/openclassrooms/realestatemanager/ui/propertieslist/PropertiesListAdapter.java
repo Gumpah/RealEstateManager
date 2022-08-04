@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.openclassrooms.realestatemanager.data.model.PropertyAndImage;
 import com.openclassrooms.realestatemanager.data.model.entities.Property;
 import com.openclassrooms.realestatemanager.databinding.PropertyListItemBinding;
 
@@ -16,10 +18,10 @@ import java.util.List;
 
 public class PropertiesListAdapter extends RecyclerView.Adapter<PropertiesListAdapter.PropertiesListViewHolder> {
 
-    public List<Property> mProperties;
+    public List<PropertyAndImage> mProperties;
     private PropertyListCallback mCallback;
 
-    public PropertiesListAdapter(ArrayList<Property> list, PropertyListCallback callback) {
+    public PropertiesListAdapter(ArrayList<PropertyAndImage> list, PropertyListCallback callback) {
         mProperties = list;
         mCallback = callback;
     }
@@ -34,7 +36,7 @@ public class PropertiesListAdapter extends RecyclerView.Adapter<PropertiesListAd
     @Override
     public void onBindViewHolder(@NonNull PropertiesListAdapter.PropertiesListViewHolder holder, int position) {
         holder.bind(mProperties.get(position));
-        holder.setClickListener(mCallback, mProperties.get(position));
+        holder.setClickListener(mCallback, mProperties.get(position).getProperty());
     }
 
     @Override
@@ -47,7 +49,7 @@ public class PropertiesListAdapter extends RecyclerView.Adapter<PropertiesListAd
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setData(List<Property> list) {
+    public void setData(List<PropertyAndImage> list) {
         mProperties = list;
         notifyDataSetChanged();
     }
@@ -61,10 +63,14 @@ public class PropertiesListAdapter extends RecyclerView.Adapter<PropertiesListAd
             binding = b;
         }
 
-        void bind(Property property) {
-            binding.textViewLocation.setText(property.getAddress());
-            binding.textViewPrice.setText(String.valueOf(property.getPrice()));
-            binding.textViewPropertyType.setText(property.getProperty_type());
+        void bind(PropertyAndImage propertyAndImage) {
+            binding.textViewLocation.setText(propertyAndImage.getProperty().getAddress());
+            binding.textViewPrice.setText(String.valueOf(propertyAndImage.getProperty().getPrice()));
+            binding.textViewPropertyType.setText(propertyAndImage.getProperty().getProperty_type());
+            Glide.with(binding.getRoot())
+                    .load(propertyAndImage.getUri())
+                    .centerCrop()
+                    .into(binding.imageViewPropertyImage);
         }
 
         void setClickListener(PropertyListCallback callback, Property property) {

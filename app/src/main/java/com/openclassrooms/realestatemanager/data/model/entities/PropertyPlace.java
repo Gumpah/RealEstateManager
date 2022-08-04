@@ -15,7 +15,24 @@ public class PropertyPlace {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "propertyPlace_id", index = true)
-    public long id;
+    public long id = 0;
     public String place_id;
     public long property_id;
+
+    public PropertyPlace(String place_id, long property_id) {
+        this.place_id = place_id;
+        this.property_id = property_id;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getPlace_id() {
+        return place_id;
+    }
+
+    public long getProperty_id() {
+        return property_id;
+    }
 }

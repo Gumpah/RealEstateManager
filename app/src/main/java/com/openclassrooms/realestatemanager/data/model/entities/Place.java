@@ -1,11 +1,15 @@
 package com.openclassrooms.realestatemanager.data.model.entities;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 @Entity
 public class Place {
 
+    @PrimaryKey
+    @NonNull
     @ColumnInfo(name = "place_id", index = true)
     public String id; //not generated automatically, given by API
     private String name;

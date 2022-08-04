@@ -21,6 +21,7 @@ import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModel;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModelFactory;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PropertiesListFragment extends Fragment implements PropertyListCallback {
 
@@ -44,7 +45,7 @@ public class PropertiesListFragment extends Fragment implements PropertyListCall
         binding = FragmentPropertiesListBinding.inflate(inflater, container, false);
         initRecyclerView();
         configureViewModel();
-        setData();
+        fetchProperties();
         setClickListener();
         return binding.getRoot();
     }
@@ -64,11 +65,23 @@ public class PropertiesListFragment extends Fragment implements PropertyListCall
         mPropertyViewModel = new ViewModelProvider(requireActivity(), PropertyViewModelFactory.getInstance(requireContext())).get(PropertyViewModel.class);
     }
 
-    private void setData() {
-        mPropertyViewModel.getPropertiesLiveData().observe(getViewLifecycleOwner(), list -> {
-            mListPropertiesAdapter.setData(list);
-        });
+    private void fetchProperties() {
+        mPropertyViewModel.getPropertiesLiveData().observe(getViewLifecycleOwner(), this::fetchMedias);
         mPropertyViewModel.getProperties();
+    }
+
+    private void fetchMedias(List<Property> properties) {
+        mPropertyViewModel.getAllMediasLiveData().observe(getViewLifecycleOwner(), medias -> {
+            int visibility;
+            if (properties == null || properties.isEmpty()) {
+                visibility = View.VISIBLE;
+            } else {
+                visibility = View.INVISIBLE;
+            }
+            binding.textViewEmptyList.setVisibility(visibility);
+            mListPropertiesAdapter.setData(mPropertyViewModel.assemblePropertyAndMedia(properties, medias));
+        });
+        mPropertyViewModel.getAllMedias();
     }
 
     private void setClickListener() {

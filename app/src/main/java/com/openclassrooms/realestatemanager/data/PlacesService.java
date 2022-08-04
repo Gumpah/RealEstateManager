@@ -11,7 +11,7 @@ import retrofit2.http.Query;
 
 public interface PlacesService {
 
-    @GET("maps/api/place/nearbysearch/json?radius=100")
+    @GET("maps/api/place/nearbysearch/json?radius=300")
     Observable<PlacesNearbyResult> getNearbyPlaces(@Query("key") String apiKey, @Query("location") String location);
 
     Retrofit retrofitGsonConverter = new Retrofit.Builder()

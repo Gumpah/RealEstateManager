@@ -12,8 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.data.model.entities.Property;
 import com.openclassrooms.realestatemanager.databinding.FragmentPropertyDetailsBinding;
@@ -72,6 +70,7 @@ public class PropertyDetailsFragment extends Fragment implements DisplayMediaCal
     private void initViewPager() {
         mPropertyDetailsPagerAdapter = new PropertyDetailsPagerAdapter(requireContext(), new ArrayList<>(), this);
         binding.viewPagerMedias.setAdapter(mPropertyDetailsPagerAdapter);
+        binding.dotsIndicator.attachTo(binding.viewPagerMedias);
     }
 
     @Override
@@ -94,7 +93,7 @@ public class PropertyDetailsFragment extends Fragment implements DisplayMediaCal
 
     private void showFragmentMap() {
         requireActivity().getSupportFragmentManager().beginTransaction().
-                replace(R.id.frameLayout_fragmentContainer, new PropertyDetailsMapFragment(), "PropertyDetailsMap")
+                replace(R.id.frameLayout_fragmentContainer, new PropertyDetailsMapFragment(mProperty), "PropertyDetailsMap")
                 .addToBackStack("PropertyDetailsMap")
                 .commit();
     }

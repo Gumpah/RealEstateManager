@@ -27,5 +27,4 @@ public interface PropertyDao {
 
     @Query("DELETE FROM Property WHERE property_id = :propertyId")
     void deleteProperty(long propertyId);
-
 }

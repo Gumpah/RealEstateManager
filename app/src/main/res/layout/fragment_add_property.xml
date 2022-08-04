@@ -15,9 +15,9 @@
         android:theme="@style/ToolBarStyle"/>
 
     <ScrollView
-        app:layout_constraintTop_toBottomOf="@id/toolbar_toolbarAddProperty"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_toolbarAddProperty"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -131,46 +131,41 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout_address"
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/autocomplete_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 app:layout_constraintTop_toBottomOf="@id/textInputLayout_description"
-                app:boxStrokeColor="@color/colorAccent"
-                android:hint="Address"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout_marketEntryDate"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/textView_marketEntryDate"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/button_marketEntryDate"
+                app:layout_constraintBottom_toBottomOf="@id/button_marketEntryDate"
+                app:layout_constraintStart_toStartOf="parent"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:text="Market entry date :"/>
+
+            <Button
+                android:id="@+id/button_marketEntryDate"
+                app:layout_constraintTop_toBottomOf="@id/autocomplete_address"
+                app:layout_constraintStart_toEndOf="@id/textView_marketEntryDate"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="12dp"
-                app:layout_constraintTop_toBottomOf="@id/textInputLayout_address"
-                app:hintTextColor="@color/colorAccent"
-                app:boxStrokeColor="@color/colorAccent"
-                android:hint="Market entry date"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:inputType="date"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout_agent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                app:layout_constraintTop_toBottomOf="@id/textInputLayout_marketEntryDate"
+                app:layout_constraintTop_toBottomOf="@id/button_marketEntryDate"
                 app:hintTextColor="@color/colorAccent"
                 app:boxStrokeColor="@color/colorAccent"
                 android:hint="Agent"

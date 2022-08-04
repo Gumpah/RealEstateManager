@@ -16,18 +16,22 @@ public class Property {
     int rooms_count;
     String description;
     String address;
+    double latitude;
+    double longitude;
     PropertyStatus status;
     String market_entry;
     public String sold;
     String agent;
 
-    public Property(String property_type, Double price, int surface, int rooms_count, String description, String address, PropertyStatus status, String market_entry, String agent) {
+    public Property(String property_type, Double price, int surface, int rooms_count, String description, String address, double latitude, double longitude, PropertyStatus status, String market_entry, String agent) {
         this.property_type = property_type;
         this.price = price;
         this.surface = surface;
         this.rooms_count = rooms_count;
         this.description = description;
         this.address = address;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.status = status;
         this.market_entry = market_entry;
         this.agent = agent;
@@ -59,6 +63,14 @@ public class Property {
 
     public String getAddress() {
         return address;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
     }
 
     public PropertyStatus getStatus() {

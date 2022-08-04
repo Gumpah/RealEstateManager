@@ -19,33 +19,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:src="@drawable/ic_launcher_background"/>
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.7"/>
-
-    <View
-        android:id="@+id/view_textBackground"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="@id/guideline"
-        android:background="@color/blackTransparent" />
-
     <TextView
         android:id="@+id/textView_mediaTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@id/imageView_media"
-        app:layout_constraintTop_toTopOf="@id/view_textBackground"
-        app:layout_constraintBottom_toBottomOf="@id/view_textBackground"
+        app:layout_constraintEnd_toEndOf="@id/imageView_media"
+        app:layout_constraintTop_toTopOf="@id/imageView_media"
         android:text="Test"
         android:textColor="@color/white"
-        android:textSize="14sp"
-        android:layout_marginStart="16dp"/>
+        android:textSize="16sp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/round_corners"
+        android:padding="8dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

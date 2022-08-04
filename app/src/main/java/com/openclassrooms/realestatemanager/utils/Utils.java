@@ -4,10 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
-import android.net.wifi.WifiManager;
 import android.os.Build;
-
-import com.openclassrooms.realestatemanager.data.model.PropertyType;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -43,6 +40,11 @@ public class Utils {
     public static String getTodayDate(){
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         return dateFormat.format(new Date());
+    }
+
+    public static String convertDateToString(Date date){
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        return dateFormat.format(date);
     }
 
     /**
@@ -85,5 +87,9 @@ public class Utils {
     public static String getPropertyTypeInUserLanguage(Context context, String type) {
         int st = context.getResources().getIdentifier(type, "string", context.getPackageName());
         return context.getString(st);
+    }
+
+    public static String createLocationString(double latitude, double longitude) {
+        return (latitude + "," + longitude);
     }
 }
