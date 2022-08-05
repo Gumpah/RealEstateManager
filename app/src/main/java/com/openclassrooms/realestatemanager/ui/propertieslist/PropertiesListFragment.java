@@ -1,17 +1,22 @@
 package com.openclassrooms.realestatemanager.ui.propertieslist;
 
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.data.model.entities.Property;
 import com.openclassrooms.realestatemanager.databinding.FragmentPropertiesListBinding;
@@ -19,6 +24,9 @@ import com.openclassrooms.realestatemanager.ui.addproperty.AddPropertyFragment;
 import com.openclassrooms.realestatemanager.ui.propertydetails.PropertyDetailsFragment;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModel;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModelFactory;
+import com.openclassrooms.realestatemanager.ui.viewmodels.UserViewModel;
+import com.openclassrooms.realestatemanager.ui.viewmodels.UserViewModelFactory;
+import com.openclassrooms.realestatemanager.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +38,7 @@ public class PropertiesListFragment extends Fragment implements PropertyListCall
     private PropertyViewModel mPropertyViewModel;
     private PropertiesListAdapter mListPropertiesAdapter;
     private PropertyListCallback mCallback;
+    private UserViewModel mUserViewModel;
 
     public PropertiesListFragment() {
     }
@@ -44,10 +53,31 @@ public class PropertiesListFragment extends Fragment implements PropertyListCall
                              Bundle savedInstanceState) {
         binding = FragmentPropertiesListBinding.inflate(inflater, container, false);
         initRecyclerView();
-        configureViewModel();
+        configureViewModels();
+        initNetworkStatus();
         fetchProperties();
-        setClickListener();
         return binding.getRoot();
+    }
+
+
+    private void initNetworkStatus() {
+        mUserViewModel.getConnectionStatus().observe(getViewLifecycleOwner(), this::onNetworkStatusChange);
+    }
+
+    private void onNetworkStatusChange(boolean isConnected) {
+        if (isConnected) {
+            setClickListener(true);
+            binding.textViewInternetNoConnection.setVisibility(View.GONE);
+            binding.fabAddProperty.setClickable(true);
+            binding.fabAddProperty.setEnabled(true);
+            binding.fabAddProperty.setFocusable(true);
+        } else {
+            setClickListener(false);
+            binding.textViewInternetNoConnection.setVisibility(View.VISIBLE);
+            binding.fabAddProperty.setClickable(false);
+            binding.fabAddProperty.setEnabled(false);
+            binding.fabAddProperty.setFocusable(false);
+        }
     }
 
     private void initRecyclerView() {
@@ -61,8 +91,9 @@ public class PropertiesListFragment extends Fragment implements PropertyListCall
         mRecyclerView.setAdapter(mListPropertiesAdapter);
     }
 
-    private void configureViewModel() {
+    private void configureViewModels() {
         mPropertyViewModel = new ViewModelProvider(requireActivity(), PropertyViewModelFactory.getInstance(requireContext())).get(PropertyViewModel.class);
+        mUserViewModel = new ViewModelProvider(requireActivity(), UserViewModelFactory.getInstance(requireContext())).get(UserViewModel.class);
     }
 
     private void fetchProperties() {
@@ -84,13 +115,21 @@ public class PropertiesListFragment extends Fragment implements PropertyListCall
         mPropertyViewModel.getAllMedias();
     }
 
-    private void setClickListener() {
-        binding.fabAddProperty.setOnClickListener(v -> {
-            requireActivity().getSupportFragmentManager().beginTransaction().
-                    replace(R.id.frameLayout_fragmentContainer, new AddPropertyFragment(), "AddProperty")
-                    .addToBackStack("AddProperty")
-                    .commit();
-        });
+    private void setClickListener(boolean enabled) {
+        if (enabled) {
+            binding.fabAddProperty.setOnClickListener(v -> {
+                if (Utils.isInternetAvailable(requireContext())) {
+                    requireActivity().getSupportFragmentManager().beginTransaction().
+                            replace(R.id.frameLayout_fragmentContainer, new AddPropertyFragment(), "AddProperty")
+                            .addToBackStack("AddProperty")
+                            .commit();
+                } else {
+                    Snackbar.make(requireView(), "No connection", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            binding.fabAddProperty.setOnClickListener(null);
+        }
     }
 
     @Override
@@ -99,5 +138,11 @@ public class PropertiesListFragment extends Fragment implements PropertyListCall
                 replace(R.id.frameLayout_fragmentContainer, new PropertyDetailsFragment(property), "PropertyDetails")
                 .addToBackStack("PropertyDetails")
                 .commit();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        onNetworkStatusChange(Utils.isInternetAvailable(requireContext()));
     }
 }

@@ -70,8 +70,17 @@ public class PlacesViewModel extends ViewModel {
             public void onNext(PlacesNearbyResult placesNearbyResult) {
                 places.clear();
                 for (PlaceAPI placeAPI : placesNearbyResult.getResults()) {
-                    if (!Collections.disjoint(placeAPI.getTypes(), possibleTypes)) places.add(placeAPI);
+                    System.out.println("Test " + placeAPI.getName());
+                    places.add(placeAPI);
+                    /*
+                    if (!Collections.disjoint(placeAPI.getTypes(), possibleTypes)) {
+                        System.out.println("MyTest " + placeAPI.getName());
+                        places.add(placeAPI);
+                    }
+                     */
                 }
+                mPlacesList.postValue(placeAPIListToPlaceList(places));
+                System.out.println("Should be first");
             }
 
             @Override
@@ -80,7 +89,7 @@ public class PlacesViewModel extends ViewModel {
 
             @Override
             public void onComplete() {
-                mPlacesList.postValue(placeAPIListToPlaceList(places));
+                System.out.println("Should be second");
             }
         });
     }

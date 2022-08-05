@@ -12,11 +12,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
+import com.openclassrooms.realestatemanager.BuildConfig;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.data.StaticMapService;
 import com.openclassrooms.realestatemanager.data.model.entities.Property;
 import com.openclassrooms.realestatemanager.databinding.FragmentPropertyDetailsBinding;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModel;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModelFactory;
+import com.openclassrooms.realestatemanager.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -46,6 +50,7 @@ public class PropertyDetailsFragment extends Fragment implements DisplayMediaCal
         initViewPager();
         initMedias();
         setMapButtonClickListener();
+        initStaticMap();
         return binding.getRoot();
     }
 
@@ -80,6 +85,12 @@ public class PropertyDetailsFragment extends Fragment implements DisplayMediaCal
                 replace(R.id.frameLayout_fragmentContainer, new MediaDisplayFragment(uri), "MediaDisplay")
                 .addToBackStack("MediaDisplay")
                 .commit();
+    }
+
+    private void initStaticMap() {
+        Glide.with(binding.getRoot())
+                .load(StaticMapService.getStaticMap(BuildConfig.MAPS_API_KEY, Utils.createLocationString(mProperty.getLatitude(), mProperty.getLongitude())))
+                .into(binding.imageViewStaticMap);
     }
 
     private void setMapButtonClickListener() {

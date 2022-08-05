@@ -74,6 +74,7 @@ public class AddPropertyFragment extends Fragment implements AddPropertyCallback
         binding = FragmentAddPropertyBinding.inflate(inflater, container, false);
         mBitmapList = new ArrayList<>();
         configureViewModels();
+        mPlacesViewModel.getPlacesMutableLiveData().postValue(null);
         initRecyclerView();
         setMediaClickListener();
         setClickListener();
@@ -187,7 +188,7 @@ public class AddPropertyFragment extends Fragment implements AddPropertyCallback
         DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(), R.style.Theme_AppCompat_Light_Dialog, getOnDateSetListener(), selectedYear, selectedMonth, selectedDayOfMonth);
 
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, -30);
+        cal.add(Calendar.DATE, -14);
         long currentTime = cal.getTimeInMillis();
         datePickerDialog.getDatePicker().setMinDate(currentTime);
 
@@ -303,8 +304,10 @@ public class AddPropertyFragment extends Fragment implements AddPropertyCallback
 
     private void nearbyPlacesRequest(Property property, ArrayList<Media> mediaList) {
         mPlacesViewModel.getPlacesMutableLiveData().observe(getViewLifecycleOwner(), places -> {
-            mPropertyViewModel.insertPropertyAndMediasAndPlaces(property, mediaList, places);
-            requireActivity().getSupportFragmentManager().popBackStack();
+            if (places != null) {
+                mPropertyViewModel.insertPropertyAndMediasAndPlaces(property, mediaList, places);
+                requireActivity().getSupportFragmentManager().popBackStack();
+            }
         });
         mPlacesViewModel.fetchPlaces(BuildConfig.MAPS_API_KEY, Utils.createLocationString(property.getLatitude(), property.getLongitude()));
     }

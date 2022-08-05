@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.data.daos;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -19,10 +20,10 @@ public interface PlaceDao {
     @Query("SELECT * FROM Place WHERE place_id = :placeId")
     Place getPlaceById(String placeId);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertPlace(Place place);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertMultiplePlaces(List<Place> places);
 
     @Update

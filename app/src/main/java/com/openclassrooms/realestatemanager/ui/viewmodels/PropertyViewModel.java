@@ -119,6 +119,7 @@ public class PropertyViewModel extends ViewModel {
                 mPropertyRepository.insertMultipleMedias(mediaList);
             }
             if (places != null && !places.isEmpty()) {
+                System.out.println("Test1");
                 for (Place place : places) {
                     mPropertyRepository.insertPlace(place);
                     mPropertyRepository.insertPropertyPlace(new PropertyPlace(place.getId(), propertyId));
