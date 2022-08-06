@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.ui.propertieslist;
 
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,9 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -98,7 +95,8 @@ public class PropertiesListFragment extends Fragment implements PropertyListCall
 
     private void fetchProperties() {
         mPropertyViewModel.getPropertiesLiveData().observe(getViewLifecycleOwner(), this::fetchMedias);
-        mPropertyViewModel.getProperties();
+        // OLD-REQUEST mPropertyViewModel.getProperties();
+        mPropertyViewModel.getPropertiesContentProvider(requireContext().getContentResolver());
     }
 
     private void fetchMedias(List<Property> properties) {
@@ -112,7 +110,8 @@ public class PropertiesListFragment extends Fragment implements PropertyListCall
             binding.textViewEmptyList.setVisibility(visibility);
             mListPropertiesAdapter.setData(mPropertyViewModel.assemblePropertyAndMedia(properties, medias));
         });
-        mPropertyViewModel.getAllMedias();
+        // OLD-REQUEST mPropertyViewModel.getAllMedias();
+        mPropertyViewModel.getAllMediasContentProvider(requireContext().getContentResolver());
     }
 
     private void setClickListener(boolean enabled) {

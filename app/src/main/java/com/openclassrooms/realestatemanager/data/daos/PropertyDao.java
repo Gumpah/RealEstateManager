@@ -1,5 +1,7 @@
 package com.openclassrooms.realestatemanager.data.daos;
 
+import android.database.Cursor;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
@@ -16,8 +18,14 @@ public interface PropertyDao {
     @Query("SELECT * FROM Property")
     List<Property> getProperties();
 
+    @Query("SELECT * FROM Property")
+    Cursor getPropertiesCursor();
+
     @Query("SELECT * FROM Property WHERE property_id = :propertyId")
     LiveData<Property> getPropertyById(long propertyId);
+
+    @Query("SELECT * FROM Property WHERE property_id = :propertyId")
+    Cursor getPropertyByIdCursor(long propertyId);
 
     @Insert
     long insertProperty(Property property);

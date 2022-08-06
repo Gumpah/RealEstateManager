@@ -1,5 +1,7 @@
 package com.openclassrooms.realestatemanager.ui.viewmodels;
 
+import android.content.ContentResolver;
+import android.database.Cursor;
 import android.net.Uri;
 
 import androidx.lifecycle.LiveData;
@@ -69,7 +71,7 @@ public class PropertyViewModel extends ViewModel {
         });
     }
 
-    public LiveData<List<Media>> getMediasByPropertyId() { return mMedias; }
+    public LiveData<List<Media>> getMediasByPropertyIdLiveData() { return mMedias; }
 
     public LiveData<List<Media>> getAllMediasLiveData() { return mAllMedias; }
 
@@ -142,5 +144,76 @@ public class PropertyViewModel extends ViewModel {
             }
             mPlaces.postValue(places);
         });
+    }
+
+    public void getPropertiesContentProvider(ContentResolver contentResolver) {
+        mExecutor.execute(() -> {
+            Cursor cursor = mPropertyRepository.getPropertiesContentProvider(contentResolver);
+            ArrayList<Property> properties = new ArrayList<>();
+            if (cursor.moveToFirst()){
+                do {
+                    properties.add(Property.fromCursor(cursor));
+                    System.out.println("MyTest Status > " + Property.fromCursor(cursor).getStatus());
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+            mProperties.postValue(properties);
+        });
+    }
+
+    public void getPropertyByIdContentProvider(ContentResolver contentResolver, long propertyId) {
+    }
+
+    public void getMediasByPropertyIdContentProvider(ContentResolver contentResolver, long propertyId) {
+        mExecutor.execute(() -> {
+            Cursor cursor = mPropertyRepository.getMediasByPropertyIdContentProvider(contentResolver, propertyId);
+            ArrayList<Media> medias = new ArrayList<>();
+            if (cursor.moveToFirst()){
+                do {
+                    medias.add(Media.fromCursor(cursor));
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+            mMedias.postValue(medias);
+        });
+    }
+
+    public void getAllMediasContentProvider(ContentResolver contentResolver) {
+        mExecutor.execute(() -> {
+            Cursor cursor = mPropertyRepository.getAllMediasContentProvider(contentResolver);
+            ArrayList<Media> medias = new ArrayList<>();
+            if (cursor.moveToFirst()){
+                do {
+                    medias.add(Media.fromCursor(cursor));
+                    System.out.println("MyTest > " + Media.fromCursor(cursor).getMedia_uri());
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+            mAllMedias.postValue(medias);
+        });
+    }
+
+    public void getPlacesByPropertyIdContentProvider(ContentResolver contentResolver, long propertyId) {
+        mExecutor.execute(() -> {
+            Cursor cursor = mPropertyRepository.getPropertyPlacesByPropertyIdContentProvider(contentResolver, propertyId);
+            ArrayList<Place> places = new ArrayList<>();
+            if (cursor.moveToFirst()){
+                do {
+                    PropertyPlace propertyPlace = PropertyPlace.fromCursor(cursor);
+                    Place place = getPlaceByPlaceIdContentProvider(contentResolver, propertyPlace.getPlace_id());
+                    places.add(place);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+            mPlaces.postValue(places);
+        });
+    }
+
+    public Place getPlaceByPlaceIdContentProvider(ContentResolver contentResolver, String placeId) {
+        Cursor cursor = mPropertyRepository.getPlaceByPlaceIdContentProvider(contentResolver, placeId);
+        Place place = new Place();
+        if (cursor.moveToFirst()){ place = Place.fromCursor(cursor); }
+        cursor.close();
+        return place;
     }
 }

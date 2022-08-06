@@ -2,9 +2,7 @@ package com.openclassrooms.realestatemanager.utils;
 
 import android.content.ContentResolver;
 import android.graphics.Bitmap;
-import android.graphics.ImageDecoder;
 import android.net.Uri;
-import android.os.Build;
 import android.provider.MediaStore;
 
 import java.io.File;

@@ -82,7 +82,8 @@ public class PropertyDetailsMapFragment extends Fragment implements OnMapReadyCa
 
     private void getPropertyPlaces() {
         mPropertyViewModel.getPlacesLiveData().observe(getViewLifecycleOwner(), this::displayPlacesMarkers);
-        mPropertyViewModel.getPlacesByPropertyId(mProperty.getId());
+        // OLD-REQUEST mPropertyViewModel.getPlacesByPropertyId(mProperty.getId());
+        mPropertyViewModel.getPlacesByPropertyIdContentProvider(requireContext().getContentResolver(), mProperty.getId());
     }
 
     private void displayPropertyMarker() {

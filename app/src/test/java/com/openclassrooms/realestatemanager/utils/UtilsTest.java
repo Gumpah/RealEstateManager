@@ -1,6 +1,6 @@
 package com.openclassrooms.realestatemanager.utils;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.After;
 import org.junit.Before;

@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.common.util.CollectionUtils;
 import com.google.android.libraries.places.api.model.TypeFilter;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
@@ -16,8 +15,6 @@ import com.openclassrooms.realestatemanager.data.model.remote.PlacesNearbyResult
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;

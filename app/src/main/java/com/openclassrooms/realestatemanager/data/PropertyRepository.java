@@ -1,5 +1,9 @@
 package com.openclassrooms.realestatemanager.data;
 
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.database.Cursor;
+
 import androidx.lifecycle.LiveData;
 
 import com.openclassrooms.realestatemanager.data.daos.MediaDao;
@@ -10,7 +14,13 @@ import com.openclassrooms.realestatemanager.data.model.entities.Media;
 import com.openclassrooms.realestatemanager.data.model.entities.Place;
 import com.openclassrooms.realestatemanager.data.model.entities.Property;
 import com.openclassrooms.realestatemanager.data.model.entities.PropertyPlace;
+import com.openclassrooms.realestatemanager.data.provider.MediaContentProvider;
+import com.openclassrooms.realestatemanager.data.provider.PlaceContentProvider;
+import com.openclassrooms.realestatemanager.data.provider.PropertyContentProvider;
+import com.openclassrooms.realestatemanager.data.provider.PropertyPlaceContentProvider;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class PropertyRepository {
@@ -63,5 +73,36 @@ public class PropertyRepository {
 
     public Place getPlaceByPlaceId(String placeId) {
         return mPlaceDao.getPlaceById(placeId);
+    }
+
+    //ContentProvider
+    public Cursor getPropertiesContentProvider(ContentResolver contentResolver) {
+        String[] arguments = {"getProperties"};
+        return contentResolver.query(PropertyContentProvider.URI_PROPERTY, null, null, arguments, null);
+    }
+
+    public Cursor getPropertyByIdContentProvider(ContentResolver contentResolver, long propertyId) {
+        String[] arguments = {"getPropertyById"};
+        return contentResolver.query(ContentUris.withAppendedId(PropertyContentProvider.URI_PROPERTY, propertyId), null, null, arguments, null);
+    }
+
+    public Cursor getMediasByPropertyIdContentProvider(ContentResolver contentResolver, long propertyId) {
+        String[] arguments = {"getMediasByPropertyId"};
+        return contentResolver.query(ContentUris.withAppendedId(MediaContentProvider.URI_MEDIA, propertyId), null, null, arguments, null);
+    }
+
+    public Cursor getAllMediasContentProvider(ContentResolver contentResolver) {
+        String[] arguments = {"getAllMedias"};
+        return contentResolver.query(MediaContentProvider.URI_MEDIA, null, null, arguments, null);
+    }
+
+    public Cursor getPropertyPlacesByPropertyIdContentProvider(ContentResolver contentResolver, long propertyId) {
+        String[] arguments = {"getPropertyPlacesByPropertyId"};
+        return contentResolver.query(ContentUris.withAppendedId(PropertyPlaceContentProvider.URI_PROPERTY_PLACE, propertyId), null, null, arguments, null);
+    }
+
+    public Cursor getPlaceByPlaceIdContentProvider(ContentResolver contentResolver, String placeId) {
+        String[] arguments = {"getPlaceById", placeId};
+        return contentResolver.query(PlaceContentProvider.URI_PLACE, null, null, arguments, null);
     }
 }
