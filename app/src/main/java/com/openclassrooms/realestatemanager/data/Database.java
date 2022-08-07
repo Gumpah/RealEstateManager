@@ -9,6 +9,7 @@ import com.openclassrooms.realestatemanager.data.daos.MediaDao;
 import com.openclassrooms.realestatemanager.data.daos.PlaceDao;
 import com.openclassrooms.realestatemanager.data.daos.PropertyDao;
 import com.openclassrooms.realestatemanager.data.daos.PropertyPlaceDao;
+import com.openclassrooms.realestatemanager.data.daos.SearchDao;
 import com.openclassrooms.realestatemanager.data.model.entities.Media;
 import com.openclassrooms.realestatemanager.data.model.entities.Place;
 import com.openclassrooms.realestatemanager.data.model.entities.Property;
@@ -25,6 +26,7 @@ public abstract class Database extends RoomDatabase {
         public abstract MediaDao mediaDao();
         public abstract PlaceDao placeDao();
         public abstract PropertyPlaceDao propertyPlaceDao();
+    public abstract SearchDao searchDao();
 
         public static Database getDatabase(final Context context) {
             if (INSTANCE == null) {

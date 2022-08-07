@@ -7,10 +7,22 @@
     tools:context="com.openclassrooms.realestatemanager.ui.MainActivity"
     android:gravity="center">
 
-    <FrameLayout
+    <!--
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:theme="@style/ToolBarStyle"/>
+        -->
+
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/frameLayout_fragmentContainer"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:navGraph="@navigation/navigation"
+        app:defaultNavHost="true"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 

@@ -130,7 +130,7 @@ public class AddPropertyFragment extends Fragment implements AddPropertyCallback
             });
 
     private void initSpinner() {
-        ArrayList<String> propertyTypesTranslated = Utils.getPropertyTypesInUserLanguage(requireContext(), PropertyType.types);
+        ArrayList<String> propertyTypesTranslated = Utils.getTypesInUserLanguage(requireContext(), PropertyType.types);
         ArrayAdapter<String> propertyTypesAdapter = new ArrayAdapter<>(requireContext(), R.layout.support_simple_spinner_dropdown_item, propertyTypesTranslated);
         binding.autoCompleteTextViewPropertyType.setAdapter(propertyTypesAdapter);
         binding.autoCompleteTextViewPropertyType.addTextChangedListener(new TextWatcher() {
@@ -185,7 +185,7 @@ public class AddPropertyFragment extends Fragment implements AddPropertyCallback
         int selectedMonth = calendar.get(Calendar.MONTH);
         int selectedDayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(), R.style.Theme_AppCompat_Light_Dialog, getOnDateSetListener(), selectedYear, selectedMonth, selectedDayOfMonth);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(), R.style.ThemeOverlay_MaterialComponents_MaterialAlertDialog_Picker_Date, getOnDateSetListener(), selectedYear, selectedMonth, selectedDayOfMonth);
 
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, -14);

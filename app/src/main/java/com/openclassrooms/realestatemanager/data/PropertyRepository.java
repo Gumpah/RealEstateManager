@@ -10,6 +10,7 @@ import com.openclassrooms.realestatemanager.data.daos.MediaDao;
 import com.openclassrooms.realestatemanager.data.daos.PlaceDao;
 import com.openclassrooms.realestatemanager.data.daos.PropertyDao;
 import com.openclassrooms.realestatemanager.data.daos.PropertyPlaceDao;
+import com.openclassrooms.realestatemanager.data.daos.SearchDao;
 import com.openclassrooms.realestatemanager.data.model.entities.Media;
 import com.openclassrooms.realestatemanager.data.model.entities.Place;
 import com.openclassrooms.realestatemanager.data.model.entities.Property;
@@ -29,12 +30,14 @@ public class PropertyRepository {
     private MediaDao mMediaDao;
     private PlaceDao mPlaceDao;
     private PropertyPlaceDao mPropertyPlaceDao;
+    private SearchDao mSearchDao;
 
-    public PropertyRepository(PropertyDao propertyDao, MediaDao mediaDao, PlaceDao placeDao, PropertyPlaceDao propertyPlaceDao) {
+    public PropertyRepository(PropertyDao propertyDao, MediaDao mediaDao, PlaceDao placeDao, PropertyPlaceDao propertyPlaceDao, SearchDao searchDao) {
         mPropertyDao = propertyDao;
         mMediaDao = mediaDao;
         mPlaceDao = placeDao;
         mPropertyPlaceDao = propertyPlaceDao;
+        mSearchDao = searchDao;
     }
 
     public List<Property> getProperties() { return mPropertyDao.getProperties(); }
@@ -105,4 +108,25 @@ public class PropertyRepository {
         String[] arguments = {"getPlaceById", placeId};
         return contentResolver.query(PlaceContentProvider.URI_PLACE, null, null, arguments, null);
     }
+
+    public List<Property> getPropertiesByPropertyType(String propertyType) {
+        return mSearchDao.getPropertiesByPropertyType(propertyType);
+    }
+
+    public List<Property> getPropertiesByPriceRange(Integer priceMin, Integer priceMax) {
+        return mSearchDao.getPropertiesByPriceRange(priceMin, priceMax);
+    }
+
+    public List<Property> getPropertiesBySurfaceRange(int surfaceMin, int surfaceMax) {
+        return mSearchDao.getPropertiesBySurfaceRange(surfaceMin, surfaceMax);
+    }
+
+    public List<Property> getPropertiesByRoomsRange(int roomsMin, int roomsMax) {
+        return mSearchDao.getPropertiesByRoomsRange(roomsMin, roomsMax);
+    }
+
+    public List<Property> getPropertiesInRadius(Double lat1, Double lng1, Double lat2, Double lng2) {
+        return mSearchDao.getPropertiesInRadius(lat1, lng1, lat2, lng2);
+    }
+
 }

@@ -2,13 +2,25 @@ package com.openclassrooms.realestatemanager.ui.propertieslist;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.MenuHost;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +31,7 @@ import com.openclassrooms.realestatemanager.data.model.entities.Property;
 import com.openclassrooms.realestatemanager.databinding.FragmentPropertiesListBinding;
 import com.openclassrooms.realestatemanager.ui.addproperty.AddPropertyFragment;
 import com.openclassrooms.realestatemanager.ui.propertydetails.PropertyDetailsFragment;
+import com.openclassrooms.realestatemanager.ui.propertysearch.PropertySearchFragment;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModel;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModelFactory;
 import com.openclassrooms.realestatemanager.ui.viewmodels.UserViewModel;
@@ -36,6 +49,7 @@ public class PropertiesListFragment extends Fragment implements PropertyListCall
     private PropertiesListAdapter mListPropertiesAdapter;
     private PropertyListCallback mCallback;
     private UserViewModel mUserViewModel;
+    private NavController mNavController;
 
     public PropertiesListFragment() {
     }
@@ -53,9 +67,10 @@ public class PropertiesListFragment extends Fragment implements PropertyListCall
         configureViewModels();
         initNetworkStatus();
         fetchProperties();
+        initMenu();
+        binding.toolbarToolbarPropertyList.inflateMenu(R.menu.menu_propertylist);
         return binding.getRoot();
     }
-
 
     private void initNetworkStatus() {
         mUserViewModel.getConnectionStatus().observe(getViewLifecycleOwner(), this::onNetworkStatusChange);
@@ -63,13 +78,13 @@ public class PropertiesListFragment extends Fragment implements PropertyListCall
 
     private void onNetworkStatusChange(boolean isConnected) {
         if (isConnected) {
-            setClickListener(true);
+            setFabClickListener(true);
             binding.textViewInternetNoConnection.setVisibility(View.GONE);
             binding.fabAddProperty.setClickable(true);
             binding.fabAddProperty.setEnabled(true);
             binding.fabAddProperty.setFocusable(true);
         } else {
-            setClickListener(false);
+            setFabClickListener(false);
             binding.textViewInternetNoConnection.setVisibility(View.VISIBLE);
             binding.fabAddProperty.setClickable(false);
             binding.fabAddProperty.setEnabled(false);
@@ -114,7 +129,7 @@ public class PropertiesListFragment extends Fragment implements PropertyListCall
         mPropertyViewModel.getAllMediasContentProvider(requireContext().getContentResolver());
     }
 
-    private void setClickListener(boolean enabled) {
+    private void setFabClickListener(boolean enabled) {
         if (enabled) {
             binding.fabAddProperty.setOnClickListener(v -> {
                 if (Utils.isInternetAvailable(requireContext())) {
@@ -129,6 +144,21 @@ public class PropertiesListFragment extends Fragment implements PropertyListCall
         } else {
             binding.fabAddProperty.setOnClickListener(null);
         }
+    }
+
+    private void initMenu() {
+        binding.toolbarToolbarPropertyList.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.menuItem_search) {
+                    requireActivity().getSupportFragmentManager().beginTransaction().
+                            replace(R.id.frameLayout_fragmentContainer, new PropertySearchFragment(), "PropertySearch")
+                            .addToBackStack("PropertySearch")
+                            .commit();
+                }
+                return true;
+            }
+        });
     }
 
     @Override

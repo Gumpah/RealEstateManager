@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@+id/navigation_propertyList">
+
+    <fragment
+        android:id="@+id/navigation_propertyList"
+        android:name="com.openclassrooms.realestatemanager.ui.propertieslist.PropertiesListFragment"
+        android:label="@string/toolbar_propertyList_title"
+        tools:layout="@layout/fragment_properties_list"
+        >
+        <action
+            android:id="@+id/action_navigation_propertyList_to_navigation_addProperty"
+            app:destination="@id/navigation_addProperty" />
+        <action
+            android:id="@+id/action_navigation_propertyList_to_navigation_propertyDetails"
+            app:destination="@id/navigation_propertyDetails" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_addProperty"
+        android:name="com.openclassrooms.realestatemanager.ui.addproperty.AddPropertyFragment"
+        android:label="@string/toolbar_addProperty_title"
+        tools:layout="@layout/fragment_add_property" />
+
+    <fragment
+        android:id="@+id/navigation_propertyDetails"
+        android:name="com.openclassrooms.realestatemanager.ui.propertydetails.PropertyDetailsFragment"
+        android:label="@string/toolbar_propertyDetails_title"
+        tools:layout="@layout/fragment_property_details" />
+
+    <fragment
+        android:id="@+id/navigation_mediaDisplay"
+        android:name="com.openclassrooms.realestatemanager.ui.propertydetails.MediaDisplayFragment"
+        android:label="@string/toolbar_mediaDisplay_title"
+        tools:layout="@layout/fragment_media_display" />
+
+    <fragment
+        android:id="@+id/navigation_detailsMap"
+        android:name="com.openclassrooms.realestatemanager.ui.propertydetails.PropertyDetailsMapFragment"
+        android:label="@string/toolbar_propertyDetailsMap_title"
+        tools:layout="@layout/fragment_property_details_map" />
+
+</navigation>

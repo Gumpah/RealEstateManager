@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.openclassrooms.realestatemanager.data.PropertyRepository;
 import com.openclassrooms.realestatemanager.data.model.PropertyAndImage;
 import com.openclassrooms.realestatemanager.data.model.entities.Media;
@@ -16,6 +17,7 @@ import com.openclassrooms.realestatemanager.data.model.entities.Property;
 import com.openclassrooms.realestatemanager.data.model.entities.PropertyPlace;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executor;
 
@@ -121,7 +123,6 @@ public class PropertyViewModel extends ViewModel {
                 mPropertyRepository.insertMultipleMedias(mediaList);
             }
             if (places != null && !places.isEmpty()) {
-                System.out.println("Test1");
                 for (Place place : places) {
                     mPropertyRepository.insertPlace(place);
                     mPropertyRepository.insertPropertyPlace(new PropertyPlace(place.getId(), propertyId));
@@ -153,7 +154,6 @@ public class PropertyViewModel extends ViewModel {
             if (cursor.moveToFirst()){
                 do {
                     properties.add(Property.fromCursor(cursor));
-                    System.out.println("MyTest Status > " + Property.fromCursor(cursor).getStatus());
                 } while (cursor.moveToNext());
             }
             cursor.close();
@@ -185,7 +185,6 @@ public class PropertyViewModel extends ViewModel {
             if (cursor.moveToFirst()){
                 do {
                     medias.add(Media.fromCursor(cursor));
-                    System.out.println("MyTest > " + Media.fromCursor(cursor).getMedia_uri());
                 } while (cursor.moveToNext());
             }
             cursor.close();
@@ -215,5 +214,70 @@ public class PropertyViewModel extends ViewModel {
         if (cursor.moveToFirst()){ place = Place.fromCursor(cursor); }
         cursor.close();
         return place;
+    }
+
+    public List<Property> getPropertiesByPropertyType(String propertyType) {
+        return mPropertyRepository.getPropertiesByPropertyType(propertyType);
+    }
+
+    public List<Property> getPropertiesByPriceRange(Integer priceMin, Integer priceMax) {
+        return mPropertyRepository.getPropertiesByPriceRange(priceMin, priceMax);
+    }
+
+    public List<Property> getPropertiesBySurfaceRange(int surfaceMin, int surfaceMax) {
+        return mPropertyRepository.getPropertiesBySurfaceRange(surfaceMin, surfaceMax);
+    }
+
+    public List<Property> getPropertiesByRoomsRange(int roomsMin, int roomsMax) {
+        return mPropertyRepository.getPropertiesByRoomsRange(roomsMin, roomsMax);
+    }
+
+    public List<Property> getPropertiesInRadius(Double lat1, Double lng1, Double lat2, Double lng2) {
+        return mPropertyRepository.getPropertiesInRadius(lat1, lng1, lat2, lng2);
+    }
+
+    public void searchProperty(String propertyType, Integer priceMin, Integer priceMax, Integer surfaceMin, Integer surfaceMax, Integer roomsMin, Integer roomsMax, LatLngBounds bounds, Date marketEntryDateMin, Date marketEntryDateMax, Date soldDateMin, Date soldDateMax) {
+        mExecutor.execute(() -> {
+            if (propertyType != null) {
+                ArrayList<Long> propertiesIds = new ArrayList<>();
+                for (Property property : getPropertiesByPropertyType(propertyType)) {
+                    propertiesIds.add(property.getId());
+                }
+            }
+            if (priceMin != null || priceMax != null) {
+                ArrayList<Long> propertiesIds = new ArrayList<>();
+                for (Property property : getPropertiesByPriceRange(priceMin, priceMax)) {
+                    propertiesIds.add(property.getId());
+                }
+            }
+            if (surfaceMin != null || surfaceMax != null) {
+                ArrayList<Long> propertiesIds = new ArrayList<>();
+                for (Property property : getPropertiesBySurfaceRange(surfaceMin, surfaceMax)) {
+                    propertiesIds.add(property.getId());
+                }
+            }
+            if (roomsMin != null || roomsMax != null) {
+                ArrayList<Long> propertiesIds = new ArrayList<>();
+                for (Property property : getPropertiesByRoomsRange(roomsMin, roomsMax)) {
+                    propertiesIds.add(property.getId());
+                }
+            }
+            if (bounds != null) {
+                ArrayList<Long> propertiesIds = new ArrayList<>();
+                for (Property property : getPropertiesInRadius(bounds.southwest.latitude, bounds.southwest.longitude, bounds.northeast.latitude, bounds.northeast.longitude)) {
+                    System.out.println("SearchTest > " + property.getAddress());
+                    propertiesIds.add(property.getId());
+                }
+            }
+            if (marketEntryDateMin != null || marketEntryDateMax != null) {
+
+            }
+            if (soldDateMin != null || soldDateMax != null) {
+
+            }
+        });
+        //creating list of property ids for each request
+        //check common elements in all lists
+        //create property list from id list
     }
 }

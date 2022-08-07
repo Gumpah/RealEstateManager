@@ -6,6 +6,10 @@ import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.os.Build;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.maps.android.SphericalUtil;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -74,21 +78,28 @@ public class Utils {
         return false;
     }
 
-    public static ArrayList<String> getPropertyTypesInUserLanguage(Context context, ArrayList<String> propertyTypes) {
-        ArrayList<String> propertyTypesTranslated = new ArrayList<>();
-        for (String propertyType : propertyTypes) {
-            int st = context.getResources().getIdentifier(propertyType, "string", context.getPackageName());
-            propertyTypesTranslated.add(context.getString(st));
+    public static ArrayList<String> getTypesInUserLanguage(Context context, ArrayList<String> types) {
+        ArrayList<String> typesTranslated = new ArrayList<>();
+        for (String type : types) {
+            int st = context.getResources().getIdentifier(type, "string", context.getPackageName());
+            typesTranslated.add(context.getString(st));
         }
-        return propertyTypesTranslated;
+        return typesTranslated;
     }
 
-    public static String getPropertyTypeInUserLanguage(Context context, String type) {
+    public static String getTypeInUserLanguage(Context context, String type) {
         int st = context.getResources().getIdentifier(type, "string", context.getPackageName());
         return context.getString(st);
     }
 
     public static String createLocationString(double latitude, double longitude) {
         return (latitude + "," + longitude);
+    }
+
+    public static LatLngBounds generateBounds(LatLng center, double radiusInMeters) {
+        double distanceFromCenterToCorner = radiusInMeters * Math.sqrt(2.0);
+        LatLng southwestCorner = SphericalUtil.computeOffset(center, distanceFromCenterToCorner, 225.0);
+        LatLng northeastCorner = SphericalUtil.computeOffset(center, distanceFromCenterToCorner, 45.0);
+        return new LatLngBounds(southwestCorner, northeastCorner);
     }
 }

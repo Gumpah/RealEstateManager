@@ -10,6 +10,7 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.openclassrooms.realestatemanager.data.PlacesStreams;
 import com.openclassrooms.realestatemanager.data.model.entities.Place;
+import com.openclassrooms.realestatemanager.data.model.entities.PlaceType;
 import com.openclassrooms.realestatemanager.data.model.remote.PlaceAPI;
 import com.openclassrooms.realestatemanager.data.model.remote.PlacesNearbyResult;
 
@@ -51,17 +52,7 @@ public class PlacesViewModel extends ViewModel {
 
     public void fetchPlaces(String apiKey, String location) {
         ArrayList<PlaceAPI> places = new ArrayList<>();
-        ArrayList<String> possibleTypes = new ArrayList<>(Arrays.asList(
-                "park",
-                "school",
-                "store",
-                "penthouse",
-                "university",
-                "subway_station",
-                "train_station",
-                "bus_station",
-                "supermarket",
-                "movie_theater"));
+        ArrayList<String> possibleTypes = PlaceType.types;
         disposable = mPlacesStreams.streamFetchNearbyPlaces(apiKey, location).subscribeWith(new DisposableObserver<PlacesNearbyResult>() {
             @Override
             public void onNext(PlacesNearbyResult placesNearbyResult) {
@@ -77,7 +68,6 @@ public class PlacesViewModel extends ViewModel {
                      */
                 }
                 mPlacesList.postValue(placeAPIListToPlaceList(places));
-                System.out.println("Should be first");
             }
 
             @Override
@@ -86,7 +76,6 @@ public class PlacesViewModel extends ViewModel {
 
             @Override
             public void onComplete() {
-                System.out.println("Should be second");
             }
         });
     }
