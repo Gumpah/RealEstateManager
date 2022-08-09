@@ -31,6 +31,8 @@ public class PropertyViewModel extends ViewModel {
     private MutableLiveData<List<Media>> mAllMedias;
     private MutableLiveData<List<Media>> mMedias;
     private MutableLiveData<List<Place>> mPlaces;
+    private MutableLiveData<Property> mProperty;
+    private MutableLiveData<Long> mPropertyCreatedId;
 
     public PropertyViewModel(PropertyRepository propertyRepository, Executor executor) {
         mPropertyRepository = propertyRepository;
@@ -39,9 +41,17 @@ public class PropertyViewModel extends ViewModel {
         mMedias = new MutableLiveData<>();
         mAllMedias = new MutableLiveData<>();
         mPlaces = new MutableLiveData<>();
+        mProperty = new MutableLiveData<>();
+        mPropertyCreatedId = new MutableLiveData<>();
     }
 
     public LiveData<List<Property>> getPropertiesLiveData() { return mProperties; }
+
+    public LiveData<Long> getPropertyCreatedIdLiveData() { return mPropertyCreatedId; }
+
+    public LiveData<Property> getPropertyByIdLiveData() {
+        return mProperty;
+    }
 
     public Property getPropertyInListFromId(List<Property> properties, long id){
         for (Property property : properties) {
@@ -137,6 +147,7 @@ public class PropertyViewModel extends ViewModel {
                     mPropertyRepository.insertPropertyPlace(new PropertyPlace(place.getId(), propertyId));
                 }
             }
+            mPropertyCreatedId.postValue(propertyId);
         });
     }
 
@@ -171,7 +182,10 @@ public class PropertyViewModel extends ViewModel {
     }
 
     public void getPropertyByIdContentProvider(ContentResolver contentResolver, long propertyId) {
-
+        mExecutor.execute(() -> {
+            Property property = mPropertyRepository.getPropertyById(propertyId);
+            mProperty.postValue(property);
+        });
     }
 
     public void getMediasByPropertyIdContentProvider(ContentResolver contentResolver, long propertyId) {

@@ -32,6 +32,7 @@ public class PropertyDetailsFragment extends Fragment implements DisplayMediaCal
 
     public PropertyDetailsFragment(Property property) {
         mProperty = property;
+        System.out.println("PropertyId " + property.getId());
     }
 
     @Override

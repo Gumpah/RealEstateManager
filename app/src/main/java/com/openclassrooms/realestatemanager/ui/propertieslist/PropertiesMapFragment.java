@@ -1,10 +1,15 @@
 package com.openclassrooms.realestatemanager.ui.propertieslist;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -13,6 +18,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -29,17 +36,28 @@ import com.openclassrooms.realestatemanager.databinding.FragmentPropertiesMapBin
 import com.openclassrooms.realestatemanager.ui.propertydetails.PropertyDetailsFragment;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModel;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModelFactory;
+import com.openclassrooms.realestatemanager.ui.viewmodels.UserViewModel;
+import com.openclassrooms.realestatemanager.ui.viewmodels.UserViewModelFactory;
 import com.openclassrooms.realestatemanager.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import pub.devrel.easypermissions.AppSettingsDialog;
+
 public class PropertiesMapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private FragmentPropertiesMapBinding binding;
     private PropertyViewModel mPropertyViewModel;
+    private UserViewModel mUserViewModel;
     private ArrayList<Property> mProperties;
     private GoogleMap mMap;
+    private FusedLocationProviderClient fusedLocationClient;
+
+    final String[] PERMISSIONS = {
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+    };
 
     public PropertiesMapFragment() {
     }
@@ -51,11 +69,13 @@ public class PropertiesMapFragment extends Fragment implements OnMapReadyCallbac
         configureViewModels();
         setToolbar();
         initMap();
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
         return binding.getRoot();
     }
 
     private void configureViewModels() {
         mPropertyViewModel = new ViewModelProvider(requireActivity(), PropertyViewModelFactory.getInstance(requireContext())).get(PropertyViewModel.class);
+        mUserViewModel = new ViewModelProvider(requireActivity(), UserViewModelFactory.getInstance(requireContext())).get(UserViewModel.class);
     }
 
     private void setToolbar() {
@@ -79,6 +99,45 @@ public class PropertiesMapFragment extends Fragment implements OnMapReadyCallbac
             mapFragment.getMapAsync(this);
         }
     }
+
+    private void checkLocationPermission() {
+        boolean status = Utils.getLocationPermissionStatus(requireContext());
+        if (!status) {
+            locationPermissionRequest.launch(PERMISSIONS);
+        } else {
+            mUserViewModel.getLocationPermissionStatus().postValue(true);
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private void initLocationPermissionStatusListener() {
+        mUserViewModel.getLocationPermissionStatus().observe(getViewLifecycleOwner(), value -> {
+            if (value && Utils.getLocationPermissionStatus(requireContext())) {
+                if (!mMap.isMyLocationEnabled()) {
+                    mMap.setMyLocationEnabled(true);
+                }
+                fusedLocationClient.getLastLocation().addOnSuccessListener(requireActivity(), location -> {
+                    if (location != null) {
+                        LatLng myLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+                        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(myLatLng, 14);
+                        mMap.animateCamera(cameraUpdate);
+                    }
+                });
+            }
+        } );
+    }
+
+    private final ActivityResultLauncher<String[]> locationPermissionRequest =
+            registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), isGranted -> {
+                        if (isGranted.containsValue(true)) {
+                            mUserViewModel.getLocationPermissionStatus().postValue(true);
+                        } else if (isGranted.containsValue(false)){
+                            mUserViewModel.getLocationPermissionStatus().postValue(false);
+                            showMissingPermissionError();
+                        }
+                    }
+            );
+
 
     private void getProperties() {
         mPropertyViewModel.getPropertiesLiveData().observe(getViewLifecycleOwner(), list -> {
@@ -104,9 +163,18 @@ public class PropertiesMapFragment extends Fragment implements OnMapReadyCallbac
         mMap = googleMap;
         mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style));
         mMap.setOnInfoWindowClickListener(this);
+        initLocationPermissionStatusListener();
+        checkLocationPermission();
         getProperties();
-        //CameraUpdate cameraUpdate = CameraUpdateFactory.zoomTo(17);
-        //mMap.animateCamera(cameraUpdate);
+    }
+
+    private void showMissingPermissionError() {
+        new AppSettingsDialog.Builder(requireActivity())
+                .setThemeResId(R.style.AlertDialog)
+                .setTitle(R.string.location_permission_denied_dialog_title)
+                .setRationale(R.string.location_permission_denied_dialog_message)
+                .build()
+                .show();
     }
 
     @Override

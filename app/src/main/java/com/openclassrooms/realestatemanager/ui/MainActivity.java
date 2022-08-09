@@ -1,95 +1,69 @@
 package com.openclassrooms.realestatemanager.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding;
 import com.openclassrooms.realestatemanager.ui.propertieslist.PropertiesListFragment;
-import com.openclassrooms.realestatemanager.ui.viewmodels.UserViewModel;
-import com.openclassrooms.realestatemanager.ui.viewmodels.UserViewModelFactory;
-
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
+import com.openclassrooms.realestatemanager.ui.propertydetails.PropertyDetailsFragment;
+import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModel;
+import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModelFactory;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    private UserViewModel mUserViewModel;
-    private AppBarConfiguration mAppBarConfiguration;
-    private NavController mNavController;
+    private PropertyViewModel mPropertyViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        initUI(savedInstanceState);
-        /*
-        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.frameLayout_fragmentContainer);
-        if (navHostFragment != null) mNavController = navHostFragment.getNavController();
-        AppBarConfiguration appBarConfiguration =
-                new AppBarConfiguration.Builder(mNavController.getGraph()).build();
-        setSupportActionBar(binding.toolbar);
-        NavigationUI.setupWithNavController(
-                binding.toolbar, mNavController, appBarConfiguration);
-
-
-        mNavController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
-            @Override
-            public void onDestinationChanged(@NonNull NavController navController, @NonNull NavDestination navDestination, @Nullable Bundle bundle) {
-                if (getSupportActionBar() == null) {
-                    return;
-                }
-                if (navDestination.getId() == R.id.navigation_propertyList) {
-                    System.out.println("Working");
-                    getSupportActionBar().setTitle(getString(R.string.toolbar_propertyList_title));
-                }
-                if (navDestination.getId() == R.id.navigation_addProperty) {
-                    getSupportActionBar().setTitle(getString(R.string.toolbar_addProperty_title));
-                }
-                if (navDestination.getId() == R.id.navigation_propertyDetails) {
-                    getSupportActionBar().setTitle(getString(R.string.toolbar_propertyDetails_title));
-                }
-                if (navDestination.getId() == R.id.navigation_detailsMap) {
-                    getSupportActionBar().setTitle(getString(R.string.toolbar_propertyDetailsMap_title));
-                }
-                if (navDestination.getId() == R.id.navigation_mediaDisplay) {
-                    getSupportActionBar().setTitle(getString(R.string.toolbar_mediaDisplay_title));
-                }
-            }
-        });
-         */
-
         configureViewModel();
+        initUI(savedInstanceState);
+        initGetPropertyByIdListener();
     }
-
 
     private void initUI(Bundle savedInstanceState) {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-
-        if (savedInstanceState == null) {
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        System.out.println("TestIdMain");
+        if (extras != null && extras.getLong("PropertyId", 0) != 0) {
+            long id = extras.getLong("PropertyId", 0);
+            System.out.println("TestId2 :" + id);
+            mPropertyViewModel.getPropertyByIdContentProvider(getContentResolver(), id);
+        } else if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().
                     replace(R.id.frameLayout_fragmentContainer, new PropertiesListFragment(), "PropertiesList")
                     .commit();
         }
     }
 
+    private void initGetPropertyByIdListener() {
+        mPropertyViewModel.getPropertyByIdLiveData().observe(this, property -> {
+            getIntent().removeExtra("PropertyId");
+            getSupportFragmentManager().beginTransaction().
+                    replace(R.id.frameLayout_fragmentContainer, new PropertyDetailsFragment(property), "PropertyDetails")
+                    .addToBackStack("PropertyDetails")
+                    .commit();
+        });
+    }
+
     private void configureViewModel() {
-        mUserViewModel = new ViewModelProvider(this, UserViewModelFactory.getInstance(this)).get(UserViewModel.class);
+        mPropertyViewModel = new ViewModelProvider(this, PropertyViewModelFactory.getInstance(this)).get(PropertyViewModel.class);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
     }
 }

@@ -1,6 +1,8 @@
 package com.openclassrooms.realestatemanager.data.model.entities;
 
 import android.database.Cursor;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -8,7 +10,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class Property {
+public class Property implements Parcelable {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "property_id", index = true)
@@ -187,4 +189,78 @@ public class Property {
         property.setAgent(cursor.getString(cursor.getColumnIndexOrThrow("agent")));
         return property;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.id);
+        dest.writeString(this.property_type);
+        dest.writeValue(this.price);
+        dest.writeInt(this.surface);
+        dest.writeInt(this.rooms_count);
+        dest.writeInt(this.bathrooms_count);
+        dest.writeInt(this.bedrooms_count);
+        dest.writeString(this.description);
+        dest.writeString(this.address);
+        dest.writeDouble(this.latitude);
+        dest.writeDouble(this.longitude);
+        dest.writeInt(this.status == null ? -1 : this.status.ordinal());
+        dest.writeLong(this.market_entry);
+        dest.writeLong(this.sold);
+        dest.writeString(this.agent);
+    }
+
+    public void readFromParcel(Parcel source) {
+        this.id = source.readLong();
+        this.property_type = source.readString();
+        this.price = (Double) source.readValue(Double.class.getClassLoader());
+        this.surface = source.readInt();
+        this.rooms_count = source.readInt();
+        this.bathrooms_count = source.readInt();
+        this.bedrooms_count = source.readInt();
+        this.description = source.readString();
+        this.address = source.readString();
+        this.latitude = source.readDouble();
+        this.longitude = source.readDouble();
+        int tmpStatus = source.readInt();
+        this.status = tmpStatus == -1 ? null : PropertyStatus.values()[tmpStatus];
+        this.market_entry = source.readLong();
+        this.sold = source.readLong();
+        this.agent = source.readString();
+    }
+
+    protected Property(Parcel in) {
+        this.id = in.readLong();
+        this.property_type = in.readString();
+        this.price = (Double) in.readValue(Double.class.getClassLoader());
+        this.surface = in.readInt();
+        this.rooms_count = in.readInt();
+        this.bathrooms_count = in.readInt();
+        this.bedrooms_count = in.readInt();
+        this.description = in.readString();
+        this.address = in.readString();
+        this.latitude = in.readDouble();
+        this.longitude = in.readDouble();
+        int tmpStatus = in.readInt();
+        this.status = tmpStatus == -1 ? null : PropertyStatus.values()[tmpStatus];
+        this.market_entry = in.readLong();
+        this.sold = in.readLong();
+        this.agent = in.readString();
+    }
+
+    public static final Parcelable.Creator<Property> CREATOR = new Parcelable.Creator<Property>() {
+        @Override
+        public Property createFromParcel(Parcel source) {
+            return new Property(source);
+        }
+
+        @Override
+        public Property[] newArray(int size) {
+            return new Property[size];
+        }
+    };
 }

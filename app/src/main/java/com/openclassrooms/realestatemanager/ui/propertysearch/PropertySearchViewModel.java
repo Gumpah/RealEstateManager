@@ -198,9 +198,6 @@ public class PropertySearchViewModel extends ViewModel {
             }
             propertySearchResults.postValue(resultProperties);
         });
-        //creating list of property ids for each request
-        //check common elements in all lists
-        //create property list from id list
     }
 
     private ArrayList<Long> getIdListFromPropertyList(List<Property> properties) {
@@ -227,7 +224,6 @@ public class PropertySearchViewModel extends ViewModel {
                 idsInCommon.add(id);
             }
         }
-
         return idsInCommon;
     }
 }

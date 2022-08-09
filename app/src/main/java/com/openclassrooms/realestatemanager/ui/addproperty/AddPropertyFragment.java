@@ -42,6 +42,7 @@ import com.openclassrooms.realestatemanager.ui.viewmodels.PlacesViewModelFactory
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModel;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModelFactory;
 import com.openclassrooms.realestatemanager.utils.FileManager;
+import com.openclassrooms.realestatemanager.utils.PropertyCreationNotificationService;
 import com.openclassrooms.realestatemanager.utils.Utils;
 
 import java.util.ArrayList;
@@ -59,6 +60,7 @@ public class AddPropertyFragment extends Fragment implements AddPropertyCallback
     private String mPropertyType;
     private Date marketEntryDate;
     private Place propertyPlace;
+    private PropertyCreationNotificationService notificationService;
 
     public AddPropertyFragment() {
     }
@@ -86,13 +88,14 @@ public class AddPropertyFragment extends Fragment implements AddPropertyCallback
             Places.initialize(requireContext(), BuildConfig.MAPS_API_KEY);
         }
         initAutocompleteAddress();
+        notificationService = new PropertyCreationNotificationService(requireContext());
         //mPlacesViewModel.fetchPlacesTest(BuildConfig.MAPS_API_KEY, Utils.createLocationString(48.8507714, 2.3414844));
         //mPlacesViewModel.fetchPlaces(BuildConfig.MAPS_API_KEY, "48.8335697,2.2553826");
         return binding.getRoot();
     }
 
     private void configureViewModels() {
-        mPropertyViewModel = new ViewModelProvider(requireActivity(), PropertyViewModelFactory.getInstance(requireContext())).get(PropertyViewModel.class);
+        mPropertyViewModel = new ViewModelProvider(this, PropertyViewModelFactory.getInstance(requireContext())).get(PropertyViewModel.class);
         mPlacesViewModel = new ViewModelProvider(requireActivity(), PlacesViewModelFactory.getInstance()).get(PlacesViewModel.class);
     }
 
@@ -336,8 +339,12 @@ public class AddPropertyFragment extends Fragment implements AddPropertyCallback
         mPlacesViewModel.getPlacesMutableLiveData().observe(getViewLifecycleOwner(), places -> {
             if (places != null) {
                 mPropertyViewModel.insertPropertyAndMediasAndPlaces(property, mediaList, places);
-                requireActivity().getSupportFragmentManager().popBackStack();
             }
+        });
+        mPropertyViewModel.getPropertyCreatedIdLiveData().observe(getViewLifecycleOwner(), id -> {
+            System.out.println("TestId1 :" + id);
+            notificationService.showNotification(id);
+            requireActivity().getSupportFragmentManager().popBackStack();
         });
         mPlacesViewModel.fetchPlaces(BuildConfig.MAPS_API_KEY, Utils.createLocationString(property.getLatitude(), property.getLongitude()));
         //mPlacesViewModel.fetchPlacesTest(BuildConfig.MAPS_API_KEY, Utils.createLocationString(property.getLatitude(), property.getLongitude()));
