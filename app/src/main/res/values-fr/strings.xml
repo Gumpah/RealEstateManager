@@ -8,11 +8,11 @@
     <string name="property_creation_notification_text">Le bien a été créé avec succès</string>
 
     <!-- Toolbar titles -->
-    <string name="toolbar_addProperty_title">Add a property</string>
-    <string name="toolbar_mediaDisplay_title">Media</string>
-    <string name="toolbar_propertyList_title">Property list</string>
-    <string name="toolbar_propertyDetails_title">Property details</string>
-    <string name="toolbar_propertyDetailsMap_title">Property map</string>
+    <string name="toolbar_addProperty_title">Ajout d\'un bien</string>
+    <string name="toolbar_mediaDisplay_title">Image</string>
+    <string name="toolbar_propertyList_title">Liste des biens</string>
+    <string name="toolbar_propertyDetails_title">Détails d\'un bien</string>
+    <string name="toolbar_propertyDetailsMap_title">Carte du bien</string>
     <string name="toolbar_propertySearch_title">Recherche</string>
     <string name="toolbar_propertiesMap_title">Carte des propriétés</string>
 

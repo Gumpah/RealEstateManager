@@ -6,8 +6,6 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.ui.AppBarConfiguration;
 
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding;
@@ -26,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         configureViewModel();
         initUI(savedInstanceState);
-        initGetPropertyByIdListener();
     }
 
     private void initUI(Bundle savedInstanceState) {
@@ -35,11 +32,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(view);
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
-        System.out.println("TestIdMain");
+
         if (extras != null && extras.getLong("PropertyId", 0) != 0) {
             long id = extras.getLong("PropertyId", 0);
-            System.out.println("TestId2 :" + id);
-            mPropertyViewModel.getPropertyByIdContentProvider(getContentResolver(), id);
+            startPropertyDetailsFragment(id);
         } else if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().
                     replace(R.id.frameLayout_fragmentContainer, new PropertiesListFragment(), "PropertiesList")
@@ -47,14 +43,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void initGetPropertyByIdListener() {
-        mPropertyViewModel.getPropertyByIdLiveData().observe(this, property -> {
-            getIntent().removeExtra("PropertyId");
-            getSupportFragmentManager().beginTransaction().
-                    replace(R.id.frameLayout_fragmentContainer, new PropertyDetailsFragment(property), "PropertyDetails")
-                    .addToBackStack("PropertyDetails")
-                    .commit();
-        });
+    private void startPropertyDetailsFragment(long propertyId) {
+        PropertyDetailsFragment propertyDetailsFragment = new PropertyDetailsFragment();
+        Bundle args = new Bundle();
+        args.putLong("PropertyId", propertyId);
+        propertyDetailsFragment.setArguments(args);getIntent().removeExtra("PropertyId");
+        getSupportFragmentManager().beginTransaction().
+                replace(R.id.frameLayout_fragmentContainer, propertyDetailsFragment, "PropertyDetails")
+                .addToBackStack("PropertyDetails")
+                .commit();
     }
 
     private void configureViewModel() {

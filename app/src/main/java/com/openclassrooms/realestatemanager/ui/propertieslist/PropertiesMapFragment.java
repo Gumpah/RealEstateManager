@@ -2,7 +2,6 @@ package com.openclassrooms.realestatemanager.ui.propertieslist;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -183,8 +181,12 @@ public class PropertiesMapFragment extends Fragment implements OnMapReadyCallbac
             System.out.println("Marker call");
             Property property = mPropertyViewModel.getPropertyInListFromId(mProperties, Long.parseLong(String.valueOf(marker.getTag())));
             if (property != null) {
+                PropertyDetailsFragment propertyDetailsFragment = new PropertyDetailsFragment();
+                Bundle args = new Bundle();
+                args.putLong("PropertyId", property.getId());
+                propertyDetailsFragment.setArguments(args);
                 requireActivity().getSupportFragmentManager().beginTransaction().
-                        replace(R.id.frameLayout_fragmentContainer, new PropertyDetailsFragment(property), "PropertyDetails")
+                        replace(R.id.frameLayout_fragmentContainer, propertyDetailsFragment, "PropertyDetails")
                         .addToBackStack("PropertyDetails")
                         .commit();
             }

@@ -10,7 +10,6 @@ import android.os.Build;
 import androidx.core.app.NotificationCompat;
 
 import com.openclassrooms.realestatemanager.R;
-import com.openclassrooms.realestatemanager.data.model.entities.Property;
 import com.openclassrooms.realestatemanager.ui.MainActivity;
 
 public class PropertyCreationNotificationService {

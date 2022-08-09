@@ -8,7 +8,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.openclassrooms.realestatemanager.data.PropertyRepository;
 import com.openclassrooms.realestatemanager.data.model.PropertyAndImage;
 import com.openclassrooms.realestatemanager.data.model.entities.Media;
@@ -16,10 +15,7 @@ import com.openclassrooms.realestatemanager.data.model.entities.Place;
 import com.openclassrooms.realestatemanager.data.model.entities.Property;
 import com.openclassrooms.realestatemanager.data.model.entities.PropertyPlace;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executor;
 
@@ -183,7 +179,10 @@ public class PropertyViewModel extends ViewModel {
 
     public void getPropertyByIdContentProvider(ContentResolver contentResolver, long propertyId) {
         mExecutor.execute(() -> {
-            Property property = mPropertyRepository.getPropertyById(propertyId);
+            Cursor cursor = mPropertyRepository.getPropertyByIdContentProvider(contentResolver, propertyId);
+            Property property = new Property();
+            if (cursor.moveToFirst()){ property = Property.fromCursor(cursor); }
+            cursor.close();
             mProperty.postValue(property);
         });
     }

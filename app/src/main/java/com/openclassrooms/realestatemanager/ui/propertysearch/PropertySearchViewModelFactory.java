@@ -8,8 +8,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.openclassrooms.realestatemanager.data.Database;
 import com.openclassrooms.realestatemanager.data.PropertyRepository;
-import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModel;
-import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModelFactory;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;

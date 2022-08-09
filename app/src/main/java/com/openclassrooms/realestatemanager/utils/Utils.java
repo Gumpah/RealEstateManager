@@ -8,8 +8,6 @@ import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.os.Build;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.maps.model.LatLng;

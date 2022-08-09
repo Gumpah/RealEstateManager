@@ -78,7 +78,8 @@ public class AddPropertyFragment extends Fragment implements AddPropertyCallback
         configureViewModels();
         mPlacesViewModel.getPlacesMutableLiveData().postValue(null);
         initRecyclerView();
-        setMediaClickListener();
+        setMediaFromCameraClickListener();
+        setMediaFromGalleryClickListener();
         setClickListener();
         initSpinner();
         initDate();
@@ -114,16 +115,33 @@ public class AddPropertyFragment extends Fragment implements AddPropertyCallback
         binding.buttonCreate.setOnClickListener(v -> onSubmit());
     }
 
-    private void setMediaClickListener() {
-        binding.imageButtonAddImage.setOnClickListener(v -> {
+    private void setMediaFromGalleryClickListener() {
+        binding.imageButtonAddImageGallery.setOnClickListener(v -> {
             Intent i = new Intent(
                     Intent.ACTION_PICK,
                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            uri.launch(i);
+            uriGallery.launch(i);
         });
     }
 
-    private final ActivityResultLauncher<Intent> uri =
+    private void setMediaFromCameraClickListener() {
+        binding.imageButtonAddImageCamera.setOnClickListener(v -> {
+            Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            uriCamera.launch(i);
+        });
+    }
+
+    private final ActivityResultLauncher<Intent> uriCamera =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), i -> {
+                if (i.getResultCode() == Activity.RESULT_OK && i.getData() != null) {
+                    Bundle bundle = i.getData().getExtras();
+                    Bitmap bitmap = (Bitmap) bundle.get("data");
+                    mBitmapList.add(bitmap);
+                    mAddPropertyMediasAdapter.setData(mBitmapList);
+                }
+            });
+
+    private final ActivityResultLauncher<Intent> uriGallery =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), i -> {
                 if (i.getResultCode() == Activity.RESULT_OK && i.getData() != null) {
                     Uri selectedImageUri = i.getData().getData();

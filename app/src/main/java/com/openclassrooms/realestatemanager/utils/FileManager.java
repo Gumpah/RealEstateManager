@@ -43,4 +43,14 @@ public class FileManager {
         }
         return null;
     }
+
+    public static Uri getUriFileToCreate(File directory) {
+        Calendar calendar = Calendar.getInstance();
+        long time = calendar.getTimeInMillis();
+        File file = new File(directory, time + ".jpg");
+        if (!file.exists()) {
+            return Uri.fromFile(file);
+        }
+        return null;
+    }
 }

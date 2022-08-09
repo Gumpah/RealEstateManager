@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.data.model.entities;
 
-import android.content.ContentValues;
 import android.database.Cursor;
 
 import androidx.annotation.NonNull;

@@ -14,11 +14,9 @@ import com.openclassrooms.realestatemanager.databinding.FragmentMediaDisplayBind
 
 public class MediaDisplayFragment extends Fragment {
 
-    private Uri mUri;
     private FragmentMediaDisplayBinding binding;
 
-    public MediaDisplayFragment(Uri uri) {
-        mUri = uri;
+    public MediaDisplayFragment() {
     }
 
     @Override
@@ -30,13 +28,20 @@ public class MediaDisplayFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentMediaDisplayBinding.inflate(inflater, container, false);
-        setImage();
+        getUriFromBundleArgs();
         return binding.getRoot();
     }
 
-    private void setImage() {
+    private void getUriFromBundleArgs() {
+        Bundle args = getArguments();
+        if (args != null && args.getString("Uri") != null) {
+            setImage(Uri.parse(args.getString("Uri")));
+        }
+    }
+
+    private void setImage(Uri uri) {
         Glide.with(binding.getRoot())
-                .load(mUri)
+                .load(uri)
                 .fitCenter()
                 .into(binding.imageViewMedia);
     }

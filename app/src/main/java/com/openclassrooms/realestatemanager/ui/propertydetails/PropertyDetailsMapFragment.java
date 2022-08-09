@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -48,6 +47,7 @@ public class PropertyDetailsMapFragment extends Fragment implements OnMapReadyCa
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentPropertyDetailsMapBinding.inflate(inflater, container, false);
         configureViewModels();
+        initPropertyByIdListener();
         setToolbar();
         initMap();
         return binding.getRoot();
@@ -55,6 +55,22 @@ public class PropertyDetailsMapFragment extends Fragment implements OnMapReadyCa
 
     private void configureViewModels() {
         mPropertyViewModel = new ViewModelProvider(requireActivity(), PropertyViewModelFactory.getInstance(requireContext())).get(PropertyViewModel.class);
+    }
+
+    private void getPropertyById() {
+        Bundle args = getArguments();
+        if (args != null && args.getLong("PropertyId", 0) != 0) {
+            mPropertyViewModel.getPropertyByIdContentProvider(requireActivity().getContentResolver(), args.getLong("PropertyId", 0));
+        }
+    }
+
+    private void initPropertyByIdListener() {
+        mPropertyViewModel.getPropertyByIdLiveData().observe(getViewLifecycleOwner(), property -> {
+            mProperty = property;
+            displayPropertyMarker();
+            getPropertyPlaces();
+            cameraZoom();
+        });
     }
 
     private void setToolbar() {
@@ -105,13 +121,15 @@ public class PropertyDetailsMapFragment extends Fragment implements OnMapReadyCa
         }
     }
 
+    private void cameraZoom() {
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(mProperty.getLatitude(), mProperty.getLongitude()), 17);
+        mMap.animateCamera(cameraUpdate);
+    }
+
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style));
-        displayPropertyMarker();
-        getPropertyPlaces();
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(mProperty.getLatitude(), mProperty.getLongitude()), 17);
-        mMap.animateCamera(cameraUpdate);
+        getPropertyById();
     }
 }

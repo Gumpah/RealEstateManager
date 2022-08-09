@@ -2,25 +2,15 @@ package com.openclassrooms.realestatemanager.ui.propertieslist;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.MenuHost;
-import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -50,9 +40,7 @@ public class PropertiesListFragment extends Fragment implements PropertyListCall
     private PropertyViewModel mPropertyViewModel;
     private PropertySearchViewModel mPropertySearchViewModel;
     private PropertiesListAdapter mListPropertiesAdapter;
-    private PropertyListCallback mCallback;
     private UserViewModel mUserViewModel;
-    private NavController mNavController;
     private List<Property> propertySearchResults;
     private List<Property> propertyList;
 
@@ -73,8 +61,9 @@ public class PropertiesListFragment extends Fragment implements PropertyListCall
         initNetworkStatus();
         fetchProperties();
         initMenu();
-        initMediasLiveData(null);
+        initMediasLiveData();
         initSearchResults();
+        setButtonLeaveSearchListener();
         mPropertyViewModel.getAllMediasContentProvider(requireContext().getContentResolver());
         binding.toolbarToolbarPropertyList.inflateMenu(R.menu.menu_propertylist);
         return binding.getRoot();
@@ -134,10 +123,22 @@ public class PropertiesListFragment extends Fragment implements PropertyListCall
         });
     }
 
-    private void initMediasLiveData(List<Property> properties) {
+    private void setButtonLeaveSearchListener() {
+        binding.buttonLeaveSearchMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                propertySearchResults = null;
+                mPropertyViewModel.getAllMediasContentProvider(requireContext().getContentResolver());
+                binding.buttonLeaveSearchMode.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void initMediasLiveData() {
         mPropertyViewModel.getAllMediasLiveData().observe(getViewLifecycleOwner(), medias -> {
             int visibility;
             if (propertySearchResults != null) {
+                binding.buttonLeaveSearchMode.setVisibility(View.VISIBLE);
                 if (propertySearchResults.isEmpty()) {
                     visibility = View.VISIBLE;
                 } else {
@@ -145,6 +146,7 @@ public class PropertiesListFragment extends Fragment implements PropertyListCall
                 }
                 mListPropertiesAdapter.setData(mPropertyViewModel.assemblePropertyAndMedia(propertySearchResults, medias));
             } else {
+                binding.buttonLeaveSearchMode.setVisibility(View.GONE);
                 if (propertyList == null || propertyList.isEmpty()) {
                     visibility = View.VISIBLE;
                 } else {
@@ -199,8 +201,12 @@ public class PropertiesListFragment extends Fragment implements PropertyListCall
 
     @Override
     public void propertiesListAdapterCallback(Property property) {
+        PropertyDetailsFragment propertyDetailsFragment = new PropertyDetailsFragment();
+        Bundle args = new Bundle();
+        args.putLong("PropertyId", property.getId());
+        propertyDetailsFragment.setArguments(args);
         requireActivity().getSupportFragmentManager().beginTransaction().
-                replace(R.id.frameLayout_fragmentContainer, new PropertyDetailsFragment(property), "PropertyDetails")
+                replace(R.id.frameLayout_fragmentContainer, propertyDetailsFragment, "PropertyDetails")
                 .addToBackStack("PropertyDetails")
                 .commit();
     }

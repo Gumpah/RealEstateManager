@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.openclassrooms.realestatemanager.data.model.PropertyAndImage;
 import com.openclassrooms.realestatemanager.data.model.entities.Property;
 import com.openclassrooms.realestatemanager.databinding.PropertyListItemBinding;
+import com.openclassrooms.realestatemanager.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +67,7 @@ public class PropertiesListAdapter extends RecyclerView.Adapter<PropertiesListAd
         void bind(PropertyAndImage propertyAndImage) {
             binding.textViewLocation.setText(propertyAndImage.getProperty().getAddress());
             binding.textViewPrice.setText(String.valueOf(propertyAndImage.getProperty().getPrice()));
-            binding.textViewPropertyType.setText(propertyAndImage.getProperty().getProperty_type());
+            binding.textViewPropertyType.setText(Utils.getTypeInUserLanguage(binding.getRoot().getContext(), propertyAndImage.getProperty().getProperty_type()));
             Glide.with(binding.getRoot())
                     .load(propertyAndImage.getUri())
                     .centerCrop()

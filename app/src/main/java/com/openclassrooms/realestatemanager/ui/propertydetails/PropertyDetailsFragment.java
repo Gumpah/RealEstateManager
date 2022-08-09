@@ -30,9 +30,7 @@ public class PropertyDetailsFragment extends Fragment implements DisplayMediaCal
     private Property mProperty;
     private PropertyDetailsPagerAdapter mPropertyDetailsPagerAdapter;
 
-    public PropertyDetailsFragment(Property property) {
-        mProperty = property;
-        System.out.println("PropertyId " + property.getId());
+    public PropertyDetailsFragment() {
     }
 
     @Override
@@ -46,19 +44,42 @@ public class PropertyDetailsFragment extends Fragment implements DisplayMediaCal
                              Bundle savedInstanceState) {
         binding = FragmentPropertyDetailsBinding.inflate(inflater, container, false);
         configureViewModel();
-        initUI();
         initViewPager();
-        initMedias();
+        setMediasListener();
+        initPropertyByIdListener();
         setMapButtonClickListener();
-        initStaticMap();
+        initData();
+        getPropertyById();
         return binding.getRoot();
+    }
+
+    private void getPropertyById() {
+        Bundle args = getArguments();
+        if (args != null && args.getLong("PropertyId", 0) != 0) {
+            mPropertyViewModel.getPropertyByIdContentProvider(requireActivity().getContentResolver(), args.getLong("PropertyId", 0));
+        }
+    }
+
+    private void initPropertyByIdListener() {
+        mPropertyViewModel.getPropertyByIdLiveData().observe(getViewLifecycleOwner(), property -> {
+            mProperty = property;
+            initData();
+        });
     }
 
     private void configureViewModel() {
         mPropertyViewModel = new ViewModelProvider(requireActivity(), PropertyViewModelFactory.getInstance(requireContext())).get(PropertyViewModel.class);
     }
 
-    private void initUI() {
+    private void initData() {
+        if (mProperty != null) {
+            initUIData();
+            initStaticMap();
+            mPropertyViewModel.getMediasByPropertyIdContentProvider(requireContext().getContentResolver(), mProperty.getId());
+        }
+    }
+
+    private void initUIData() {
         binding.textViewDescription.setText(mProperty.getDescription());
         binding.textViewSurface.setText(String.valueOf(mProperty.getSurface()));
         binding.textViewRoomsCount.setText(String.valueOf(mProperty.getRooms_count()));
@@ -67,12 +88,10 @@ public class PropertyDetailsFragment extends Fragment implements DisplayMediaCal
         binding.textViewLocation.setText(mProperty.getAddress());
     }
 
-    private void initMedias() {
+    private void setMediasListener() {
         mPropertyViewModel.getMediasByPropertyIdLiveData().observe(getViewLifecycleOwner(), medias -> {
             mPropertyDetailsPagerAdapter.setData(medias);
         });
-        // OLD-REQUEST mPropertyViewModel.getMediasByPropertyId(mProperty.getId());
-        mPropertyViewModel.getMediasByPropertyIdContentProvider(requireContext().getContentResolver(), mProperty.getId());
     }
 
     private void initViewPager() {
@@ -83,9 +102,12 @@ public class PropertyDetailsFragment extends Fragment implements DisplayMediaCal
 
     @Override
     public void displayMediaCallback(String uriString) {
-        Uri uri = Uri.parse(uriString);
+        MediaDisplayFragment mediaDisplayFragment = new MediaDisplayFragment();
+        Bundle args = new Bundle();
+        args.putString("Uri", uriString);
+        mediaDisplayFragment.setArguments(args);
         requireActivity().getSupportFragmentManager().beginTransaction().
-                replace(R.id.frameLayout_fragmentContainer, new MediaDisplayFragment(uri), "MediaDisplay")
+                replace(R.id.frameLayout_fragmentContainer, mediaDisplayFragment, "MediaDisplay")
                 .addToBackStack("MediaDisplay")
                 .commit();
     }
@@ -100,7 +122,9 @@ public class PropertyDetailsFragment extends Fragment implements DisplayMediaCal
         binding.buttonMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFragmentMap();
+                if(mProperty != null) {
+                    showFragmentMap();
+                }
             }
         });
     }

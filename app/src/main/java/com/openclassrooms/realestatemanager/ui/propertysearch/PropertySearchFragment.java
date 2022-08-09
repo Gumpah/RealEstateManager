@@ -2,11 +2,6 @@ package com.openclassrooms.realestatemanager.ui.propertysearch;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -15,6 +10,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -28,8 +27,6 @@ import com.openclassrooms.realestatemanager.data.model.entities.PropertyType;
 import com.openclassrooms.realestatemanager.databinding.FragmentPropertySearchBinding;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PlacesViewModel;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PlacesViewModelFactory;
-import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModel;
-import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModelFactory;
 import com.openclassrooms.realestatemanager.utils.Utils;
 
 import java.util.ArrayList;
