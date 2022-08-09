@@ -16,7 +16,9 @@ import com.openclassrooms.realestatemanager.data.model.entities.Place;
 import com.openclassrooms.realestatemanager.data.model.entities.Property;
 import com.openclassrooms.realestatemanager.data.model.entities.PropertyPlace;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -41,11 +43,18 @@ public class PropertyViewModel extends ViewModel {
 
     public LiveData<List<Property>> getPropertiesLiveData() { return mProperties; }
 
+    public Property getPropertyInListFromId(List<Property> properties, long id){
+        for (Property property : properties) {
+            if (property.getId() == id) return property;
+        }
+        return null;
+    }
+
     public void getProperties() { mExecutor.execute(() -> {
         mProperties.postValue(mPropertyRepository.getProperties());
     });  }
 
-    public LiveData<Property> getPropertyById(long propertyId) { return mPropertyRepository.getPropertyById(propertyId); }
+    public Property getPropertyById(long propertyId) { return mPropertyRepository.getPropertyById(propertyId); }
 
     public void insertProperty(Property property) { mExecutor.execute(() -> {
         mPropertyRepository.insertProperty(property);
@@ -162,6 +171,7 @@ public class PropertyViewModel extends ViewModel {
     }
 
     public void getPropertyByIdContentProvider(ContentResolver contentResolver, long propertyId) {
+
     }
 
     public void getMediasByPropertyIdContentProvider(ContentResolver contentResolver, long propertyId) {
@@ -214,70 +224,5 @@ public class PropertyViewModel extends ViewModel {
         if (cursor.moveToFirst()){ place = Place.fromCursor(cursor); }
         cursor.close();
         return place;
-    }
-
-    public List<Property> getPropertiesByPropertyType(String propertyType) {
-        return mPropertyRepository.getPropertiesByPropertyType(propertyType);
-    }
-
-    public List<Property> getPropertiesByPriceRange(Integer priceMin, Integer priceMax) {
-        return mPropertyRepository.getPropertiesByPriceRange(priceMin, priceMax);
-    }
-
-    public List<Property> getPropertiesBySurfaceRange(int surfaceMin, int surfaceMax) {
-        return mPropertyRepository.getPropertiesBySurfaceRange(surfaceMin, surfaceMax);
-    }
-
-    public List<Property> getPropertiesByRoomsRange(int roomsMin, int roomsMax) {
-        return mPropertyRepository.getPropertiesByRoomsRange(roomsMin, roomsMax);
-    }
-
-    public List<Property> getPropertiesInRadius(Double lat1, Double lng1, Double lat2, Double lng2) {
-        return mPropertyRepository.getPropertiesInRadius(lat1, lng1, lat2, lng2);
-    }
-
-    public void searchProperty(String propertyType, Integer priceMin, Integer priceMax, Integer surfaceMin, Integer surfaceMax, Integer roomsMin, Integer roomsMax, LatLngBounds bounds, Date marketEntryDateMin, Date marketEntryDateMax, Date soldDateMin, Date soldDateMax) {
-        mExecutor.execute(() -> {
-            if (propertyType != null) {
-                ArrayList<Long> propertiesIds = new ArrayList<>();
-                for (Property property : getPropertiesByPropertyType(propertyType)) {
-                    propertiesIds.add(property.getId());
-                }
-            }
-            if (priceMin != null || priceMax != null) {
-                ArrayList<Long> propertiesIds = new ArrayList<>();
-                for (Property property : getPropertiesByPriceRange(priceMin, priceMax)) {
-                    propertiesIds.add(property.getId());
-                }
-            }
-            if (surfaceMin != null || surfaceMax != null) {
-                ArrayList<Long> propertiesIds = new ArrayList<>();
-                for (Property property : getPropertiesBySurfaceRange(surfaceMin, surfaceMax)) {
-                    propertiesIds.add(property.getId());
-                }
-            }
-            if (roomsMin != null || roomsMax != null) {
-                ArrayList<Long> propertiesIds = new ArrayList<>();
-                for (Property property : getPropertiesByRoomsRange(roomsMin, roomsMax)) {
-                    propertiesIds.add(property.getId());
-                }
-            }
-            if (bounds != null) {
-                ArrayList<Long> propertiesIds = new ArrayList<>();
-                for (Property property : getPropertiesInRadius(bounds.southwest.latitude, bounds.southwest.longitude, bounds.northeast.latitude, bounds.northeast.longitude)) {
-                    System.out.println("SearchTest > " + property.getAddress());
-                    propertiesIds.add(property.getId());
-                }
-            }
-            if (marketEntryDateMin != null || marketEntryDateMax != null) {
-
-            }
-            if (soldDateMin != null || soldDateMax != null) {
-
-            }
-        });
-        //creating list of property ids for each request
-        //check common elements in all lists
-        //create property list from id list
     }
 }

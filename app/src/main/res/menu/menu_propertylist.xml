@@ -9,4 +9,11 @@
         android:title="Search"
         />
 
+    <item
+        android:id="@+id/menuItem_globalMap"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_baseline_map_24"
+        android:title="Map"
+        />
+
 </menu>

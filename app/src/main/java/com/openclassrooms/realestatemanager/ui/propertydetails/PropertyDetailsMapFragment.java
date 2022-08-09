@@ -58,14 +58,13 @@ public class PropertyDetailsMapFragment extends Fragment implements OnMapReadyCa
     }
 
     private void setToolbar() {
-        Toolbar toolbar = binding.toolbarToolbarPropertyDetailsMap;
-        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(binding.toolbarToolbarPropertyDetailsMap);
         ActionBar supportActionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
         if (supportActionBar != null){
             supportActionBar.setDisplayHomeAsUpEnabled(true);
             supportActionBar.setDisplayShowHomeEnabled(true);
         }
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        binding.toolbarToolbarPropertyDetailsMap.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 requireActivity().getSupportFragmentManager().popBackStack();
@@ -74,7 +73,7 @@ public class PropertyDetailsMapFragment extends Fragment implements OnMapReadyCa
     }
 
     private void initMap() {
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.fragmentContainerView_map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.fragmentContainerView_propertyDetailsMap);
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
@@ -115,6 +114,4 @@ public class PropertyDetailsMapFragment extends Fragment implements OnMapReadyCa
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(mProperty.getLatitude(), mProperty.getLongitude()), 17);
         mMap.animateCamera(cameraUpdate);
     }
-
-
 }

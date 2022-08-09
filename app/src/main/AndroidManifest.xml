@@ -30,7 +30,7 @@
             android:value="@integer/google_play_services_version" />
 
         <provider
-            android:name=".data.provider.MediaContentProvider"
+            android:name=".data.provider.MyContentProvider"
             android:authorities="com.openclassrooms.realestatemanager.data.provider"
             android:exported="false"/>
 

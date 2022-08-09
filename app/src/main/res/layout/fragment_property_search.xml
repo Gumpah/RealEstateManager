@@ -167,13 +167,93 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout_bathroomsMin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/textInputLayout_roomsMin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/textInputLayout_bathroomsMax"
+                app:hintTextColor="@color/colorAccent"
+                android:hint="Bathrooms count min."
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:drawableTint="@color/lightGrey"
+                    android:inputType="number"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout_bathroomsMax"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                app:layout_constraintTop_toTopOf="@id/textInputLayout_bathroomsMin"
+                app:layout_constraintStart_toEndOf="@id/textInputLayout_bathroomsMin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:hintTextColor="@color/colorAccent"
+                android:hint="Bathrooms count max."
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:drawableTint="@color/lightGrey"
+                    android:inputType="number"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout_bedroomsMin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/textInputLayout_bathroomsMin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/textInputLayout_bedroomsMax"
+                app:hintTextColor="@color/colorAccent"
+                android:hint="Bedrooms count min."
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:drawableTint="@color/lightGrey"
+                    android:inputType="number"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout_bedroomsMax"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                app:layout_constraintTop_toTopOf="@id/textInputLayout_bedroomsMin"
+                app:layout_constraintStart_toEndOf="@id/textInputLayout_bedroomsMin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:hintTextColor="@color/colorAccent"
+                android:hint="Bedrooms count max."
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:drawableTint="@color/lightGrey"
+                    android:inputType="number"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/autocomplete_address"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="12dp"
-                app:layout_constraintTop_toBottomOf="@id/textInputLayout_roomsMin"
+                app:layout_constraintTop_toBottomOf="@id/textInputLayout_bedroomsMin"
                 app:layout_constraintBottom_toBottomOf="@id/textInputLayout_addressRadius"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/textInputLayout_addressRadius"
@@ -198,12 +278,125 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <ListView
-                android:id="@+id/listView_placeTypesCheckboxes"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/textView_pointsOfInterest"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/grey"
                 android:layout_marginTop="12dp"
-                app:layout_constraintTop_toBottomOf="@id/autocomplete_address"/>
+                android:text="Close points of interests"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textInputLayout_addressRadius"/>
+
+            <CheckBox
+                android:id="@+id/checkBox_amusementPark"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:text="@string/amusement_park"
+                android:textSize="15sp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/textView_pointsOfInterest"
+                />
+
+            <CheckBox
+                android:id="@+id/checkBox_park"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:text="@string/park"
+                android:textSize="15sp"
+                app:layout_constraintTop_toBottomOf="@id/checkBox_amusementPark"
+                />
+
+            <CheckBox
+                android:id="@+id/checkBox_university"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:text="@string/university"
+                android:textSize="15sp"
+                app:layout_constraintTop_toBottomOf="@id/checkBox_park"
+                />
+
+            <CheckBox
+                android:id="@+id/checkBox_primarySchool"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:text="@string/primary_school"
+                android:textSize="15sp"
+                app:layout_constraintTop_toBottomOf="@id/checkBox_university"
+                />
+
+            <CheckBox
+                android:id="@+id/checkBox_secondarySchool"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:text="@string/secondary_school"
+                android:textSize="15sp"
+                app:layout_constraintTop_toBottomOf="@id/checkBox_primarySchool"
+                />
+
+            <CheckBox
+                android:id="@+id/checkBox_school"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:text="@string/school"
+                android:textSize="15sp"
+                app:layout_constraintTop_toBottomOf="@id/checkBox_secondarySchool"
+                />
+
+            <CheckBox
+                android:id="@+id/checkBox_store"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:text="@string/store"
+                android:textSize="15sp"
+                app:layout_constraintTop_toBottomOf="@id/checkBox_school"
+                />
+
+            <CheckBox
+                android:id="@+id/checkBox_subwayStation"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:text="@string/subway_station"
+                android:textSize="15sp"
+                app:layout_constraintTop_toBottomOf="@id/checkBox_store"
+                />
+
+            <CheckBox
+                android:id="@+id/checkBox_trainStation"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:text="@string/train_station"
+                android:textSize="15sp"
+                app:layout_constraintTop_toBottomOf="@id/checkBox_subwayStation"
+                />
+
+            <CheckBox
+                android:id="@+id/checkBox_busStation"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:text="@string/bus_station"
+                android:textSize="15sp"
+                app:layout_constraintTop_toBottomOf="@id/checkBox_trainStation"
+                />
+
+            <CheckBox
+                android:id="@+id/checkBox_supermarket"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:text="@string/supermarket"
+                android:textSize="15sp"
+                app:layout_constraintTop_toBottomOf="@id/checkBox_busStation"
+                />
+
+            <CheckBox
+                android:id="@+id/checkBox_movieTheater"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:text="@string/movie_theater"
+                android:textSize="15sp"
+                app:layout_constraintTop_toBottomOf="@id/checkBox_supermarket"
+                />
 
             <TextView
                 android:id="@+id/textView_marketEntryDateTitle"
@@ -212,7 +405,7 @@
                 android:textSize="18sp"
                 android:textColor="@color/grey"
                 android:layout_marginTop="12dp"
-                app:layout_constraintTop_toBottomOf="@id/listView_placeTypesCheckboxes"
+                app:layout_constraintTop_toBottomOf="@id/checkBox_movieTheater"
                 android:text="Market entry date"/>
 
             <Button

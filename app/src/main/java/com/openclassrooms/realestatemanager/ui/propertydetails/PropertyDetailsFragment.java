@@ -61,6 +61,8 @@ public class PropertyDetailsFragment extends Fragment implements DisplayMediaCal
         binding.textViewDescription.setText(mProperty.getDescription());
         binding.textViewSurface.setText(String.valueOf(mProperty.getSurface()));
         binding.textViewRoomsCount.setText(String.valueOf(mProperty.getRooms_count()));
+        binding.textViewBathroomsCount.setText(String.valueOf(mProperty.getBathrooms_count()));
+        binding.textViewBedroomsCount.setText(String.valueOf(mProperty.getBedrooms_count()));
         binding.textViewLocation.setText(mProperty.getAddress());
     }
 

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity
@@ -19,18 +20,19 @@ public class Place {
     private double latitude;
     private double longitude;
     private String address;
-    //add type
+    private String type;
 
-
+    @Ignore
     public Place() {
     }
 
-    public Place(String id, String name, double latitude, double longitude, String address) {
+    public Place(@NonNull String id, String name, double latitude, double longitude, String address, String type) {
         this.id = id;
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
         this.address = address;
+        this.type = type;
     }
 
     public String getId() {
@@ -53,6 +55,10 @@ public class Place {
         return address;
     }
 
+    public String getType() {
+        return type;
+    }
+
     public void setId(@NonNull String id) {
         this.id = id;
     }
@@ -73,6 +79,10 @@ public class Place {
         this.address = address;
     }
 
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public static Place fromCursor(Cursor cursor) {
         final Place place = new Place();
         place.setId(cursor.getString(cursor.getColumnIndexOrThrow("place_id")));
@@ -80,6 +90,7 @@ public class Place {
         place.setLatitude(cursor.getDouble(cursor.getColumnIndexOrThrow("latitude")));
         place.setLongitude(cursor.getDouble(cursor.getColumnIndexOrThrow("longitude")));
         place.setAddress(cursor.getString(cursor.getColumnIndexOrThrow("address")));
+        place.setType(cursor.getString(cursor.getColumnIndexOrThrow("type")));
         return place;
     }
 }

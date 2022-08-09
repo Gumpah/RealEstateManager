@@ -10,6 +10,7 @@
     <string name="toolbar_propertyDetails_title">Property details</string>
     <string name="toolbar_propertyDetailsMap_title">Property map</string>
     <string name="toolbar_propertySearch_title">Recherche</string>
+    <string name="toolbar_propertiesMap_title">Carte des propriétés</string>
 
     <!-- Property types -->
     <string name="flat">Appartement</string>
@@ -23,10 +24,13 @@
     <string name="farmhouse">Ferme</string>
 
     <!-- Place types -->
+    <string name="amusement_park">Parc d\'attraction</string>
     <string name="park">Parc</string>
+    <string name="university">Université</string>
+    <string name="primary_school">Ecole élémentaire</string>
+    <string name="secondary_school">Collège et lycée</string>
     <string name="school">Ecole</string>
     <string name="store">Commerce</string>
-    <string name="university">Université</string>
     <string name="subway_station">Métro</string>
     <string name="train_station">Gare</string>
     <string name="bus_station">Arrêt de bus</string>

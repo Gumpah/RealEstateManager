@@ -22,7 +22,7 @@ public interface PropertyDao {
     Cursor getPropertiesCursor();
 
     @Query("SELECT * FROM Property WHERE property_id = :propertyId")
-    LiveData<Property> getPropertyById(long propertyId);
+    Property getPropertyById(long propertyId);
 
     @Query("SELECT * FROM Property WHERE property_id = :propertyId")
     Cursor getPropertyByIdCursor(long propertyId);

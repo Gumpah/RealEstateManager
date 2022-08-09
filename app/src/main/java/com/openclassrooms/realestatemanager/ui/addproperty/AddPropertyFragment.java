@@ -86,6 +86,7 @@ public class AddPropertyFragment extends Fragment implements AddPropertyCallback
             Places.initialize(requireContext(), BuildConfig.MAPS_API_KEY);
         }
         initAutocompleteAddress();
+        //mPlacesViewModel.fetchPlacesTest(BuildConfig.MAPS_API_KEY, Utils.createLocationString(48.8507714, 2.3414844));
         //mPlacesViewModel.fetchPlaces(BuildConfig.MAPS_API_KEY, "48.8335697,2.2553826");
         return binding.getRoot();
     }
@@ -229,6 +230,16 @@ public class AddPropertyFragment extends Fragment implements AddPropertyCallback
             binding.textInputLayoutRoomsCount.setErrorEnabled(false);
             roomsCount = binding.textInputLayoutRoomsCount.getEditText().getText().toString();
         }
+        String bathroomsCount = "";
+        if (binding.textInputLayoutBathroomsCount.getEditText() != null) {
+            binding.textInputLayoutBathroomsCount.setErrorEnabled(false);
+            bathroomsCount = binding.textInputLayoutBathroomsCount.getEditText().getText().toString();
+        }
+        String bedroomsCount = "";
+        if (binding.textInputLayoutBedroomsCount.getEditText() != null) {
+            binding.textInputLayoutBedroomsCount.setErrorEnabled(false);
+            bedroomsCount = binding.textInputLayoutBedroomsCount.getEditText().getText().toString();
+        }
         String description = "";
         if (binding.textInputLayoutDescription.getEditText() != null) {
             binding.textInputLayoutDescription.setErrorEnabled(false);
@@ -260,6 +271,22 @@ public class AddPropertyFragment extends Fragment implements AddPropertyCallback
             binding.textInputLayoutRoomsCount.setError("Can't be empty");
             return;
         }
+        if (bathroomsCount.isEmpty()) {
+            binding.textInputLayoutBathroomsCount.setError("Can't be empty");
+            return;
+        }
+        if (Integer.parseInt(roomsCount) < Integer.parseInt(bathroomsCount)) {
+            binding.textInputLayoutBathroomsCount.setError("Can't be superior than number of rooms");
+            return;
+        }
+        if (bedroomsCount.isEmpty()) {
+            binding.textInputLayoutBedroomsCount.setError("Can't be empty");
+            return;
+        }
+        if (Integer.parseInt(roomsCount) < Integer.parseInt(bedroomsCount)) {
+            binding.textInputLayoutBedroomsCount.setError("Can't be superior than number of rooms");
+            return;
+        }
         if (description.isEmpty()) {
             binding.textInputLayoutDescription.setError("Can't be empty");
             return;
@@ -276,7 +303,8 @@ public class AddPropertyFragment extends Fragment implements AddPropertyCallback
             Snackbar.make(requireView(),"Pick at least 1 image", Toast.LENGTH_SHORT).show();
             return;
         }
-        String marketEntryDateString = Utils.convertDateToString(marketEntryDate);
+        //String marketEntryDateString = Utils.convertDateToString(marketEntryDate);
+        long marketEntryDateMillis = Utils.convertDateToLong(marketEntryDate);
         ArrayList<Media> mediaList = new ArrayList<>();
         for (Bitmap bitmap : mBitmapList) {
             Uri storedImage = FileManager.createFile(bitmap, requireActivity().getFilesDir());
@@ -289,11 +317,13 @@ public class AddPropertyFragment extends Fragment implements AddPropertyCallback
                 Double.valueOf(price),
                 Integer.parseInt(surface),
                 Integer.parseInt(roomsCount),
+                Integer.parseInt(bathroomsCount),
+                Integer.parseInt(bedroomsCount),
                 description, propertyPlace.getAddress(),
                 propertyPlace.getLatitude(),
                 propertyPlace.getLongitude(),
                 PropertyStatus.AVAILABLE,
-                marketEntryDateString,
+                marketEntryDateMillis,
                 agent);
         nearbyPlacesRequest(property, mediaList);
     }
@@ -310,6 +340,7 @@ public class AddPropertyFragment extends Fragment implements AddPropertyCallback
             }
         });
         mPlacesViewModel.fetchPlaces(BuildConfig.MAPS_API_KEY, Utils.createLocationString(property.getLatitude(), property.getLongitude()));
+        //mPlacesViewModel.fetchPlacesTest(BuildConfig.MAPS_API_KEY, Utils.createLocationString(property.getLatitude(), property.getLongitude()));
     }
 
     @Override

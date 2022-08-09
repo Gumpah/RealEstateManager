@@ -1,25 +1,34 @@
 package com.openclassrooms.realestatemanager.data.provider;
 
-import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.CancellationSignal;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.openclassrooms.realestatemanager.data.Database;
 import com.openclassrooms.realestatemanager.data.model.entities.Media;
+import com.openclassrooms.realestatemanager.data.model.entities.Place;
+import com.openclassrooms.realestatemanager.data.model.entities.Property;
+import com.openclassrooms.realestatemanager.data.model.entities.PropertyPlace;
 
-public class MediaContentProvider extends ContentProvider {
+public class MyContentProvider extends android.content.ContentProvider {
 
     public static final String AUTHORITY = "com.openclassrooms.realestatemanager.data.provider";
 
-    public static final String TABLE_NAME = Media.class.getSimpleName();
+    public static final String MEDIA_TABLE_NAME = Media.class.getSimpleName();
+    public static final Uri URI_MEDIA = Uri.parse("content://" + AUTHORITY + "/" + MEDIA_TABLE_NAME);
 
-    public static final Uri URI_MEDIA = Uri.parse("content://" + AUTHORITY + "/" + TABLE_NAME);
+    public static final String PLACE_TABLE_NAME = Place.class.getSimpleName();
+    public static final Uri URI_PLACE = Uri.parse("content://" + AUTHORITY + "/" + PLACE_TABLE_NAME);
+
+    public static final String PROPERTY_TABLE_NAME = Property.class.getSimpleName();
+    public static final Uri URI_PROPERTY = Uri.parse("content://" + AUTHORITY + "/" + PROPERTY_TABLE_NAME);
+
+    public static final String PROPERTY_PLACE_TABLE_NAME = PropertyPlace.class.getSimpleName();
+    public static final Uri URI_PROPERTY_PLACE = Uri.parse("content://" + AUTHORITY + "/" + PROPERTY_PLACE_TABLE_NAME);
 
     @Override
     public boolean onCreate() {
@@ -71,7 +80,7 @@ public class MediaContentProvider extends ContentProvider {
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
-        return "vnd.android.cursor.item/" + AUTHORITY + "." + TABLE_NAME;
+        return "vnd.android.cursor.item/" + AUTHORITY + "." + MEDIA_TABLE_NAME;
     }
 
     @Nullable

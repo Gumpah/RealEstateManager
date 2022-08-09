@@ -9,11 +9,9 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
@@ -26,7 +24,6 @@ import com.google.android.material.snackbar.Snackbar;
 import com.openclassrooms.realestatemanager.BuildConfig;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.data.model.entities.Place;
-import com.openclassrooms.realestatemanager.data.model.entities.PlaceType;
 import com.openclassrooms.realestatemanager.data.model.entities.PropertyType;
 import com.openclassrooms.realestatemanager.databinding.FragmentPropertySearchBinding;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PlacesViewModel;
@@ -47,7 +44,7 @@ public class PropertySearchFragment extends Fragment {
     private final int SOLD_DATE_MAX = 4;
 
     private FragmentPropertySearchBinding binding;
-    private PropertyViewModel mPropertyViewModel;
+    private PropertySearchViewModel mPropertySearchViewModel;
     private PlacesViewModel mPlacesViewModel;
 
     private String mPropertyType;
@@ -79,11 +76,12 @@ public class PropertySearchFragment extends Fragment {
         }
         //initPlacesTypesField();
         initSearchButtonListener();
+        initPropertySearchResults();
         return binding.getRoot();
     }
 
     private void configureViewModels() {
-        mPropertyViewModel = new ViewModelProvider(requireActivity(), PropertyViewModelFactory.getInstance(requireContext())).get(PropertyViewModel.class);
+        mPropertySearchViewModel = new ViewModelProvider(requireActivity(), PropertySearchViewModelFactory.getInstance(requireContext())).get(PropertySearchViewModel.class);
         mPlacesViewModel = new ViewModelProvider(this, PlacesViewModelFactory.getInstance()).get(PlacesViewModel.class);
     }
 
@@ -112,27 +110,6 @@ public class PropertySearchFragment extends Fragment {
         mPropertyType = PropertyType.types.get(position);
     }
 
-    private void initPlacesTypesField() {
-        ArrayList<String> placeTypesTranslated = Utils.getTypesInUserLanguage(requireContext(), PlaceType.types);
-        ArrayAdapter<String> placeTypesAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_multiple_choice, placeTypesTranslated);
-        binding.listViewPlaceTypesCheckboxes.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
-        binding.listViewPlaceTypesCheckboxes.setAdapter(placeTypesAdapter);
-    }
-
-    private ArrayList<String> getPlaceTypes() {
-        SparseBooleanArray sp = binding.listViewPlaceTypesCheckboxes.getCheckedItemPositions();
-
-        ArrayList<String> placeTypes = new ArrayList<>();
-
-        for(int i=0; i<sp.size() ; i++){
-            if(sp.valueAt(i)){
-                placeTypes.add(PlaceType.types.get(i));
-            }
-        }
-
-        return placeTypes;
-    }
-
     private void initAutocompleteAddress() {
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
                 getChildFragmentManager().findFragmentById(R.id.autocomplete_address);
@@ -144,6 +121,14 @@ public class PropertySearchFragment extends Fragment {
     private void initPropertyPlaceListener() {
         mPlacesViewModel.getPropertyPlaceMutableLiveData().observe(getViewLifecycleOwner(), place -> {
             mPropertyPlace = place;
+        });
+    }
+
+    private void initPropertySearchResults() {
+        mPropertySearchViewModel.getPropertySearchResultsLiveData().observe(getViewLifecycleOwner(), list -> {
+            if (list != null) {
+                requireActivity().getSupportFragmentManager().popBackStack();
+            }
         });
     }
 
@@ -240,37 +225,62 @@ public class PropertySearchFragment extends Fragment {
         Integer surfaceMax = null;
         Integer roomsMin = null;
         Integer roomsMax = null;
+        Integer bathroomsMin = null;
+        Integer bathroomsMax = null;
+        Integer bedroomsMin = null;
+        Integer bedroomsMax = null;
         Place propertyPlace;
         Integer radius = null;
-        Date marketEntryDateMin;
-        Date marketEntryDateMax;
-        Date soldDateMin;
-        Date soldDateMax;
+        ArrayList<String> placesTypes;
+        Long marketEntryDateMin = null;
+        Long marketEntryDateMax = null;
+        Long soldDateMin = null;
+        Long soldDateMax = null;
 
         propertyType = mPropertyType;
-        if (binding.textInputLayoutPriceMin.getEditText() != null && !binding.textInputLayoutPriceMin.getEditText().getText().toString().equals(""))
+        if (binding.textInputLayoutPriceMin.getEditText() != null && !binding.textInputLayoutPriceMin.getEditText().getText().toString().equals("")) {
             priceMin = Integer.parseInt(binding.textInputLayoutPriceMin.getEditText().getText().toString());
-        if (binding.textInputLayoutPriceMax.getEditText() != null && !binding.textInputLayoutPriceMax.getEditText().getText().toString().equals(""))
+        }
+        if (binding.textInputLayoutPriceMax.getEditText() != null && !binding.textInputLayoutPriceMax.getEditText().getText().toString().equals("")) {
             priceMax = Integer.parseInt(binding.textInputLayoutPriceMax.getEditText().getText().toString());
-        if (binding.textInputLayoutSurfaceMin.getEditText() != null && !binding.textInputLayoutSurfaceMin.getEditText().getText().toString().equals(""))
+        }
+        if (binding.textInputLayoutSurfaceMin.getEditText() != null && !binding.textInputLayoutSurfaceMin.getEditText().getText().toString().equals("")) {
             surfaceMin = Integer.parseInt(binding.textInputLayoutSurfaceMin.getEditText().getText().toString());
-        if (binding.textInputLayoutSurfaceMax.getEditText() != null && !binding.textInputLayoutSurfaceMax.getEditText().getText().toString().equals(""))
+        }
+        if (binding.textInputLayoutSurfaceMax.getEditText() != null && !binding.textInputLayoutSurfaceMax.getEditText().getText().toString().equals("")) {
             surfaceMax = Integer.parseInt(binding.textInputLayoutSurfaceMax.getEditText().getText().toString());
-        if (binding.textInputLayoutRoomsMin.getEditText() != null && !binding.textInputLayoutRoomsMin.getEditText().getText().toString().equals(""))
+        }
+        if (binding.textInputLayoutRoomsMin.getEditText() != null && !binding.textInputLayoutRoomsMin.getEditText().getText().toString().equals("")) {
             roomsMin = Integer.parseInt(binding.textInputLayoutRoomsMin.getEditText().getText().toString());
-        if (binding.textInputLayoutRoomsMax.getEditText() != null  && !binding.textInputLayoutRoomsMax.getEditText().getText().toString().equals(""))
+        }
+        if (binding.textInputLayoutRoomsMax.getEditText() != null  && !binding.textInputLayoutRoomsMax.getEditText().getText().toString().equals("")) {
             roomsMax = Integer.parseInt(binding.textInputLayoutRoomsMax.getEditText().getText().toString());
+        }
+        if (binding.textInputLayoutBathroomsMin.getEditText() != null && !binding.textInputLayoutBathroomsMin.getEditText().getText().toString().equals("")) {
+            bathroomsMin = Integer.parseInt(binding.textInputLayoutBathroomsMin.getEditText().getText().toString());
+        }
+        if (binding.textInputLayoutBathroomsMax.getEditText() != null  && !binding.textInputLayoutBathroomsMax.getEditText().getText().toString().equals("")) {
+            bathroomsMax = Integer.parseInt(binding.textInputLayoutBathroomsMax.getEditText().getText().toString());
+        }
+        if (binding.textInputLayoutBedroomsMin.getEditText() != null && !binding.textInputLayoutBedroomsMin.getEditText().getText().toString().equals("")) {
+            bedroomsMin = Integer.parseInt(binding.textInputLayoutBedroomsMin.getEditText().getText().toString());
+        }
+        if (binding.textInputLayoutBedroomsMax.getEditText() != null  && !binding.textInputLayoutBedroomsMax.getEditText().getText().toString().equals("")) {
+            bedroomsMax = Integer.parseInt(binding.textInputLayoutBedroomsMax.getEditText().getText().toString());
+        }
         propertyPlace = mPropertyPlace;
-        if (binding.textInputLayoutAddressRadius.getEditText() != null  && !binding.textInputLayoutAddressRadius.getEditText().getText().toString().equals(""))
+        if (binding.textInputLayoutAddressRadius.getEditText() != null  && !binding.textInputLayoutAddressRadius.getEditText().getText().toString().equals("")) {
             radius = Integer.parseInt(binding.textInputLayoutAddressRadius.getEditText().getText().toString());
-        marketEntryDateMin = mMarketEntryDateMin;
-        marketEntryDateMax = mMarketEntryDateMax;
-        soldDateMin = mSoldDateMin;
-        soldDateMax = mSoldDateMax;
-        isAtLeastOneFieldFilled(propertyType, priceMin, priceMax, surfaceMin, surfaceMax, roomsMin, roomsMax, propertyPlace, radius, marketEntryDateMin, marketEntryDateMax, soldDateMin, soldDateMax);
+        }
+        placesTypes = getPlacesTypesChecked();
+        if (mMarketEntryDateMin != null) marketEntryDateMin = Utils.convertDateToLong(mMarketEntryDateMin);
+        if (mMarketEntryDateMax != null) marketEntryDateMax = Utils.convertDateToLong(mMarketEntryDateMax);
+        if (mSoldDateMin != null) soldDateMin = Utils.convertDateToLong(mSoldDateMin);
+        if (mSoldDateMax != null) soldDateMax = Utils.convertDateToLong(mSoldDateMax);
+        isAtLeastOneFieldFilled(propertyType, priceMin, priceMax, surfaceMin, surfaceMax, roomsMin, roomsMax, bathroomsMin, bathroomsMax, bedroomsMin, bedroomsMax, propertyPlace, radius, placesTypes, marketEntryDateMin, marketEntryDateMax, soldDateMin, soldDateMax);
     }
 
-    private void isAtLeastOneFieldFilled(String propertyType, Integer priceMin, Integer priceMax, Integer surfaceMin, Integer surfaceMax, Integer roomsMin, Integer roomsMax, Place propertyPlace, Integer radius, Date marketEntryDateMin, Date marketEntryDateMax, Date soldDateMin, Date soldDateMax) {
+    private void isAtLeastOneFieldFilled(String propertyType, Integer priceMin, Integer priceMax, Integer surfaceMin, Integer surfaceMax, Integer roomsMin, Integer roomsMax, Integer bathroomsMin, Integer bathroomsMax, Integer bedroomsMin, Integer bedroomsMax, Place propertyPlace, Integer radius, ArrayList<String> placesTypes, Long marketEntryDateMin, Long marketEntryDateMax, Long soldDateMin, Long soldDateMax) {
         if (propertyType != null ||
                 priceMin != null ||
                 priceMax != null ||
@@ -278,7 +288,12 @@ public class PropertySearchFragment extends Fragment {
                 surfaceMax != null ||
                 roomsMin != null ||
                 roomsMax != null ||
+                bathroomsMin != null ||
+                bathroomsMax != null ||
+                bedroomsMin != null ||
+                bedroomsMax != null ||
                 (propertyPlace != null && radius != null) ||
+                (placesTypes != null && !placesTypes.isEmpty()) ||
                 marketEntryDateMin != null ||
                 marketEntryDateMax != null ||
                 soldDateMin != null ||
@@ -288,7 +303,7 @@ public class PropertySearchFragment extends Fragment {
                 LatLng center = new LatLng(propertyPlace.getLatitude(), propertyPlace.getLongitude());
                 bounds = Utils.generateBounds(center, radius);
             }
-            mPropertyViewModel.searchProperty(propertyType, priceMin, priceMax, surfaceMin, surfaceMax, roomsMin, roomsMax, bounds, marketEntryDateMin, marketEntryDateMax, soldDateMin, soldDateMax);
+            mPropertySearchViewModel.searchProperty(requireActivity().getContentResolver(), propertyType, priceMin, priceMax, surfaceMin, surfaceMax, roomsMin, roomsMax, bathroomsMin, bathroomsMax, bedroomsMin, bedroomsMax, bounds, placesTypes, marketEntryDateMin, marketEntryDateMax, soldDateMin, soldDateMax);
         } else if (mPropertyPlace != null && radius == null) {
             Snackbar.make(requireView(), "Must specify a radius", Toast.LENGTH_SHORT).show();
         }
@@ -298,5 +313,24 @@ public class PropertySearchFragment extends Fragment {
         else {
             Snackbar.make(requireView(), "At least 1 field must be filled", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private ArrayList<String> getPlacesTypesChecked() {
+        ArrayList<String> typesChecked = new ArrayList<>();
+
+        if (binding.checkBoxAmusementPark.isChecked()) typesChecked.add("amusement_park");
+        if (binding.checkBoxPark.isChecked()) typesChecked.add("park");
+        if (binding.checkBoxUniversity.isChecked()) typesChecked.add("university");
+        if (binding.checkBoxPrimarySchool.isChecked()) typesChecked.add("primary_school");
+        if (binding.checkBoxSecondarySchool.isChecked()) typesChecked.add("secondary_school");
+        if (binding.checkBoxSchool.isChecked()) typesChecked.add("school");
+        if (binding.checkBoxStore.isChecked()) typesChecked.add("store");
+        if (binding.checkBoxSubwayStation.isChecked()) typesChecked.add("subway_station");
+        if (binding.checkBoxTrainStation.isChecked()) typesChecked.add("train_station");
+        if (binding.checkBoxBusStation.isChecked()) typesChecked.add("bus_station");
+        if (binding.checkBoxSupermarket.isChecked()) typesChecked.add("supermarket");
+        if (binding.checkBoxMovieTheater.isChecked()) typesChecked.add("movie_theater");
+
+        return typesChecked;
     }
 }

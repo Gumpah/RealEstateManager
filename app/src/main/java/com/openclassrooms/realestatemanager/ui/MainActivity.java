@@ -21,6 +21,10 @@ import com.openclassrooms.realestatemanager.ui.viewmodels.UserViewModelFactory;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
@@ -33,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         initUI(savedInstanceState);
-
         /*
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.frameLayout_fragmentContainer);
         if (navHostFragment != null) mNavController = navHostFragment.getNavController();

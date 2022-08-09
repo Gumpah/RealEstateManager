@@ -32,6 +32,8 @@ import com.openclassrooms.realestatemanager.databinding.FragmentPropertiesListBi
 import com.openclassrooms.realestatemanager.ui.addproperty.AddPropertyFragment;
 import com.openclassrooms.realestatemanager.ui.propertydetails.PropertyDetailsFragment;
 import com.openclassrooms.realestatemanager.ui.propertysearch.PropertySearchFragment;
+import com.openclassrooms.realestatemanager.ui.propertysearch.PropertySearchViewModel;
+import com.openclassrooms.realestatemanager.ui.propertysearch.PropertySearchViewModelFactory;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModel;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModelFactory;
 import com.openclassrooms.realestatemanager.ui.viewmodels.UserViewModel;
@@ -46,10 +48,13 @@ public class PropertiesListFragment extends Fragment implements PropertyListCall
     private FragmentPropertiesListBinding binding;
     private RecyclerView mRecyclerView;
     private PropertyViewModel mPropertyViewModel;
+    private PropertySearchViewModel mPropertySearchViewModel;
     private PropertiesListAdapter mListPropertiesAdapter;
     private PropertyListCallback mCallback;
     private UserViewModel mUserViewModel;
     private NavController mNavController;
+    private List<Property> propertySearchResults;
+    private List<Property> propertyList;
 
     public PropertiesListFragment() {
     }
@@ -68,6 +73,9 @@ public class PropertiesListFragment extends Fragment implements PropertyListCall
         initNetworkStatus();
         fetchProperties();
         initMenu();
+        initMediasLiveData(null);
+        initSearchResults();
+        mPropertyViewModel.getAllMediasContentProvider(requireContext().getContentResolver());
         binding.toolbarToolbarPropertyList.inflateMenu(R.menu.menu_propertylist);
         return binding.getRoot();
     }
@@ -105,29 +113,51 @@ public class PropertiesListFragment extends Fragment implements PropertyListCall
 
     private void configureViewModels() {
         mPropertyViewModel = new ViewModelProvider(requireActivity(), PropertyViewModelFactory.getInstance(requireContext())).get(PropertyViewModel.class);
+        mPropertySearchViewModel = new ViewModelProvider(requireActivity(), PropertySearchViewModelFactory.getInstance(requireContext())).get(PropertySearchViewModel.class);
         mUserViewModel = new ViewModelProvider(requireActivity(), UserViewModelFactory.getInstance(requireContext())).get(UserViewModel.class);
     }
 
     private void fetchProperties() {
-        mPropertyViewModel.getPropertiesLiveData().observe(getViewLifecycleOwner(), this::fetchMedias);
-        // OLD-REQUEST mPropertyViewModel.getProperties();
+        mPropertyViewModel.getPropertiesLiveData().observe(getViewLifecycleOwner(), list -> {
+            propertyList = list;
+        });
         mPropertyViewModel.getPropertiesContentProvider(requireContext().getContentResolver());
     }
 
-    private void fetchMedias(List<Property> properties) {
+    private void initSearchResults() {
+        mPropertySearchViewModel.getPropertySearchResultsLiveData().observe(getViewLifecycleOwner(), list -> {
+            if (list != null) {
+                propertySearchResults = list;
+                mPropertyViewModel.getAllMediasContentProvider(requireContext().getContentResolver());
+                mPropertySearchViewModel.getPropertySearchResultsLiveData().postValue(null);
+            }
+        });
+    }
+
+    private void initMediasLiveData(List<Property> properties) {
         mPropertyViewModel.getAllMediasLiveData().observe(getViewLifecycleOwner(), medias -> {
             int visibility;
-            if (properties == null || properties.isEmpty()) {
-                visibility = View.VISIBLE;
+            if (propertySearchResults != null) {
+                if (propertySearchResults.isEmpty()) {
+                    visibility = View.VISIBLE;
+                } else {
+                    visibility = View.INVISIBLE;
+                }
+                mListPropertiesAdapter.setData(mPropertyViewModel.assemblePropertyAndMedia(propertySearchResults, medias));
             } else {
-                visibility = View.INVISIBLE;
+                if (propertyList == null || propertyList.isEmpty()) {
+                    visibility = View.VISIBLE;
+                } else {
+                    visibility = View.INVISIBLE;
+                }
+                mListPropertiesAdapter.setData(mPropertyViewModel.assemblePropertyAndMedia(propertyList, medias));
             }
             binding.textViewEmptyList.setVisibility(visibility);
-            mListPropertiesAdapter.setData(mPropertyViewModel.assemblePropertyAndMedia(properties, medias));
+
         });
         // OLD-REQUEST mPropertyViewModel.getAllMedias();
-        mPropertyViewModel.getAllMediasContentProvider(requireContext().getContentResolver());
     }
+
 
     private void setFabClickListener(boolean enabled) {
         if (enabled) {
@@ -154,6 +184,12 @@ public class PropertiesListFragment extends Fragment implements PropertyListCall
                     requireActivity().getSupportFragmentManager().beginTransaction().
                             replace(R.id.frameLayout_fragmentContainer, new PropertySearchFragment(), "PropertySearch")
                             .addToBackStack("PropertySearch")
+                            .commit();
+                }
+                if (item.getItemId() == R.id.menuItem_globalMap) {
+                    requireActivity().getSupportFragmentManager().beginTransaction().
+                            replace(R.id.frameLayout_fragmentContainer, new PropertiesMapFragment(), "PropertiesMap")
+                            .addToBackStack("PropertiesMap")
                             .commit();
                 }
                 return true;

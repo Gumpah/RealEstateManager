@@ -1,10 +1,10 @@
 package com.openclassrooms.realestatemanager.data.model.entities;
 
-import android.content.ContentValues;
 import android.database.Cursor;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity
@@ -17,23 +17,28 @@ public class Property {
     Double price;
     int surface;
     int rooms_count;
+    int bathrooms_count;
+    int bedrooms_count;
     String description;
     String address;
     double latitude;
     double longitude;
     PropertyStatus status;
-    String market_entry;
-    public String sold;
+    long market_entry;
+    long sold;
     String agent;
 
+    @Ignore
     public Property() {
     }
 
-    public Property(String property_type, Double price, int surface, int rooms_count, String description, String address, double latitude, double longitude, PropertyStatus status, String market_entry, String agent) {
+    public Property(String property_type, Double price, int surface, int rooms_count, int bathrooms_count, int bedrooms_count, String description, String address, double latitude, double longitude, PropertyStatus status, long market_entry, String agent) {
         this.property_type = property_type;
         this.price = price;
         this.surface = surface;
         this.rooms_count = rooms_count;
+        this.bathrooms_count = bathrooms_count;
+        this.bedrooms_count = bedrooms_count;
         this.description = description;
         this.address = address;
         this.latitude = latitude;
@@ -63,6 +68,14 @@ public class Property {
         return rooms_count;
     }
 
+    public int getBathrooms_count() {
+        return bathrooms_count;
+    }
+
+    public int getBedrooms_count() {
+        return bedrooms_count;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -83,11 +96,11 @@ public class Property {
         return status;
     }
 
-    public String getMarket_entry() {
+    public long getMarket_entry() {
         return market_entry;
     }
 
-    public String getSold() {
+    public long getSold() {
         return sold;
     }
 
@@ -115,6 +128,14 @@ public class Property {
         this.rooms_count = rooms_count;
     }
 
+    public void setBathrooms_count(int bathrooms_count) {
+        this.bathrooms_count = bathrooms_count;
+    }
+
+    public void setBedrooms_count(int bedrooms_count) {
+        this.bedrooms_count = bedrooms_count;
+    }
+
     public void setDescription(String description) {
         this.description = description;
     }
@@ -135,11 +156,11 @@ public class Property {
         this.status = status;
     }
 
-    public void setMarket_entry(String market_entry) {
+    public void setMarket_entry(long market_entry) {
         this.market_entry = market_entry;
     }
 
-    public void setSold(String sold) {
+    public void setSold(long sold) {
         this.sold = sold;
     }
 
@@ -154,13 +175,15 @@ public class Property {
         property.setPrice(cursor.getDouble(cursor.getColumnIndexOrThrow("price")));
         property.setSurface(cursor.getInt(cursor.getColumnIndexOrThrow("surface")));
         property.setRooms_count(cursor.getInt(cursor.getColumnIndexOrThrow("rooms_count")));
+        property.setBathrooms_count(cursor.getInt(cursor.getColumnIndexOrThrow("bathrooms_count")));
+        property.setBedrooms_count(cursor.getInt(cursor.getColumnIndexOrThrow("bedrooms_count")));
         property.setDescription(cursor.getString(cursor.getColumnIndexOrThrow("description")));
         property.setAddress(cursor.getString(cursor.getColumnIndexOrThrow("address")));
         property.setLatitude(cursor.getDouble(cursor.getColumnIndexOrThrow("latitude")));
         property.setLongitude(cursor.getDouble(cursor.getColumnIndexOrThrow("longitude")));
         property.setStatus(PropertyStatus.valueOf(cursor.getString(cursor.getColumnIndexOrThrow("status"))));
-        property.setMarket_entry(cursor.getString(cursor.getColumnIndexOrThrow("market_entry")));
-        property.setSold(cursor.getString(cursor.getColumnIndexOrThrow("sold")));
+        property.setMarket_entry(cursor.getLong(cursor.getColumnIndexOrThrow("market_entry")));
+        property.setSold(cursor.getLong(cursor.getColumnIndexOrThrow("sold")));
         property.setAgent(cursor.getString(cursor.getColumnIndexOrThrow("agent")));
         return property;
     }

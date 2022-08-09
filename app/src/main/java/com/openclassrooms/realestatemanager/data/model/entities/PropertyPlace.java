@@ -1,11 +1,11 @@
 package com.openclassrooms.realestatemanager.data.model.entities;
 
-import android.content.ContentValues;
 import android.database.Cursor;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
@@ -22,6 +22,7 @@ public class PropertyPlace {
     public String place_id;
     public long property_id;
 
+    @Ignore
     public PropertyPlace() {
     }
 

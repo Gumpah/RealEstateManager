@@ -10,6 +10,7 @@
     <string name="toolbar_propertyDetails_title">Property details</string>
     <string name="toolbar_propertyDetailsMap_title">Property map</string>
     <string name="toolbar_propertySearch_title">Search</string>
+    <string name="toolbar_propertiesMap_title">Properties map</string>
 
     <!-- Property types -->
     <string name="flat">Flat</string>
@@ -23,15 +24,18 @@
     <string name="farmhouse">Farmhouse</string>
 
     <!-- Place types -->
+    <string name="amusement_park">Amusement park</string>
     <string name="park">Park</string>
+    <string name="university">University</string>
+    <string name="primary_school">Primary school</string>
+    <string name="secondary_school">Secondary school</string>
     <string name="school">School</string>
     <string name="store">Store</string>
-    <string name="university">University</string>
-    <string name="subway_station">Subway_station</string>
-    <string name="train_station">Train_station</string>
-    <string name="bus_station">Bus_station</string>
+    <string name="subway_station">Subway station</string>
+    <string name="train_station">Train station</string>
+    <string name="bus_station">Bus station</string>
     <string name="supermarket">Supermarket</string>
-    <string name="movie_theater">Movie_theater</string>
+    <string name="movie_theater">Movie theater</string>
 
     <!-- Main activity -->
 
