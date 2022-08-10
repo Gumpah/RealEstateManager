@@ -72,6 +72,134 @@ public class MyContentProvider extends android.content.ContentProvider {
                 final Cursor cursor = Database.getDatabase(getContext()).propertyPlaceDao().getPropertyPlacesByPropertyIdCursor(propertyId);
                 cursor.setNotificationUri(getContext().getContentResolver(), uri);
                 return cursor;
+                // --- SEARCH ---
+            } else if (strings1 != null && strings1[0] != null && strings1[0].equals("getPropertiesByPropertyType") && strings1[1] != null && !strings1[1].isEmpty()) {
+                String propertyType = strings1[1];
+                final Cursor cursor = Database.getDatabase(getContext()).searchDao().getPropertiesByPropertyTypeCursor(propertyType);
+                cursor.setNotificationUri(getContext().getContentResolver(), uri);
+                return cursor;
+            } else if (strings1 != null && strings1[0] != null && strings1[0].equals("getPropertiesByPriceRange")
+                    && strings1[1] != null && !strings1[1].isEmpty()
+                    && strings1[2] != null && !strings1[2].isEmpty()) {
+                int priceMin = Integer.parseInt(strings1[1]);
+                int priceMax = Integer.parseInt(strings1[2]);
+                final Cursor cursor = Database.getDatabase(getContext()).searchDao().getPropertiesByPriceRangeCursor(priceMin, priceMax);
+                cursor.setNotificationUri(getContext().getContentResolver(), uri);
+                return cursor;
+            } else if (strings1 != null && strings1[0] != null && strings1[0].equals("getPropertiesByPriceMin")
+                    && strings1[1] != null && !strings1[1].isEmpty()) {
+                int priceMin = Integer.parseInt(strings1[1]);
+                final Cursor cursor = Database.getDatabase(getContext()).searchDao().getPropertiesByPriceMinCursor(priceMin);
+                cursor.setNotificationUri(getContext().getContentResolver(), uri);
+                return cursor;
+            } else if (strings1 != null && strings1[0] != null && strings1[0].equals("getPropertiesBySurfaceRange")
+                    && strings1[1] != null && !strings1[1].isEmpty()
+                    && strings1[2] != null && !strings1[2].isEmpty()) {
+                int surfaceMin = Integer.parseInt(strings1[1]);
+                int surfaceMax = Integer.parseInt(strings1[2]);
+                final Cursor cursor = Database.getDatabase(getContext()).searchDao().getPropertiesBySurfaceRangeCursor(surfaceMin, surfaceMax);
+                cursor.setNotificationUri(getContext().getContentResolver(), uri);
+                return cursor;
+            } else if (strings1 != null && strings1[0] != null && strings1[0].equals("getPropertiesBySurfaceMin")
+                    && strings1[1] != null && !strings1[1].isEmpty()) {
+                int surfaceMin = Integer.parseInt(strings1[1]);
+                final Cursor cursor = Database.getDatabase(getContext()).searchDao().getPropertiesBySurfaceMinCursor(surfaceMin);
+                cursor.setNotificationUri(getContext().getContentResolver(), uri);
+                return cursor;
+            } else if (strings1 != null && strings1[0] != null && strings1[0].equals("getPropertiesByRoomsRange")
+                    && strings1[1] != null && !strings1[1].isEmpty()
+                    && strings1[2] != null && !strings1[2].isEmpty()) {
+                int roomsMin = Integer.parseInt(strings1[1]);
+                int roomsMax = Integer.parseInt(strings1[2]);
+                final Cursor cursor = Database.getDatabase(getContext()).searchDao().getPropertiesByRoomsRangeCursor(roomsMin, roomsMax);
+                cursor.setNotificationUri(getContext().getContentResolver(), uri);
+                return cursor;
+            } else if (strings1 != null && strings1[0] != null && strings1[0].equals("getPropertiesByRoomsMin")
+                    && strings1[1] != null && !strings1[1].isEmpty()) {
+                int roomsMin = Integer.parseInt(strings1[1]);
+                final Cursor cursor = Database.getDatabase(getContext()).searchDao().getPropertiesByRoomsMinCursor(roomsMin);
+                cursor.setNotificationUri(getContext().getContentResolver(), uri);
+                return cursor;
+            } else if (strings1 != null && strings1[0] != null && strings1[0].equals("getPropertiesByBathroomsRange")
+                    && strings1[1] != null && !strings1[1].isEmpty()
+                    && strings1[2] != null && !strings1[2].isEmpty()) {
+                int bathroomsMin = Integer.parseInt(strings1[1]);
+                int bathroomsMax = Integer.parseInt(strings1[2]);
+                final Cursor cursor = Database.getDatabase(getContext()).searchDao().getPropertiesByBathroomsRangeCursor(bathroomsMin, bathroomsMax);
+                cursor.setNotificationUri(getContext().getContentResolver(), uri);
+                return cursor;
+            } else if (strings1 != null && strings1[0] != null && strings1[0].equals("getPropertiesByBathroomsMin")
+                    && strings1[1] != null && !strings1[1].isEmpty()) {
+                int bathroomsMin = Integer.parseInt(strings1[1]);
+                final Cursor cursor = Database.getDatabase(getContext()).searchDao().getPropertiesByBathroomsMinCursor(bathroomsMin);
+                cursor.setNotificationUri(getContext().getContentResolver(), uri);
+                return cursor;
+            } else if (strings1 != null && strings1[0] != null && strings1[0].equals("getPropertiesByBedroomsRange")
+                    && strings1[1] != null && !strings1[1].isEmpty()
+                    && strings1[2] != null && !strings1[2].isEmpty()) {
+                int bedroomsMin = Integer.parseInt(strings1[1]);
+                int bedroomsMax = Integer.parseInt(strings1[2]);
+                final Cursor cursor = Database.getDatabase(getContext()).searchDao().getPropertiesByBedroomsRangeCursor(bedroomsMin, bedroomsMax);
+                cursor.setNotificationUri(getContext().getContentResolver(), uri);
+                return cursor;
+            } else if (strings1 != null && strings1[0] != null && strings1[0].equals("getPropertiesByBedroomsMin")
+                    && strings1[1] != null && !strings1[1].isEmpty()) {
+                int bedroomsMin = Integer.parseInt(strings1[1]);
+                final Cursor cursor = Database.getDatabase(getContext()).searchDao().getPropertiesByBedroomsMinCursor(bedroomsMin);
+                cursor.setNotificationUri(getContext().getContentResolver(), uri);
+                return cursor;
+            } else if (strings1 != null && strings1[0] != null && strings1[0].equals("getPropertiesInRadius")
+                    && strings1[1] != null && !strings1[1].isEmpty()
+                    && strings1[2] != null && !strings1[2].isEmpty()
+                    && strings1[3] != null && !strings1[3].isEmpty()
+                    && strings1[4] != null && !strings1[4].isEmpty()) {
+                double lat1 = Double.parseDouble(strings1[1]);
+                double lng1 = Double.parseDouble(strings1[2]);
+                double lat2 = Double.parseDouble(strings1[3]);
+                double lng2 = Double.parseDouble(strings1[4]);
+                final Cursor cursor = Database.getDatabase(getContext()).searchDao().getPropertiesInRadiusCursor(lat1, lng1, lat2, lng2);
+                cursor.setNotificationUri(getContext().getContentResolver(), uri);
+                return cursor;
+            } else if (strings1 != null && strings1[0] != null && strings1[0].equals("getPlacesByType")
+                    && strings1[1] != null && !strings1[1].isEmpty()) {
+                String placeType = strings1[1];
+                final Cursor cursor = Database.getDatabase(getContext()).searchDao().getPlacesByTypeCursor(placeType);
+                cursor.setNotificationUri(getContext().getContentResolver(), uri);
+                return cursor;
+            } else if (strings1 != null && strings1[0] != null && strings1[0].equals("getPropertyPlacesByPlaceId")
+                    && strings1[1] != null && !strings1[1].isEmpty()) {
+                String placeId = strings1[1];
+                final Cursor cursor = Database.getDatabase(getContext()).searchDao().getPropertyPlacesByPlaceIdCursor(placeId);
+                cursor.setNotificationUri(getContext().getContentResolver(), uri);
+                return cursor;
+            } else if (strings1 != null && strings1[0] != null && strings1[0].equals("getPropertiesByMarketEntryDateRange")
+                    && strings1[1] != null && !strings1[1].isEmpty()
+                    && strings1[2] != null && !strings1[2].isEmpty()) {
+                long marketEntryMin = Long.parseLong(strings1[1]);
+                long marketEntryMax = Long.parseLong(strings1[2]);
+                final Cursor cursor = Database.getDatabase(getContext()).searchDao().getPropertiesByMarketEntryDateRangeCursor(marketEntryMin, marketEntryMax);
+                cursor.setNotificationUri(getContext().getContentResolver(), uri);
+                return cursor;
+            } else if (strings1 != null && strings1[0] != null && strings1[0].equals("getPropertiesByMarketEntryDateMin")
+                    && strings1[1] != null && !strings1[1].isEmpty()) {
+                long marketEntryMin = Long.parseLong(strings1[1]);
+                final Cursor cursor = Database.getDatabase(getContext()).searchDao().getPropertiesByMarketEntryDateMinCursor(marketEntryMin);
+                cursor.setNotificationUri(getContext().getContentResolver(), uri);
+                return cursor;
+            } else if (strings1 != null && strings1[0] != null && strings1[0].equals("getPropertiesBySoldDateRange")
+                    && strings1[1] != null && !strings1[1].isEmpty()
+                    && strings1[2] != null && !strings1[2].isEmpty()) {
+                long soldMin = Long.parseLong(strings1[1]);
+                long soldMax = Long.parseLong(strings1[2]);
+                final Cursor cursor = Database.getDatabase(getContext()).searchDao().getPropertiesBySoldDateRangeCursor(soldMin, soldMax);
+                cursor.setNotificationUri(getContext().getContentResolver(), uri);
+                return cursor;
+            } else if (strings1 != null && strings1[0] != null && strings1[0].equals("getPropertiesBySoldDateMin")
+                    && strings1[1] != null && !strings1[1].isEmpty()) {
+                long soldMin = Long.parseLong(strings1[1]);
+                final Cursor cursor = Database.getDatabase(getContext()).searchDao().getPropertiesBySoldDateMinCursor(soldMin);
+                cursor.setNotificationUri(getContext().getContentResolver(), uri);
+                return cursor;
             }
         }
         throw new IllegalArgumentException("Failed to query row for uri " + uri);

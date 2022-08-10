@@ -64,7 +64,6 @@ public class PlacesViewModel extends ViewModel {
                 for (PlaceAPI placeAPI : placesNearbyResult.getResults()) {
                     String commonType = getFirstCommonStringIn2Lists(possibleTypes, placeAPI.getTypes());
                     if (commonType != null) {
-                        System.out.println("Test " + placeAPI.getName());
                         places.add(placeAPI);
                         placesTypes.add(commonType);
                     }
@@ -83,7 +82,6 @@ public class PlacesViewModel extends ViewModel {
     }
 
     public void fetchPlaces(String apiKey, String location) {
-        System.out.println("fetchCalled");
         ArrayList<PlacesNearbyResult> mPlacesNearbyResults = new ArrayList<>();
         ArrayList<PlaceAPI> places = new ArrayList<>();
         ArrayList<String> placesTypes = new ArrayList<>();
@@ -91,7 +89,6 @@ public class PlacesViewModel extends ViewModel {
         disposable = mPlacesStreams.streamFetchNearbyPlaces(apiKey, location).subscribeWith(new DisposableObserver<ArrayList<PlacesNearbyResult>>() {
             @Override
             public void onNext(ArrayList<PlacesNearbyResult> placesNearbyResults) {
-                System.out.println("fetchCalledNext");
                 places.clear();
                 mPlacesNearbyResults.clear();
                 mPlacesNearbyResults.addAll(placesNearbyResults);
@@ -99,19 +96,14 @@ public class PlacesViewModel extends ViewModel {
 
             @Override
             public void onError(Throwable e) {
-                System.out.println("fetchCalledError" + e);
             }
 
             @Override
             public void onComplete() {
-                System.out.println("fetchCalledComplete " + mPlacesNearbyResults.size());
                 for (PlacesNearbyResult placesNearbyResult : mPlacesNearbyResults) {
-                    System.out.println("CCC");
                     for (PlaceAPI placeAPI : placesNearbyResult.getResults()) {
-                        System.out.println("Test " + placeAPI.getName());
                         String commonType = getFirstCommonStringIn2Lists(possibleTypes, placeAPI.getTypes());
                         if (commonType != null) {
-                            System.out.println("Common Type" + placeAPI.getName() + " " + commonType);
                             places.add(placeAPI);
                             placesTypes.add(commonType);
                         }

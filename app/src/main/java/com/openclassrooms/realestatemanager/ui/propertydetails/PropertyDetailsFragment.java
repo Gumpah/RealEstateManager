@@ -68,7 +68,7 @@ public class PropertyDetailsFragment extends Fragment implements DisplayMediaCal
     }
 
     private void configureViewModel() {
-        mPropertyViewModel = new ViewModelProvider(requireActivity(), PropertyViewModelFactory.getInstance(requireContext())).get(PropertyViewModel.class);
+        mPropertyViewModel = new ViewModelProvider(this, PropertyViewModelFactory.getInstance(requireContext())).get(PropertyViewModel.class);
     }
 
     private void initData() {
@@ -130,8 +130,12 @@ public class PropertyDetailsFragment extends Fragment implements DisplayMediaCal
     }
 
     private void showFragmentMap() {
+        PropertyDetailsMapFragment propertyDetailsMapFragment = new PropertyDetailsMapFragment();
+        Bundle args = new Bundle();
+        args.putLong("PropertyId", mProperty.getId());
+        propertyDetailsMapFragment.setArguments(args);
         requireActivity().getSupportFragmentManager().beginTransaction().
-                replace(R.id.frameLayout_fragmentContainer, new PropertyDetailsMapFragment(mProperty), "PropertyDetailsMap")
+                replace(R.id.frameLayout_fragmentContainer, propertyDetailsMapFragment, "PropertyDetailsMap")
                 .addToBackStack("PropertyDetailsMap")
                 .commit();
     }

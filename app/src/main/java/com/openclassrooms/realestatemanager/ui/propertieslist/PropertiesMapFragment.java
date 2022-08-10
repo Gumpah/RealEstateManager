@@ -178,7 +178,6 @@ public class PropertiesMapFragment extends Fragment implements OnMapReadyCallbac
     @Override
     public void onInfoWindowClick(@NonNull Marker marker) {
         if (marker.getTag() != null) {
-            System.out.println("Marker call");
             Property property = mPropertyViewModel.getPropertyInListFromId(mProperties, Long.parseLong(String.valueOf(marker.getTag())));
             if (property != null) {
                 PropertyDetailsFragment propertyDetailsFragment = new PropertyDetailsFragment();

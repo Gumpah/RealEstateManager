@@ -25,7 +25,6 @@ public class PropertyCreationNotificationService {
     public static String PROPERTY_CREATION_CHANNEL_ID = "property_creation_channel";
 
     public void showNotification(long propertyId) {
-        System.out.println("TestId4 :" + propertyId);
         Intent activityIntent = new Intent(mContext, MainActivity.class);
         activityIntent.putExtra("PropertyId", propertyId);
         int flags;
@@ -50,6 +49,7 @@ public class PropertyCreationNotificationService {
                 .setContentTitle(contentTitle)
                 .setContentText(contentText)
                 .setContentIntent(activityPendingIntent)
+                .setAutoCancel(true)
                 .build();
         notificationManager.notify(1, notification);
     }

@@ -5,7 +5,7 @@
 
     <string name="default_notification_channel_id">Création de propriété</string>
     <string name="property_creation_notification_title">Bien créé</string>
-    <string name="property_creation_notification_text">Le bien a été créé avec succès</string>
+    <string name="property_creation_notification_text">Le bien a été créé avec succès, cliquer pour l\'afficher</string>
 
     <!-- Toolbar titles -->
     <string name="toolbar_addProperty_title">Ajout d\'un bien</string>

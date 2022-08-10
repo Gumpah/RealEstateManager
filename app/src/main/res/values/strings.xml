@@ -6,7 +6,7 @@
 
     <string name="default_notification_channel_id">Property creation</string>
     <string name="property_creation_notification_title">Property created</string>
-    <string name="property_creation_notification_text">Your property has been successfully created</string>
+    <string name="property_creation_notification_text">Your property has been successfully created, click to show it</string>
 
     <!-- Toolbar titles -->
     <string name="toolbar_addProperty_title">Add a property</string>

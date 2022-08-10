@@ -38,8 +38,12 @@ public class PropertyDetailsMapFragment extends Fragment implements OnMapReadyCa
     private Property mProperty;
     private GoogleMap mMap;
 
-    public PropertyDetailsMapFragment(Property property) {
-        mProperty = property;
+    public PropertyDetailsMapFragment() {
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Nullable
@@ -47,19 +51,21 @@ public class PropertyDetailsMapFragment extends Fragment implements OnMapReadyCa
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentPropertyDetailsMapBinding.inflate(inflater, container, false);
         configureViewModels();
+        initMap();
         initPropertyByIdListener();
         setToolbar();
-        initMap();
+        Bundle args = getArguments();
         return binding.getRoot();
     }
 
     private void configureViewModels() {
-        mPropertyViewModel = new ViewModelProvider(requireActivity(), PropertyViewModelFactory.getInstance(requireContext())).get(PropertyViewModel.class);
+        mPropertyViewModel = new ViewModelProvider(this, PropertyViewModelFactory.getInstance(requireContext())).get(PropertyViewModel.class);
     }
 
     private void getPropertyById() {
         Bundle args = getArguments();
         if (args != null && args.getLong("PropertyId", 0) != 0) {
+            System.out.println("Id is: ");
             mPropertyViewModel.getPropertyByIdContentProvider(requireActivity().getContentResolver(), args.getLong("PropertyId", 0));
         }
     }
@@ -128,8 +134,11 @@ public class PropertyDetailsMapFragment extends Fragment implements OnMapReadyCa
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
+        System.out.println("Map ready");
         mMap = googleMap;
         mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style));
         getPropertyById();
     }
+
+
 }

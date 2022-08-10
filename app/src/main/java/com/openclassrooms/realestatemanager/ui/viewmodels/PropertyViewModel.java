@@ -56,12 +56,6 @@ public class PropertyViewModel extends ViewModel {
         return null;
     }
 
-    public void getProperties() { mExecutor.execute(() -> {
-        mProperties.postValue(mPropertyRepository.getProperties());
-    });  }
-
-    public Property getPropertyById(long propertyId) { return mPropertyRepository.getPropertyById(propertyId); }
-
     public void insertProperty(Property property) { mExecutor.execute(() -> {
         mPropertyRepository.insertProperty(property);
     });  }
@@ -74,35 +68,9 @@ public class PropertyViewModel extends ViewModel {
         mPropertyRepository.deleteProperty(propertyId);
     });  }
 
-    public void insertPropertyAndMedias(Property property, ArrayList<Media> medias) {
-        mExecutor.execute(() -> {
-            long propertyId = mPropertyRepository.insertProperty(property);
-            if (medias != null && !medias.isEmpty()) {
-                ArrayList<Media> mediaList = new ArrayList<>();
-                for (Media media : medias) {
-                    media.setPropertyId(propertyId);
-                    mediaList.add(media);
-                }
-                mPropertyRepository.insertMultipleMedias(mediaList);
-            }
-        });
-    }
-
     public LiveData<List<Media>> getMediasByPropertyIdLiveData() { return mMedias; }
 
     public LiveData<List<Media>> getAllMediasLiveData() { return mAllMedias; }
-
-    public void getMediasByPropertyId(long propertyId) {
-        mExecutor.execute(() -> {
-            mMedias.postValue(mPropertyRepository.getMediasByPropertyId(propertyId));
-        });
-    }
-
-    public void getAllMedias() {
-        mExecutor.execute(() -> {
-            mAllMedias.postValue(mPropertyRepository.getAllMedias());
-        });
-    }
 
     public List<PropertyAndImage> assemblePropertyAndMedia(List<Property> properties, List<Media> medias) {
         List<PropertyAndImage> propertyAndImageList = new ArrayList<>();
@@ -151,18 +119,6 @@ public class PropertyViewModel extends ViewModel {
         return mPlaces;
     }
 
-    public void getPlacesByPropertyId(long propertyId) {
-        mExecutor.execute(() -> {
-            ArrayList<Place> places = new ArrayList<>();
-            List<PropertyPlace> propertyPlaces = mPropertyRepository.getPropertyPlacesByPropertyId(propertyId);
-            for (PropertyPlace propertyPlace : propertyPlaces) {
-                Place place = mPropertyRepository.getPlaceByPlaceId(propertyPlace.getPlace_id());
-                places.add(place);
-            }
-            mPlaces.postValue(places);
-        });
-    }
-
     public void getPropertiesContentProvider(ContentResolver contentResolver) {
         mExecutor.execute(() -> {
             Cursor cursor = mPropertyRepository.getPropertiesContentProvider(contentResolver);
@@ -179,11 +135,7 @@ public class PropertyViewModel extends ViewModel {
 
     public void getPropertyByIdContentProvider(ContentResolver contentResolver, long propertyId) {
         mExecutor.execute(() -> {
-            Cursor cursor = mPropertyRepository.getPropertyByIdContentProvider(contentResolver, propertyId);
-            Property property = new Property();
-            if (cursor.moveToFirst()){ property = Property.fromCursor(cursor); }
-            cursor.close();
-            mProperty.postValue(property);
+            mProperty.postValue(mPropertyRepository.getPropertyByIdContentProvider(contentResolver, propertyId));
         });
     }
 

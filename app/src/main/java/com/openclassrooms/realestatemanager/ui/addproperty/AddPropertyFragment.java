@@ -182,7 +182,6 @@ public class AddPropertyFragment extends Fragment implements AddPropertyCallback
 
     private void onItemSelectedHandler(AdapterView<?> adapterView, View view, int position, long id) {
         mPropertyType = PropertyType.types.get(position);
-        System.out.println("Item selected");
     }
 
     private void initDate() {
@@ -360,12 +359,10 @@ public class AddPropertyFragment extends Fragment implements AddPropertyCallback
             }
         });
         mPropertyViewModel.getPropertyCreatedIdLiveData().observe(getViewLifecycleOwner(), id -> {
-            System.out.println("TestId1 :" + id);
             notificationService.showNotification(id);
             requireActivity().getSupportFragmentManager().popBackStack();
         });
         mPlacesViewModel.fetchPlaces(BuildConfig.MAPS_API_KEY, Utils.createLocationString(property.getLatitude(), property.getLongitude()));
-        //mPlacesViewModel.fetchPlacesTest(BuildConfig.MAPS_API_KEY, Utils.createLocationString(property.getLatitude(), property.getLongitude()));
     }
 
     @Override

@@ -26,167 +26,168 @@ public class PropertySearchViewModel extends ViewModel {
         propertySearchResults = new MutableLiveData<>();
     }
 
-    public Property getPropertyById(long propertyId) { return mPropertyRepository.getPropertyById(propertyId); }
+    public Property getPropertyById(ContentResolver contentResolver, long propertyId) { return mPropertyRepository.getPropertyByIdContentProvider(contentResolver, propertyId); }
+
     public MutableLiveData<List<Property>> getPropertySearchResultsLiveData() { return propertySearchResults; }
 
-    public List<Property> getPropertiesByPropertyType(String propertyType) {
-        return mPropertyRepository.getPropertiesByPropertyType(propertyType);
+    public List<Property> getPropertiesByPropertyTypeContentProvider(ContentResolver contentResolver, String propertyType) {
+        return mPropertyRepository.getPropertiesByPropertyTypeContentProvider(contentResolver, propertyType);
     }
 
-    public List<Property> getPropertiesByPriceRange(Integer priceMin, Integer priceMax) {
-        return mPropertyRepository.getPropertiesByPriceRange(priceMin, priceMax);
+    public List<Property> getPropertiesByPriceRangeContentProvider(ContentResolver contentResolver, Integer priceMin, Integer priceMax) {
+        return mPropertyRepository.getPropertiesByPriceRangeContentProvider(contentResolver, priceMin, priceMax);
     }
 
-    public List<Property> getPropertiesByPriceMin(Integer priceMin) {
-        return mPropertyRepository.getPropertiesByPriceMin(priceMin);
+    public List<Property> getPropertiesByPriceMinContentProvider(ContentResolver contentResolver, Integer priceMin) {
+        return mPropertyRepository.getPropertiesByPriceMinContentProvider(contentResolver, priceMin);
     }
 
-    public List<Property> getPropertiesBySurfaceRange(int surfaceMin, int surfaceMax) {
-        return mPropertyRepository.getPropertiesBySurfaceRange(surfaceMin, surfaceMax);
+    public List<Property> getPropertiesBySurfaceRangeContentProvider(ContentResolver contentResolver, int surfaceMin, int surfaceMax) {
+        return mPropertyRepository.getPropertiesBySurfaceRangeContentProvider(contentResolver, surfaceMin, surfaceMax);
     }
 
-    public List<Property> getPropertiesBySurfaceMin(int surfaceMin) {
-        return mPropertyRepository.getPropertiesBySurfaceMin(surfaceMin);
+    public List<Property> getPropertiesBySurfaceMinContentProvider(ContentResolver contentResolver, int surfaceMin) {
+        return mPropertyRepository.getPropertiesBySurfaceMinContentProvider(contentResolver, surfaceMin);
     }
 
-    public List<Property> getPropertiesByRoomsRange(int roomsMin, int roomsMax) {
-        return mPropertyRepository.getPropertiesByRoomsRange(roomsMin, roomsMax);
+    public List<Property> getPropertiesByRoomsRangeContentProvider(ContentResolver contentResolver, int roomsMin, int roomsMax) {
+        return mPropertyRepository.getPropertiesByRoomsRangeContentProvider(contentResolver, roomsMin, roomsMax);
     }
 
-    public List<Property> getPropertiesByRoomsMin(int roomsMin) {
-        return mPropertyRepository.getPropertiesByRoomsMin(roomsMin);
+    public List<Property> getPropertiesByRoomsMinContentProvider(ContentResolver contentResolver, int roomsMin) {
+        return mPropertyRepository.getPropertiesByRoomsMinContentProvider(contentResolver, roomsMin);
     }
 
-    public List<Property> getPropertiesByBathroomsMin(int bathroomsMin) {
-        return mPropertyRepository.getPropertiesByBathroomsMin(bathroomsMin);
+    public List<Property> getPropertiesByBathroomsMinContentProvider(ContentResolver contentResolver, int bathroomsMin) {
+        return mPropertyRepository.getPropertiesByBathroomsMinContentProvider(contentResolver, bathroomsMin);
     }
 
-    public List<Property> getPropertiesByBathroomsRange(int bathroomsMin, int bathroomsMax) {
-        return mPropertyRepository.getPropertiesByBathroomsRange(bathroomsMin, bathroomsMax);
+    public List<Property> getPropertiesByBathroomsRangeContentProvider(ContentResolver contentResolver, int bathroomsMin, int bathroomsMax) {
+        return mPropertyRepository.getPropertiesByBathroomsRangeContentProvider(contentResolver, bathroomsMin, bathroomsMax);
     }
 
-    public List<Property> getPropertiesByBedroomsMin(int bedroomsMin) {
-        return mPropertyRepository.getPropertiesByBedroomsMin(bedroomsMin);
+    public List<Property> getPropertiesByBedroomsMinContentProvider(ContentResolver contentResolver, int bedroomsMin) {
+        return mPropertyRepository.getPropertiesByBedroomsMinContentProvider(contentResolver, bedroomsMin);
     }
 
-    public List<Property> getPropertiesByBedroomsRange(int bedroomsMin, int bedroomsMax) {
-        return mPropertyRepository.getPropertiesByBedroomsRange(bedroomsMin, bedroomsMax);
+    public List<Property> getPropertiesByBedroomsRangeContentProvider(ContentResolver contentResolver, int bedroomsMin, int bedroomsMax) {
+        return mPropertyRepository.getPropertiesByBedroomsRangeContentProvider(contentResolver, bedroomsMin, bedroomsMax);
     }
 
-    public List<Property> getPropertiesInRadius(Double lat1, Double lng1, Double lat2, Double lng2) {
-        return mPropertyRepository.getPropertiesInRadius(lat1, lng1, lat2, lng2);
+    public List<Property> getPropertiesInRadiusContentProvider(ContentResolver contentResolver, Double lat1, Double lng1, Double lat2, Double lng2) {
+        return mPropertyRepository.getPropertiesInRadiusContentProvider(contentResolver, lat1, lng1, lat2, lng2);
     }
 
-    public ArrayList<Long> getPropertiesIdsForAPlaceType(String placeType) {
-        return mPropertyRepository.getPropertiesIdsForAPlaceType(placeType);
+    public ArrayList<Long> getPropertiesIdsForAPlaceTypeContentProvider(ContentResolver contentResolver, String placeType) {
+        return mPropertyRepository.getPropertiesIdsForAPlaceTypeContentProvider(contentResolver, placeType);
     }
 
-    public List<Property> getPropertiesByMarketEntryDateRange(long marketEntryMin, long marketEntryMax) {
-        return mPropertyRepository.getPropertiesByMarketEntryDateRange(marketEntryMin, marketEntryMax);
+    public List<Property> getPropertiesByMarketEntryDateRangeContentProvider(ContentResolver contentResolver, long marketEntryMin, long marketEntryMax) {
+        return mPropertyRepository.getPropertiesByMarketEntryDateRangeContentProvider(contentResolver, marketEntryMin, marketEntryMax);
     }
 
-    public List<Property> getPropertiesByMarketEntryDateMin(long marketEntryMin) {
-        return mPropertyRepository.getPropertiesByMarketEntryDateMin(marketEntryMin);
+    public List<Property> getPropertiesByMarketEntryDateMinContentProvider(ContentResolver contentResolver, long marketEntryMin) {
+        return mPropertyRepository.getPropertiesByMarketEntryDateMinContentProvider(contentResolver, marketEntryMin);
     }
 
-    public List<Property> getPropertiesBySoldDateRange(long soldMin, long soldMax) {
-        return mPropertyRepository.getPropertiesBySoldDateRange(soldMin, soldMax);
+    public List<Property> getPropertiesBySoldDateRangeContentProvider(ContentResolver contentResolver, long soldMin, long soldMax) {
+        return mPropertyRepository.getPropertiesBySoldDateRangeContentProvider(contentResolver, soldMin, soldMax);
     }
 
-    public List<Property> getPropertiesBySoldDateMin(long soldMin) {
-        return mPropertyRepository.getPropertiesBySoldDateMin(soldMin);
+    public List<Property> getPropertiesBySoldDateMinContentProvider(ContentResolver contentResolver, long soldMin) {
+        return mPropertyRepository.getPropertiesBySoldDateMinContentProvider(contentResolver, soldMin);
     }
 
     public void searchProperty(ContentResolver contentResolver, String propertyType, Integer priceMin, Integer priceMax, Integer surfaceMin, Integer surfaceMax, Integer roomsMin, Integer roomsMax, Integer bathroomsMin, Integer bathroomsMax, Integer bedroomsMin, Integer bedroomsMax, LatLngBounds bounds, ArrayList<String> placesTypes, Long marketEntryDateMin, Long marketEntryDateMax, Long soldDateMin, Long soldDateMax) {
         mExecutor.execute(() -> {
             ArrayList<ArrayList<Long>> arrayOfIdsArrays = new ArrayList<>();
             if (propertyType != null) {
-                ArrayList<Long> propertiesIds = getIdListFromPropertyList(getPropertiesByPropertyType(propertyType));
+                ArrayList<Long> propertiesIds = getIdListFromPropertyList(getPropertiesByPropertyTypeContentProvider(contentResolver, propertyType));
                 arrayOfIdsArrays.add(propertiesIds);
             }
             if (priceMin != null || priceMax != null) {
                 ArrayList<Long> propertiesIds;
                 if (priceMin == null) {
-                    propertiesIds = getIdListFromPropertyList(getPropertiesByPriceRange(0, priceMax));
+                    propertiesIds = getIdListFromPropertyList(getPropertiesByPriceRangeContentProvider(contentResolver, 0, priceMax));
                 } else if (priceMax == null) {
-                    propertiesIds = getIdListFromPropertyList(getPropertiesByPriceMin(priceMin));
+                    propertiesIds = getIdListFromPropertyList(getPropertiesByPriceMinContentProvider(contentResolver, priceMin));
                 } else {
-                    propertiesIds = getIdListFromPropertyList(getPropertiesByPriceRange(priceMin, priceMax));
+                    propertiesIds = getIdListFromPropertyList(getPropertiesByPriceRangeContentProvider(contentResolver, priceMin, priceMax));
                 }
                 arrayOfIdsArrays.add(propertiesIds);
             }
             if (surfaceMin != null || surfaceMax != null) {
                 ArrayList<Long> propertiesIds;
                 if (surfaceMin == null) {
-                    propertiesIds = getIdListFromPropertyList(getPropertiesBySurfaceRange(0, surfaceMax));
+                    propertiesIds = getIdListFromPropertyList(getPropertiesBySurfaceRangeContentProvider(contentResolver, 0, surfaceMax));
                 } else if (surfaceMax == null) {
-                    propertiesIds = getIdListFromPropertyList(getPropertiesBySurfaceMin(surfaceMin));
+                    propertiesIds = getIdListFromPropertyList(getPropertiesBySurfaceMinContentProvider(contentResolver, surfaceMin));
                 } else {
-                    propertiesIds = getIdListFromPropertyList(getPropertiesBySurfaceRange(surfaceMin, surfaceMax));
+                    propertiesIds = getIdListFromPropertyList(getPropertiesBySurfaceRangeContentProvider(contentResolver, surfaceMin, surfaceMax));
                 }
                 arrayOfIdsArrays.add(propertiesIds);
             }
             if (roomsMin != null || roomsMax != null) {
                 ArrayList<Long> propertiesIds;
                 if (roomsMin == null) {
-                    propertiesIds = getIdListFromPropertyList(getPropertiesByRoomsRange(0, roomsMax));
+                    propertiesIds = getIdListFromPropertyList(getPropertiesByRoomsRangeContentProvider(contentResolver, 0, roomsMax));
                 } else if (roomsMax == null) {
-                    propertiesIds = getIdListFromPropertyList(getPropertiesByRoomsMin(roomsMin));
+                    propertiesIds = getIdListFromPropertyList(getPropertiesByRoomsMinContentProvider(contentResolver, roomsMin));
                 } else {
-                    propertiesIds = getIdListFromPropertyList(getPropertiesByRoomsRange(roomsMin, roomsMax));
+                    propertiesIds = getIdListFromPropertyList(getPropertiesByRoomsRangeContentProvider(contentResolver, roomsMin, roomsMax));
                 }
                 arrayOfIdsArrays.add(propertiesIds);
             }
             if (bathroomsMin != null || bathroomsMax != null) {
                 ArrayList<Long> propertiesIds;
                 if (bathroomsMin == null) {
-                    propertiesIds = getIdListFromPropertyList(getPropertiesByBathroomsRange(0, bathroomsMax));
+                    propertiesIds = getIdListFromPropertyList(getPropertiesByBathroomsRangeContentProvider(contentResolver, 0, bathroomsMax));
                 } else if (bathroomsMax == null) {
-                    propertiesIds = getIdListFromPropertyList(getPropertiesByBathroomsMin(bathroomsMin));
+                    propertiesIds = getIdListFromPropertyList(getPropertiesByBathroomsMinContentProvider(contentResolver, bathroomsMin));
                 } else {
-                    propertiesIds = getIdListFromPropertyList(getPropertiesByBathroomsRange(bathroomsMin, bathroomsMax));
+                    propertiesIds = getIdListFromPropertyList(getPropertiesByBathroomsRangeContentProvider(contentResolver, bathroomsMin, bathroomsMax));
                 }
                 arrayOfIdsArrays.add(propertiesIds);
             }
             if (bedroomsMin != null || bedroomsMax != null) {
                 ArrayList<Long> propertiesIds;
                 if (bedroomsMin == null) {
-                    propertiesIds = getIdListFromPropertyList(getPropertiesByBedroomsRange(0, bedroomsMax));
+                    propertiesIds = getIdListFromPropertyList(getPropertiesByBedroomsRangeContentProvider(contentResolver, 0, bedroomsMax));
                 } else if (bedroomsMax == null) {
-                    propertiesIds = getIdListFromPropertyList(getPropertiesByBedroomsMin(bedroomsMin));
+                    propertiesIds = getIdListFromPropertyList(getPropertiesByBedroomsMinContentProvider(contentResolver, bedroomsMin));
                 } else {
-                    propertiesIds = getIdListFromPropertyList(getPropertiesByBedroomsRange(bedroomsMin, bedroomsMax));
+                    propertiesIds = getIdListFromPropertyList(getPropertiesByBedroomsRangeContentProvider(contentResolver, bedroomsMin, bedroomsMax));
                 }
                 arrayOfIdsArrays.add(propertiesIds);
             }
             if (bounds != null) {
-                ArrayList<Long> propertiesIds = getIdListFromPropertyList(getPropertiesInRadius(bounds.southwest.latitude, bounds.southwest.longitude, bounds.northeast.latitude, bounds.northeast.longitude));
+                ArrayList<Long> propertiesIds = getIdListFromPropertyList(getPropertiesInRadiusContentProvider(contentResolver, bounds.southwest.latitude, bounds.southwest.longitude, bounds.northeast.latitude, bounds.northeast.longitude));
                 arrayOfIdsArrays.add(propertiesIds);
             }
             if (placesTypes != null && !placesTypes.isEmpty()) {
                 for (String type : placesTypes) {
-                    arrayOfIdsArrays.add(getPropertiesIdsForAPlaceType(type));
+                    arrayOfIdsArrays.add(getPropertiesIdsForAPlaceTypeContentProvider(contentResolver, type));
                 }
             }
             if (marketEntryDateMin != null || marketEntryDateMax != null) {
                 ArrayList<Long> propertiesIds;
                 if (marketEntryDateMin == null) {
-                    propertiesIds = getIdListFromPropertyList(getPropertiesByMarketEntryDateRange(0, marketEntryDateMax));
+                    propertiesIds = getIdListFromPropertyList(getPropertiesByMarketEntryDateRangeContentProvider(contentResolver, 0, marketEntryDateMax));
                 } else if (marketEntryDateMax == null) {
-                    propertiesIds = getIdListFromPropertyList(getPropertiesByMarketEntryDateMin(marketEntryDateMin));
+                    propertiesIds = getIdListFromPropertyList(getPropertiesByMarketEntryDateMinContentProvider(contentResolver, marketEntryDateMin));
                 } else {
-                    propertiesIds = getIdListFromPropertyList(getPropertiesByMarketEntryDateRange(marketEntryDateMin, marketEntryDateMax));
+                    propertiesIds = getIdListFromPropertyList(getPropertiesByMarketEntryDateRangeContentProvider(contentResolver, marketEntryDateMin, marketEntryDateMax));
                 }
                 arrayOfIdsArrays.add(propertiesIds);
             }
             if (soldDateMin != null || soldDateMax != null) {
                 ArrayList<Long> propertiesIds;
                 if (soldDateMin == null) {
-                    propertiesIds = getIdListFromPropertyList(getPropertiesBySoldDateRange(0, soldDateMax));
+                    propertiesIds = getIdListFromPropertyList(getPropertiesBySoldDateRangeContentProvider(contentResolver, 0, soldDateMax));
                 } else if (soldDateMax == null) {
-                    propertiesIds = getIdListFromPropertyList(getPropertiesBySoldDateMin(soldDateMin));
+                    propertiesIds = getIdListFromPropertyList(getPropertiesBySoldDateMinContentProvider(contentResolver, soldDateMin));
                 } else {
-                    propertiesIds = getIdListFromPropertyList(getPropertiesBySoldDateRange(soldDateMin, soldDateMax));
+                    propertiesIds = getIdListFromPropertyList(getPropertiesBySoldDateRangeContentProvider(contentResolver, soldDateMin, soldDateMax));
                 }
                 arrayOfIdsArrays.add(propertiesIds);
             }
@@ -194,7 +195,7 @@ public class PropertySearchViewModel extends ViewModel {
             ArrayList<Long> resultIds = getCommonIdsFromIdLists(arrayOfIdsArrays);
             ArrayList<Property> resultProperties = new ArrayList<>();
             for (Long id : resultIds) {
-                resultProperties.add(getPropertyById(id));
+                resultProperties.add(getPropertyById(contentResolver, id));
             }
             propertySearchResults.postValue(resultProperties);
         });
