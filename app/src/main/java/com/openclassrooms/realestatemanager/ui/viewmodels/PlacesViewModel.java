@@ -57,7 +57,7 @@ public class PlacesViewModel extends ViewModel {
         ArrayList<PlaceAPI> places = new ArrayList<>();
         ArrayList<String> placesTypes = new ArrayList<>();
         ArrayList<String> possibleTypes = PlaceType.types;
-        disposable = mPlacesStreams.streamFetchNearbyPlacesOld(apiKey, location).subscribeWith(new DisposableObserver<PlacesNearbyResult>() {
+        disposable = mPlacesStreams.streamFetchNearbyPlacesFirstPage(apiKey, location).subscribeWith(new DisposableObserver<PlacesNearbyResult>() {
             @Override
             public void onNext(PlacesNearbyResult placesNearbyResult) {
                 places.clear();

@@ -109,7 +109,7 @@ public class PropertySearchFragment extends Fragment {
 
     private void initAutocompleteAddress() {
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
-                getChildFragmentManager().findFragmentById(R.id.autocomplete_address);
+                getChildFragmentManager().findFragmentById(R.id.autocomplete_address_searchProperty);
         if (autocompleteFragment != null) {
             mPlacesViewModel.autocompleteRequest(autocompleteFragment);
         }
@@ -233,6 +233,8 @@ public class PropertySearchFragment extends Fragment {
         Long marketEntryDateMax = null;
         Long soldDateMin = null;
         Long soldDateMax = null;
+        Integer mediaCountMin = null;
+        Integer mediaCountMax = null;
 
         propertyType = mPropertyType;
         if (binding.textInputLayoutPriceMin.getEditText() != null && !binding.textInputLayoutPriceMin.getEditText().getText().toString().equals("")) {
@@ -269,15 +271,21 @@ public class PropertySearchFragment extends Fragment {
         if (binding.textInputLayoutAddressRadius.getEditText() != null  && !binding.textInputLayoutAddressRadius.getEditText().getText().toString().equals("")) {
             radius = Integer.parseInt(binding.textInputLayoutAddressRadius.getEditText().getText().toString());
         }
+        if (binding.textInputLayoutMediaCountMin.getEditText() != null && !binding.textInputLayoutMediaCountMin.getEditText().getText().toString().equals("")) {
+            mediaCountMin = Integer.parseInt(binding.textInputLayoutMediaCountMin.getEditText().getText().toString());
+        }
+        if (binding.textInputLayoutMediaCountMax.getEditText() != null && !binding.textInputLayoutMediaCountMax.getEditText().getText().toString().equals("")) {
+            mediaCountMax = Integer.parseInt(binding.textInputLayoutMediaCountMax.getEditText().getText().toString());
+        }
         placesTypes = getPlacesTypesChecked();
         if (mMarketEntryDateMin != null) marketEntryDateMin = Utils.convertDateToLong(mMarketEntryDateMin);
         if (mMarketEntryDateMax != null) marketEntryDateMax = Utils.convertDateToLong(mMarketEntryDateMax);
         if (mSoldDateMin != null) soldDateMin = Utils.convertDateToLong(mSoldDateMin);
         if (mSoldDateMax != null) soldDateMax = Utils.convertDateToLong(mSoldDateMax);
-        isAtLeastOneFieldFilled(propertyType, priceMin, priceMax, surfaceMin, surfaceMax, roomsMin, roomsMax, bathroomsMin, bathroomsMax, bedroomsMin, bedroomsMax, propertyPlace, radius, placesTypes, marketEntryDateMin, marketEntryDateMax, soldDateMin, soldDateMax);
+        isAtLeastOneFieldFilled(propertyType, priceMin, priceMax, surfaceMin, surfaceMax, roomsMin, roomsMax, bathroomsMin, bathroomsMax, bedroomsMin, bedroomsMax, propertyPlace, radius, placesTypes, marketEntryDateMin, marketEntryDateMax, soldDateMin, soldDateMax, mediaCountMin, mediaCountMax);
     }
 
-    private void isAtLeastOneFieldFilled(String propertyType, Integer priceMin, Integer priceMax, Integer surfaceMin, Integer surfaceMax, Integer roomsMin, Integer roomsMax, Integer bathroomsMin, Integer bathroomsMax, Integer bedroomsMin, Integer bedroomsMax, Place propertyPlace, Integer radius, ArrayList<String> placesTypes, Long marketEntryDateMin, Long marketEntryDateMax, Long soldDateMin, Long soldDateMax) {
+    private void isAtLeastOneFieldFilled(String propertyType, Integer priceMin, Integer priceMax, Integer surfaceMin, Integer surfaceMax, Integer roomsMin, Integer roomsMax, Integer bathroomsMin, Integer bathroomsMax, Integer bedroomsMin, Integer bedroomsMax, Place propertyPlace, Integer radius, ArrayList<String> placesTypes, Long marketEntryDateMin, Long marketEntryDateMax, Long soldDateMin, Long soldDateMax, Integer mediaCountMin, Integer mediaCountMax) {
         if (propertyType != null ||
                 priceMin != null ||
                 priceMax != null ||
@@ -294,13 +302,15 @@ public class PropertySearchFragment extends Fragment {
                 marketEntryDateMin != null ||
                 marketEntryDateMax != null ||
                 soldDateMin != null ||
-                soldDateMax != null) {
+                soldDateMax != null ||
+                mediaCountMin != null ||
+                mediaCountMax != null) {
             LatLngBounds bounds = null;
             if (propertyPlace != null && radius != null) {
                 LatLng center = new LatLng(propertyPlace.getLatitude(), propertyPlace.getLongitude());
                 bounds = Utils.generateBounds(center, radius);
             }
-            mPropertySearchViewModel.searchProperty(requireActivity().getContentResolver(), propertyType, priceMin, priceMax, surfaceMin, surfaceMax, roomsMin, roomsMax, bathroomsMin, bathroomsMax, bedroomsMin, bedroomsMax, bounds, placesTypes, marketEntryDateMin, marketEntryDateMax, soldDateMin, soldDateMax);
+            mPropertySearchViewModel.searchProperty(requireActivity().getContentResolver(), propertyType, priceMin, priceMax, surfaceMin, surfaceMax, roomsMin, roomsMax, bathroomsMin, bathroomsMax, bedroomsMin, bedroomsMax, bounds, placesTypes, marketEntryDateMin, marketEntryDateMax, soldDateMin, soldDateMax, mediaCountMin, mediaCountMax);
         } else if (mPropertyPlace != null && radius == null) {
             Snackbar.make(requireView(), "Must specify a radius", Toast.LENGTH_SHORT).show();
         }

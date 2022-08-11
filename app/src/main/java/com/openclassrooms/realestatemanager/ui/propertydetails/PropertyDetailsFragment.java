@@ -4,10 +4,12 @@ import android.annotation.SuppressLint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -17,6 +19,9 @@ import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.data.StaticMapService;
 import com.openclassrooms.realestatemanager.data.model.entities.Property;
 import com.openclassrooms.realestatemanager.databinding.FragmentPropertyDetailsBinding;
+import com.openclassrooms.realestatemanager.ui.modifyproperty.ModifyPropertyFragment;
+import com.openclassrooms.realestatemanager.ui.propertieslist.PropertiesMapFragment;
+import com.openclassrooms.realestatemanager.ui.propertysearch.PropertySearchFragment;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModel;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModelFactory;
 import com.openclassrooms.realestatemanager.utils.Utils;
@@ -50,7 +55,24 @@ public class PropertyDetailsFragment extends Fragment implements DisplayMediaCal
         setMapButtonClickListener();
         initData();
         getPropertyById();
+        binding.toolbarToolbarPropertyDetails.inflateMenu(R.menu.menu_propertydetails);
+        initMenu();
         return binding.getRoot();
+    }
+
+    private void initMenu() {
+        binding.toolbarToolbarPropertyDetails.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.menuItem_edit) {
+                    requireActivity().getSupportFragmentManager().beginTransaction().
+                            replace(R.id.frameLayout_fragmentContainer, ModifyPropertyFragment.newInstance(mProperty.getId()), "PropertySearch")
+                            .addToBackStack("PropertySearch")
+                            .commit();
+                }
+                return true;
+            }
+        });
     }
 
     private void getPropertyById() {
@@ -139,5 +161,4 @@ public class PropertyDetailsFragment extends Fragment implements DisplayMediaCal
                 .addToBackStack("PropertyDetailsMap")
                 .commit();
     }
-
 }

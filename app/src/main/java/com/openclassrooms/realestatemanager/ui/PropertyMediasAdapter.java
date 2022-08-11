@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.ui.addproperty;
+package com.openclassrooms.realestatemanager.ui;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
@@ -10,30 +10,31 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.openclassrooms.realestatemanager.data.model.BitmapAndString;
 import com.openclassrooms.realestatemanager.databinding.AddPropertyImageItemBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddPropertyMediasAdapter extends RecyclerView.Adapter<AddPropertyMediasAdapter.AddPropertyMediasViewHolder> {
+public class PropertyMediasAdapter extends RecyclerView.Adapter<PropertyMediasAdapter.AddPropertyMediasViewHolder> {
 
-    private List<Bitmap> mBitmapList;
-    private AddPropertyCallback mCallback;
+    private List<BitmapAndString> mBitmapList;
+    private AddAndModifyPropertyCallback mCallback;
 
-    public AddPropertyMediasAdapter(ArrayList<Bitmap> list, AddPropertyCallback callback) {
+    public PropertyMediasAdapter(ArrayList<BitmapAndString> list, AddAndModifyPropertyCallback callback) {
         mBitmapList = list;
         mCallback = callback;
     }
 
     @NonNull
     @Override
-    public AddPropertyMediasAdapter.AddPropertyMediasViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public PropertyMediasAdapter.AddPropertyMediasViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return new AddPropertyMediasAdapter.AddPropertyMediasViewHolder(AddPropertyImageItemBinding.inflate(inflater, parent, false));
+        return new PropertyMediasAdapter.AddPropertyMediasViewHolder(AddPropertyImageItemBinding.inflate(inflater, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AddPropertyMediasAdapter.AddPropertyMediasViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull PropertyMediasAdapter.AddPropertyMediasViewHolder holder, int position) {
         holder.bind(mBitmapList.get(position));
         holder.setClickListener(mCallback, position);
     }
@@ -48,7 +49,7 @@ public class AddPropertyMediasAdapter extends RecyclerView.Adapter<AddPropertyMe
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setData(List<Bitmap> list) {
+    public void setData(List<BitmapAndString> list) {
         mBitmapList = list;
         notifyDataSetChanged();
     }
@@ -62,14 +63,15 @@ public class AddPropertyMediasAdapter extends RecyclerView.Adapter<AddPropertyMe
             binding = b;
         }
 
-        void bind(Bitmap bitmap) {
+        void bind(BitmapAndString bitmapAndString) {
             Glide.with(binding.getRoot())
-                    .load(bitmap)
+                    .load(bitmapAndString.getMedia())
                     .centerCrop()
                     .into(binding.imageViewPropertyImage);
+            binding.textViewImageName.setText(bitmapAndString.getMedia_description());
         }
 
-        void setClickListener(AddPropertyCallback callback, int position) {
+        void setClickListener(AddAndModifyPropertyCallback callback, int position) {
             binding.imageButtonDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

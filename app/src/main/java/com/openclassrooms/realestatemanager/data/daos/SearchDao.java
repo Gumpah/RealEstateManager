@@ -122,4 +122,11 @@ public interface SearchDao {
 
     @Query("SELECT * FROM PROPERTY WHERE sold >= :soldMin")
     Cursor getPropertiesBySoldDateMinCursor(long soldMin);
+
+    @Query("SELECT * FROM MEDIA GROUP BY propertyId having COUNT(*) BETWEEN :mediaCountMin and :mediaCountMax")
+    Cursor getMediasByPropertyIdCountRangeCursor(int mediaCountMin, int mediaCountMax);
+
+
+    @Query("SELECT * FROM MEDIA GROUP BY propertyId having COUNT(*) >= :mediaCountMin")
+    Cursor getMediasByPropertyIdCountMinCursor(int mediaCountMin);
 }

@@ -15,6 +15,7 @@
     <string name="toolbar_propertyDetailsMap_title">Carte du bien</string>
     <string name="toolbar_propertySearch_title">Recherche</string>
     <string name="toolbar_propertiesMap_title">Carte des propriétés</string>
+    <string name="toolbar_modifyProperty_title">Modification d\'un bien</string>
 
     <!-- Property types -->
     <string name="flat">Appartement</string>

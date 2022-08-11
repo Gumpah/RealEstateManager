@@ -4,20 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.addproperty.AddPropertyFragment">
+    tools:context=".ui.modifyproperty.ModifyPropertyFragment">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_toolbarAddProperty"
+        android:id="@+id/toolbar_toolbarModifyProperty"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:title="@string/toolbar_addProperty_title"
+        app:title="@string/toolbar_modifyProperty_title"
         android:theme="@style/ToolBarStyle"/>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_toolbarAddProperty"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_toolbarModifyProperty"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -167,12 +167,26 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/autocomplete_address_addProperty"
+            <TextView
+                android:id="@+id/textView_addressTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:text="Address"
+                app:layout_constraintTop_toBottomOf="@id/textInputLayout_description"
+                android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                />
+
+            <TextView
+                android:id="@+id/textView_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                app:layout_constraintTop_toBottomOf="@id/textInputLayout_description"
+                android:textSize="17sp"
+                android:textColor="@color/grey"
+                app:layout_constraintTop_toBottomOf="@id/textView_addressTitle"
                 android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
                 />
 
@@ -185,13 +199,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:textColor="@color/black"
                 android:textSize="17sp"
-                android:text="Market entry date :"/>
+                android:text="Market entry date: "/>
 
             <Button
                 android:id="@+id/button_marketEntryDate"
-                app:layout_constraintTop_toBottomOf="@id/autocomplete_address_addProperty"
+                app:layout_constraintTop_toBottomOf="@id/textView_address"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="12dp"
+                android:text="Select"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
@@ -257,17 +272,39 @@
                 tools:itemCount="3"
                 tools:listitem="@layout/add_property_image_item"/>
 
+            <TextView
+                android:id="@+id/textView_soldDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/button_soldDate"
+                app:layout_constraintBottom_toBottomOf="@id/button_soldDate"
+                app:layout_constraintStart_toStartOf="parent"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:text="Property sold: "/>
+
+            <Button
+                android:id="@+id/button_soldDate"
+                app:layout_constraintTop_toBottomOf="@id/recyclerView_images"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="12dp"
+                android:text="No"
+                android:backgroundTint="@color/lightGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_create"
+                android:id="@+id/button_modify"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:textSize="17sp"
-                app:layout_constraintTop_toBottomOf="@id/recyclerView_images"
-                android:text="Create"
+                app:layout_constraintTop_toBottomOf="@id/button_soldDate"
+                android:text="Update"
                 android:backgroundTint="@color/colorAccent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

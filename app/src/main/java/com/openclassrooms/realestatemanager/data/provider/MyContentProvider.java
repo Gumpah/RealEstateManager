@@ -200,6 +200,20 @@ public class MyContentProvider extends android.content.ContentProvider {
                 final Cursor cursor = Database.getDatabase(getContext()).searchDao().getPropertiesBySoldDateMinCursor(soldMin);
                 cursor.setNotificationUri(getContext().getContentResolver(), uri);
                 return cursor;
+            } else if (strings1 != null && strings1[0] != null && strings1[0].equals("getMediasByPropertyIdCountRange")
+                    && strings1[1] != null && !strings1[1].isEmpty()
+                    && strings1[2] != null && !strings1[2].isEmpty()) {
+                int mediaCountMin = Integer.parseInt(strings1[1]);
+                int mediaCountMax = Integer.parseInt(strings1[2]);
+                final Cursor cursor = Database.getDatabase(getContext()).searchDao().getMediasByPropertyIdCountRangeCursor(mediaCountMin, mediaCountMax);
+                cursor.setNotificationUri(getContext().getContentResolver(), uri);
+                return cursor;
+            } else if (strings1 != null && strings1[0] != null && strings1[0].equals("getMediasByPropertyIdCountMin")
+                    && strings1[1] != null && !strings1[1].isEmpty()) {
+                int mediaCountMin = Integer.parseInt(strings1[1]);
+                final Cursor cursor = Database.getDatabase(getContext()).searchDao().getMediasByPropertyIdCountMinCursor(mediaCountMin);
+                cursor.setNotificationUri(getContext().getContentResolver(), uri);
+                return cursor;
             }
         }
         throw new IllegalArgumentException("Failed to query row for uri " + uri);

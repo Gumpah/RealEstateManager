@@ -7,7 +7,9 @@ import androidx.lifecycle.ViewModel;
 
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.openclassrooms.realestatemanager.data.PropertyRepository;
+import com.openclassrooms.realestatemanager.data.model.entities.Media;
 import com.openclassrooms.realestatemanager.data.model.entities.Property;
+import com.openclassrooms.realestatemanager.data.provider.MyContentProvider;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -98,7 +100,15 @@ public class PropertySearchViewModel extends ViewModel {
         return mPropertyRepository.getPropertiesBySoldDateMinContentProvider(contentResolver, soldMin);
     }
 
-    public void searchProperty(ContentResolver contentResolver, String propertyType, Integer priceMin, Integer priceMax, Integer surfaceMin, Integer surfaceMax, Integer roomsMin, Integer roomsMax, Integer bathroomsMin, Integer bathroomsMax, Integer bedroomsMin, Integer bedroomsMax, LatLngBounds bounds, ArrayList<String> placesTypes, Long marketEntryDateMin, Long marketEntryDateMax, Long soldDateMin, Long soldDateMax) {
+    public List<Media> getMediasByPropertyIdCountRangeContentProvider(ContentResolver contentResolver, int mediaCountMin, int mediaCountMax) {
+        return mPropertyRepository.getMediasByPropertyIdCountRangeContentProvider(contentResolver, mediaCountMin, mediaCountMax);
+    }
+
+    public List<Media> getMediasByPropertyIdCountMinContentProvider(ContentResolver contentResolver, int mediaCountMin) {
+        return mPropertyRepository.getMediasByPropertyIdCountMinContentProvider(contentResolver, mediaCountMin);
+    }
+
+    public void searchProperty(ContentResolver contentResolver, String propertyType, Integer priceMin, Integer priceMax, Integer surfaceMin, Integer surfaceMax, Integer roomsMin, Integer roomsMax, Integer bathroomsMin, Integer bathroomsMax, Integer bedroomsMin, Integer bedroomsMax, LatLngBounds bounds, ArrayList<String> placesTypes, Long marketEntryDateMin, Long marketEntryDateMax, Long soldDateMin, Long soldDateMax, Integer mediaCountMin, Integer mediaCountMax) {
         mExecutor.execute(() -> {
             ArrayList<ArrayList<Long>> arrayOfIdsArrays = new ArrayList<>();
             if (propertyType != null) {
@@ -191,6 +201,17 @@ public class PropertySearchViewModel extends ViewModel {
                 }
                 arrayOfIdsArrays.add(propertiesIds);
             }
+            if (mediaCountMin != null || mediaCountMax != null) {
+                ArrayList<Long> propertiesIds;
+                if (mediaCountMin == null) {
+                    propertiesIds = getPropertyIdListFromMediaList(getMediasByPropertyIdCountRangeContentProvider(contentResolver, 0, mediaCountMax));
+                } else if (mediaCountMax == null) {
+                    propertiesIds = getPropertyIdListFromMediaList(getMediasByPropertyIdCountMinContentProvider(contentResolver, mediaCountMin));
+                } else {
+                    propertiesIds = getPropertyIdListFromMediaList(getMediasByPropertyIdCountRangeContentProvider(contentResolver, mediaCountMin, mediaCountMax));
+                }
+                arrayOfIdsArrays.add(propertiesIds);
+            }
 
             ArrayList<Long> resultIds = getCommonIdsFromIdLists(arrayOfIdsArrays);
             ArrayList<Property> resultProperties = new ArrayList<>();
@@ -205,6 +226,14 @@ public class PropertySearchViewModel extends ViewModel {
         ArrayList<Long> ids = new ArrayList<>();
         for (Property property : properties) {
             ids.add(property.getId());
+        }
+        return ids;
+    }
+
+    private ArrayList<Long> getPropertyIdListFromMediaList(List<Media> medias) {
+        ArrayList<Long> ids = new ArrayList<>();
+        for (Media media : medias) {
+            if (!ids.contains(media.getPropertyId())) ids.add(media.getPropertyId());
         }
         return ids;
     }

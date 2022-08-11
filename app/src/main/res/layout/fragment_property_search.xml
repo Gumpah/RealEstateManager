@@ -248,7 +248,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/autocomplete_address"
+                android:id="@+id/autocomplete_address_searchProperty"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginTop="12dp"
@@ -264,7 +264,7 @@
                 android:id="@+id/textInputLayout_addressRadius"
                 android:layout_width="132dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="@id/autocomplete_address"
+                app:layout_constraintTop_toTopOf="@id/autocomplete_address_searchProperty"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:hintTextColor="@color/colorAccent"
                 android:hint="Radius in m²"
@@ -460,14 +460,55 @@
                 app:layout_constraintTop_toTopOf="@id/button_soldDateMin"
                 />
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout_mediaCountMin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/button_soldDateMin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/textInputLayout_mediaCountMax"
+                app:hintTextColor="@color/colorAccent"
+                android:hint="Media count min."
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:drawableTint="@color/lightGrey"
+                    android:inputType="number"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout_mediaCountMax"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                app:layout_constraintTop_toTopOf="@id/textInputLayout_mediaCountMin"
+                app:layout_constraintStart_toEndOf="@id/textInputLayout_mediaCountMin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:hintTextColor="@color/colorAccent"
+                android:hint="Media count max."
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:drawableTint="@color/lightGrey"
+                    android:inputType="number"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
             <Button
                 android:id="@+id/button_search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:textSize="18sp"
+                android:backgroundTint="@color/colorAccent"
                 android:text="Search"
-                app:layout_constraintTop_toBottomOf="@id/button_soldDateMin"
+                app:layout_constraintTop_toBottomOf="@id/textInputLayout_mediaCountMin"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 />

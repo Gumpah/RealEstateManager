@@ -44,6 +44,11 @@ public class PropertyRepository {
 
     public void insertMultipleMedias(List<Media> medias) { mMediaDao.insertMultipleMedias(medias); }
 
+
+    public void deleteMediaByMediaId(long id) {
+        mMediaDao.deleteMedia(id);
+    }
+
     public void insertPlace(Place place) { mPlaceDao.insertPlace(place); }
 
     public void insertMultiplePlaces(List<Place> places) { mPlaceDao.insertMultiplePlaces(places); }
@@ -65,9 +70,9 @@ public class PropertyRepository {
         return cursorToProperty(contentResolver.query(ContentUris.withAppendedId(MyContentProvider.URI_PROPERTY, propertyId), null, null, arguments, null));
     }
 
-    public Cursor getMediasByPropertyIdContentProvider(ContentResolver contentResolver, long propertyId) {
+    public List<Media> getMediasByPropertyIdContentProvider(ContentResolver contentResolver, long propertyId) {
         String[] arguments = {"getMediasByPropertyId"};
-        return contentResolver.query(ContentUris.withAppendedId(MyContentProvider.URI_MEDIA, propertyId), null, null, arguments, null);
+        return cursorToMediaList(contentResolver.query(ContentUris.withAppendedId(MyContentProvider.URI_MEDIA, propertyId), null, null, arguments, null));
     }
 
     public Cursor getAllMediasContentProvider(ContentResolver contentResolver) {
@@ -179,6 +184,16 @@ public class PropertyRepository {
         return cursorToPropertyList(contentResolver.query(MyContentProvider.URI_PROPERTY, null, null, arguments, null));
     }
 
+    public List<Media> getMediasByPropertyIdCountRangeContentProvider(ContentResolver contentResolver, int mediaCountMin, int mediaCountMax) {
+        String[] arguments = {"getMediasByPropertyIdCountRange", String.valueOf(mediaCountMin), String.valueOf(mediaCountMax)};
+        return cursorToMediaList(contentResolver.query(MyContentProvider.URI_MEDIA, null, null, arguments, null));
+    }
+
+    public List<Media> getMediasByPropertyIdCountMinContentProvider(ContentResolver contentResolver, int mediaCountMin) {
+        String[] arguments = {"getMediasByPropertyIdCountMin", String.valueOf(mediaCountMin)};
+        return cursorToMediaList(contentResolver.query(MyContentProvider.URI_MEDIA, null, null, arguments, null));
+    }
+
     private Property cursorToProperty(Cursor cursor) {
         Property property = new Property();
         if (cursor.moveToFirst()){ property = Property.fromCursor(cursor); }
@@ -217,5 +232,16 @@ public class PropertyRepository {
         }
         cursor.close();
         return properties;
+    }
+
+    private List<Media> cursorToMediaList(Cursor cursor) {
+        ArrayList<Media> medias = new ArrayList<>();
+        if (cursor.moveToFirst()){
+            do {
+                medias.add(Media.fromCursor(cursor));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return medias;
     }
 }

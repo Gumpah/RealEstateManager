@@ -16,6 +16,7 @@
     <string name="toolbar_propertyDetailsMap_title">Property map</string>
     <string name="toolbar_propertySearch_title">Search</string>
     <string name="toolbar_propertiesMap_title">Properties map</string>
+    <string name="toolbar_modifyProperty_title">Modify a property</string>
 
     <!-- Property types -->
     <string name="flat">Flat</string>

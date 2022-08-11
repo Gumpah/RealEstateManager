@@ -14,6 +14,7 @@ import com.openclassrooms.realestatemanager.data.model.entities.Media;
 import com.openclassrooms.realestatemanager.data.model.entities.Place;
 import com.openclassrooms.realestatemanager.data.model.entities.Property;
 import com.openclassrooms.realestatemanager.data.model.entities.PropertyPlace;
+import com.openclassrooms.realestatemanager.utils.FileManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ public class PropertyViewModel extends ViewModel {
     private MutableLiveData<List<Place>> mPlaces;
     private MutableLiveData<Property> mProperty;
     private MutableLiveData<Long> mPropertyCreatedId;
+    private MutableLiveData<Boolean> mPropertyUpdate;
 
     public PropertyViewModel(PropertyRepository propertyRepository, Executor executor) {
         mPropertyRepository = propertyRepository;
@@ -38,7 +40,8 @@ public class PropertyViewModel extends ViewModel {
         mAllMedias = new MutableLiveData<>();
         mPlaces = new MutableLiveData<>();
         mProperty = new MutableLiveData<>();
-        mPropertyCreatedId = new MutableLiveData<>();
+        mPropertyCreatedId = new MutableLiveData<>();;
+        mPropertyUpdate = new MutableLiveData<>();
     }
 
     public LiveData<List<Property>> getPropertiesLiveData() { return mProperties; }
@@ -47,6 +50,10 @@ public class PropertyViewModel extends ViewModel {
 
     public LiveData<Property> getPropertyByIdLiveData() {
         return mProperty;
+    }
+
+    public LiveData<Boolean> getPropertyUpdateLiveData() {
+        return mPropertyUpdate;
     }
 
     public Property getPropertyInListFromId(List<Property> properties, long id){
@@ -115,6 +122,17 @@ public class PropertyViewModel extends ViewModel {
         });
     }
 
+    public void insertMultipleMedias(ArrayList<Media> medias, long propertyId) {
+        if (medias != null && !medias.isEmpty()) {
+            ArrayList<Media> mediaList = new ArrayList<>();
+            for (Media media : medias) {
+                media.setPropertyId(propertyId);
+                mediaList.add(media);
+            }
+            mPropertyRepository.insertMultipleMedias(mediaList);
+        }
+    }
+
     public LiveData<List<Place>> getPlacesLiveData() {
         return mPlaces;
     }
@@ -141,15 +159,7 @@ public class PropertyViewModel extends ViewModel {
 
     public void getMediasByPropertyIdContentProvider(ContentResolver contentResolver, long propertyId) {
         mExecutor.execute(() -> {
-            Cursor cursor = mPropertyRepository.getMediasByPropertyIdContentProvider(contentResolver, propertyId);
-            ArrayList<Media> medias = new ArrayList<>();
-            if (cursor.moveToFirst()){
-                do {
-                    medias.add(Media.fromCursor(cursor));
-                } while (cursor.moveToNext());
-            }
-            cursor.close();
-            mMedias.postValue(medias);
+            mMedias.postValue(mPropertyRepository.getMediasByPropertyIdContentProvider(contentResolver, propertyId));
         });
     }
 
@@ -189,5 +199,22 @@ public class PropertyViewModel extends ViewModel {
         if (cursor.moveToFirst()){ place = Place.fromCursor(cursor); }
         cursor.close();
         return place;
+    }
+
+    public void updatePropertyAndContent(ContentResolver contentResolver, Property property, ArrayList<Media> mediaList) {
+        mExecutor.execute(() -> {
+            updateProperty(property);
+            deleteMediasFromPropertyId(contentResolver, property.getId());
+            insertMultipleMedias(mediaList, property.getId());
+            mPropertyUpdate.postValue(true);
+        });
+    }
+
+    public void deleteMediasFromPropertyId(ContentResolver contentResolver, long propertyId) {
+        List<Media> medias = mPropertyRepository.getMediasByPropertyIdContentProvider(contentResolver, propertyId);
+        for(Media media : medias) {
+            FileManager.deleteFileFromUri(Uri.parse(media.getMedia_uri()));
+            mPropertyRepository.deleteMediaByMediaId(media.getId());
+        }
     }
 }

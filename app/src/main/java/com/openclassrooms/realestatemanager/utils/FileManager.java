@@ -53,4 +53,13 @@ public class FileManager {
         }
         return null;
     }
+
+    public static boolean deleteFileFromUri(Uri uri) {
+        File file = new File(uri.getPath());
+        if (file.exists()) {
+            return file.delete();
+        } else {
+            return false;
+        }
+    }
 }

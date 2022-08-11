@@ -11,14 +11,14 @@ import io.reactivex.schedulers.Schedulers;
 
 public class PlacesStreams {
 
-    public ArrayList<PlacesNearbyResult> listRepeatGlobal;
+    public ArrayList<PlacesNearbyResult> listRepeatGlobal = new ArrayList<>();
 
     private boolean isNextPageTokenNull() {
         return (listRepeatGlobal.get(listRepeatGlobal.size() - 1).getNextPageToken() == null
         || listRepeatGlobal.get(listRepeatGlobal.size() - 1).getNextPageToken().isEmpty());
     }
 
-    public Observable<PlacesNearbyResult> streamFetchNearbyPlacesOld(String mapApiKey, String location) {
+    public Observable<PlacesNearbyResult> streamFetchNearbyPlacesFirstPage(String mapApiKey, String location) {
         PlacesService placesService = PlacesService.retrofitGsonConverter.create(PlacesService.class);
         return placesService.getNearbyPlaces(mapApiKey, location)
                 .subscribeOn(Schedulers.io())
@@ -27,7 +27,8 @@ public class PlacesStreams {
     }
 
     private Observable<ArrayList<PlacesNearbyResult>> streamFetchNearbyPlacesNextPageRepeat(String mapApiKey, ArrayList<PlacesNearbyResult> list) {
-        listRepeatGlobal = new ArrayList<>(list);
+        listRepeatGlobal.clear();
+        listRepeatGlobal.addAll(list);
         return streamFetchNearbyPlacesNextPage(mapApiKey, list)
                 .delay(2500, TimeUnit.MILLISECONDS)
                 .takeUntil(result -> (isNextPageTokenNull()))
@@ -60,7 +61,7 @@ public class PlacesStreams {
 
     public Observable<ArrayList<PlacesNearbyResult>> streamFetchNearbyPlaces(String mapApiKey, String location) {
         ArrayList<PlacesNearbyResult> list = new ArrayList<>();
-        return streamFetchNearbyPlacesOld(mapApiKey, location)
+        return streamFetchNearbyPlacesFirstPage(mapApiKey, location)
                 .map(placesNearbyResult -> {
                     list.add(placesNearbyResult);
                     return list;

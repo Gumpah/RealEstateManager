@@ -66,6 +66,12 @@ public class Utils {
         return calendar.getTimeInMillis();
     }
 
+    public static Date convertLongToDate(long timeInMillis) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(timeInMillis);
+        return calendar.getTime();
+    }
+
     /**
      * Vérification de la connexion réseau
      * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
@@ -103,8 +109,11 @@ public class Utils {
     }
 
     public static String getTypeInUserLanguage(Context context, String type) {
-        int st = context.getResources().getIdentifier(type, "string", context.getPackageName());
-        return context.getString(st);
+        if (type != null) {
+            int st = context.getResources().getIdentifier(type, "string", context.getPackageName());
+            return context.getString(st);
+        }
+        return null;
     }
 
     public static String createLocationString(double latitude, double longitude) {
