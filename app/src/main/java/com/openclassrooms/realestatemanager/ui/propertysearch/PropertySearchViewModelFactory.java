@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.openclassrooms.realestatemanager.data.Database;
 import com.openclassrooms.realestatemanager.data.PropertyRepository;
+import com.openclassrooms.realestatemanager.data.PropertySearchRepository;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -15,23 +16,22 @@ import java.util.concurrent.Executors;
 public class PropertySearchViewModelFactory implements ViewModelProvider.Factory {
 
     private static volatile PropertySearchViewModelFactory factory;
-    private final PropertyRepository mPropertyRepository;
+    private final PropertySearchRepository mPropertySearchRepository;
     private final Executor mExecutor;
 
-    public static PropertySearchViewModelFactory getInstance(Context context) {
+    public static PropertySearchViewModelFactory getInstance() {
         if (factory == null) {
             synchronized (PropertySearchViewModelFactory.class) {
                 if (factory == null) {
-                    factory = new PropertySearchViewModelFactory(context.getApplicationContext());
+                    factory = new PropertySearchViewModelFactory();
                 }
             }
         }
         return factory;
     }
 
-    private PropertySearchViewModelFactory(Context context) {
-        Database database = Database.getDatabase(context);
-        mPropertyRepository = new PropertyRepository(database.propertyDao(), database.mediaDao(), database.placeDao(), database.propertyPlaceDao(), database.searchDao());
+    private PropertySearchViewModelFactory() {
+        mPropertySearchRepository = new PropertySearchRepository();
         mExecutor = Executors.newSingleThreadExecutor();
     }
 
@@ -40,7 +40,7 @@ public class PropertySearchViewModelFactory implements ViewModelProvider.Factory
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if (modelClass.isAssignableFrom(PropertySearchViewModel.class)) {
-            return (T) new PropertySearchViewModel(mPropertyRepository, mExecutor);
+            return (T) new PropertySearchViewModel(mPropertySearchRepository, mExecutor);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }

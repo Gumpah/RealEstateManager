@@ -27,11 +27,23 @@ public class PlacesViewModel extends ViewModel {
     private PlacesStreams mPlacesStreams;
     private MutableLiveData<ArrayList<Place>> mPlacesList;
     private MutableLiveData<Place> mPropertyPlace;
+    private MutableLiveData<Boolean> autocompleteRequestError;
+    private MutableLiveData<Boolean> fetchNearbyPlacesError;
 
     public PlacesViewModel(PlacesStreams placesStreams) {
         mPlacesStreams = placesStreams;
         mPlacesList = new MutableLiveData<>();
         mPropertyPlace = new MutableLiveData<>();
+        autocompleteRequestError = new MutableLiveData<>();
+        fetchNearbyPlacesError = new MutableLiveData<>();
+    }
+
+    public MutableLiveData<Boolean> getAutocompleteRequestError() {
+        return autocompleteRequestError;
+    }
+
+    public MutableLiveData<Boolean> getFetchNearbyPlacesError() {
+        return fetchNearbyPlacesError;
     }
 
     public Place placeAPIToPlace(PlaceAPI placeAPI, String type) {
@@ -53,34 +65,6 @@ public class PlacesViewModel extends ViewModel {
         return placeList;
     }
 
-    public void fetchPlacesOld(String apiKey, String location) {
-        ArrayList<PlaceAPI> places = new ArrayList<>();
-        ArrayList<String> placesTypes = new ArrayList<>();
-        ArrayList<String> possibleTypes = PlaceType.types;
-        disposable = mPlacesStreams.streamFetchNearbyPlacesFirstPage(apiKey, location).subscribeWith(new DisposableObserver<PlacesNearbyResult>() {
-            @Override
-            public void onNext(PlacesNearbyResult placesNearbyResult) {
-                places.clear();
-                for (PlaceAPI placeAPI : placesNearbyResult.getResults()) {
-                    String commonType = getFirstCommonStringIn2Lists(possibleTypes, placeAPI.getTypes());
-                    if (commonType != null) {
-                        places.add(placeAPI);
-                        placesTypes.add(commonType);
-                    }
-                }
-                mPlacesList.postValue(placeAPIListToPlaceList(places, placesTypes));
-            }
-
-            @Override
-            public void onError(Throwable e) {
-            }
-
-            @Override
-            public void onComplete() {
-            }
-        });
-    }
-
     public void fetchPlaces(String apiKey, String location) {
         ArrayList<PlacesNearbyResult> mPlacesNearbyResults = new ArrayList<>();
         ArrayList<PlaceAPI> places = new ArrayList<>();
@@ -96,6 +80,7 @@ public class PlacesViewModel extends ViewModel {
 
             @Override
             public void onError(Throwable e) {
+                fetchNearbyPlacesError.postValue(true);
             }
 
             @Override
@@ -142,7 +127,7 @@ public class PlacesViewModel extends ViewModel {
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onError(@NonNull Status status) {
-
+                autocompleteRequestError.postValue(true);
             }
 
             @Override
@@ -160,7 +145,6 @@ public class PlacesViewModel extends ViewModel {
             }
         });
     }
-
 
     @Override
     protected void onCleared() {

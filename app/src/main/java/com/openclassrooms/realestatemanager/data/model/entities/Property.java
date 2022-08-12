@@ -1,8 +1,6 @@
 package com.openclassrooms.realestatemanager.data.model.entities;
 
 import android.database.Cursor;
-import android.os.Parcel;
-import android.os.Parcelable;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;

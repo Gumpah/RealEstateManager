@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.ui.propertieslist;
+package com.openclassrooms.realestatemanager.ui.propertiesmap;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -34,8 +34,6 @@ import com.openclassrooms.realestatemanager.databinding.FragmentPropertiesMapBin
 import com.openclassrooms.realestatemanager.ui.propertydetails.PropertyDetailsFragment;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModel;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModelFactory;
-import com.openclassrooms.realestatemanager.ui.viewmodels.UserViewModel;
-import com.openclassrooms.realestatemanager.ui.viewmodels.UserViewModelFactory;
 import com.openclassrooms.realestatemanager.utils.Utils;
 
 import java.util.ArrayList;

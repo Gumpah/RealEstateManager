@@ -4,6 +4,7 @@ import android.database.Cursor;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -32,10 +33,10 @@ public interface MediaDao {
     @Query("SELECT * FROM Media WHERE propertyId = :propertyId")
     Cursor getMediasByPropertyIdCursor(long propertyId);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insertMedia(Media media);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertMultipleMedias(List<Media> medias);
 
     @Update

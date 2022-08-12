@@ -9,17 +9,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -31,6 +20,16 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.openclassrooms.realestatemanager.R;
@@ -44,12 +43,8 @@ import com.openclassrooms.realestatemanager.databinding.DialogAddImageBinding;
 import com.openclassrooms.realestatemanager.databinding.FragmentModifyPropertyBinding;
 import com.openclassrooms.realestatemanager.ui.AddAndModifyPropertyCallback;
 import com.openclassrooms.realestatemanager.ui.PropertyMediasAdapter;
-import com.openclassrooms.realestatemanager.ui.viewmodels.PlacesViewModel;
-import com.openclassrooms.realestatemanager.ui.viewmodels.PlacesViewModelFactory;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModel;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModelFactory;
-import com.openclassrooms.realestatemanager.ui.viewmodels.UserViewModel;
-import com.openclassrooms.realestatemanager.ui.viewmodels.UserViewModelFactory;
 import com.openclassrooms.realestatemanager.utils.FileManager;
 import com.openclassrooms.realestatemanager.utils.Utils;
 
@@ -66,10 +61,7 @@ public class ModifyPropertyFragment extends Fragment implements AddAndModifyProp
 
     private FragmentModifyPropertyBinding binding;
     private PropertyViewModel mPropertyViewModel;
-    private PlacesViewModel mPlacesViewModel;
-    private UserViewModel mUserViewModel;
 
-    private RecyclerView mRecyclerView;
     private PropertyMediasAdapter mPropertyMediasAdapter;
 
     private Property mProperty;
@@ -84,7 +76,6 @@ public class ModifyPropertyFragment extends Fragment implements AddAndModifyProp
 
 
     public ModifyPropertyFragment() {
-        // Required empty public constructor
     }
 
     public static ModifyPropertyFragment newInstance(long propertyId) {
@@ -119,8 +110,6 @@ public class ModifyPropertyFragment extends Fragment implements AddAndModifyProp
 
     private void configureViewModels() {
         mPropertyViewModel = new ViewModelProvider(this, PropertyViewModelFactory.getInstance(requireContext())).get(PropertyViewModel.class);
-        mPlacesViewModel = new ViewModelProvider(this, PlacesViewModelFactory.getInstance()).get(PlacesViewModel.class);
-        mUserViewModel = new ViewModelProvider(requireActivity(), UserViewModelFactory.getInstance(requireContext())).get(UserViewModel.class);
     }
 
     private void propertyUpdatedListener() {
@@ -238,9 +227,16 @@ public class ModifyPropertyFragment extends Fragment implements AddAndModifyProp
 
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, -14);
-        long currentTime = cal.getTimeInMillis();
-        datePickerDialog.getDatePicker().setMinDate(currentTime);
-
+        long minimumDate = cal.getTimeInMillis();
+        if (selectedButton == SOLD_DATE && marketEntryDate != null) {
+            cal.setTime(marketEntryDate);
+            minimumDate = cal.getTimeInMillis();
+        } else if (marketEntryDate != null) {
+            cal.setTimeInMillis(mProperty.getMarket_entry());
+            cal.add(Calendar.DATE, -14);
+            minimumDate = cal.getTimeInMillis();
+        }
+        datePickerDialog.getDatePicker().setMinDate(minimumDate);
         datePickerDialog.show();
     }
 
@@ -346,14 +342,13 @@ public class ModifyPropertyFragment extends Fragment implements AddAndModifyProp
     }
 
     private void initRecyclerView() {
-        mRecyclerView = binding.recyclerViewImages;
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(requireContext(),
                 DividerItemDecoration.VERTICAL);
-        mRecyclerView.addItemDecoration(dividerItemDecoration);
+        binding.recyclerViewImages.addItemDecoration(dividerItemDecoration);
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireActivity());
-        mRecyclerView.setLayoutManager(layoutManager);
+        binding.recyclerViewImages.setLayoutManager(layoutManager);
         mPropertyMediasAdapter = new PropertyMediasAdapter(new ArrayList<>(), this);
-        mRecyclerView.setAdapter(mPropertyMediasAdapter);
+        binding.recyclerViewImages.setAdapter(mPropertyMediasAdapter);
     }
 
     private void setModifyButtonClickListener() {

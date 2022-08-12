@@ -64,6 +64,7 @@ public class PropertySearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentPropertySearchBinding.inflate(inflater, container, false);
         configureViewModels();
+        initErrorListener();
         initPropertyTypeField();
         initAutocompleteAddress();
         initPropertyPlaceListener();
@@ -71,15 +72,22 @@ public class PropertySearchFragment extends Fragment {
         if (!Places.isInitialized()) {
             Places.initialize(requireContext(), BuildConfig.MAPS_API_KEY);
         }
-        //initPlacesTypesField();
         initSearchButtonListener();
         initPropertySearchResults();
         return binding.getRoot();
     }
 
     private void configureViewModels() {
-        mPropertySearchViewModel = new ViewModelProvider(requireActivity(), PropertySearchViewModelFactory.getInstance(requireContext())).get(PropertySearchViewModel.class);
+        mPropertySearchViewModel = new ViewModelProvider(requireActivity(), PropertySearchViewModelFactory.getInstance()).get(PropertySearchViewModel.class);
         mPlacesViewModel = new ViewModelProvider(this, PlacesViewModelFactory.getInstance()).get(PlacesViewModel.class);
+    }
+
+    private void initErrorListener() {
+        mPlacesViewModel.getAutocompleteRequestError().observe(getViewLifecycleOwner(), error -> {
+            if (error) {
+                Snackbar.make(binding.getRoot(), "Error during autocomplete request", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void initPropertyTypeField() {

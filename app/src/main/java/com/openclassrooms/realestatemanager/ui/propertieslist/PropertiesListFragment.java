@@ -18,6 +18,8 @@ import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.data.model.entities.Property;
 import com.openclassrooms.realestatemanager.databinding.FragmentPropertiesListBinding;
 import com.openclassrooms.realestatemanager.ui.addproperty.AddPropertyFragment;
+import com.openclassrooms.realestatemanager.ui.loansimulator.LoanSimulatorFragment;
+import com.openclassrooms.realestatemanager.ui.propertiesmap.PropertiesMapFragment;
 import com.openclassrooms.realestatemanager.ui.propertydetails.PropertyDetailsFragment;
 import com.openclassrooms.realestatemanager.ui.propertysearch.PropertySearchFragment;
 import com.openclassrooms.realestatemanager.ui.propertysearch.PropertySearchViewModel;
@@ -76,7 +78,7 @@ public class PropertiesListFragment extends Fragment implements PropertyListCall
 
     private void configureViewModels() {
         mPropertyViewModel = new ViewModelProvider(requireActivity(), PropertyViewModelFactory.getInstance(requireContext())).get(PropertyViewModel.class);
-        mPropertySearchViewModel = new ViewModelProvider(requireActivity(), PropertySearchViewModelFactory.getInstance(requireContext())).get(PropertySearchViewModel.class);
+        mPropertySearchViewModel = new ViewModelProvider(requireActivity(), PropertySearchViewModelFactory.getInstance()).get(PropertySearchViewModel.class);
     }
 
     private void fetchProperties() {
@@ -157,6 +159,12 @@ public class PropertiesListFragment extends Fragment implements PropertyListCall
                     requireActivity().getSupportFragmentManager().beginTransaction().
                             replace(R.id.frameLayout_fragmentContainer, new PropertiesMapFragment(), "PropertiesMap")
                             .addToBackStack("PropertiesMap")
+                            .commit();
+                }
+                if (item.getItemId() == R.id.menuItem_loanSimulator) {
+                    requireActivity().getSupportFragmentManager().beginTransaction().
+                            replace(R.id.frameLayout_fragmentContainer, new LoanSimulatorFragment(), "LoanSimulator")
+                            .addToBackStack("LoanSimulator")
                             .commit();
                 }
                 return true;

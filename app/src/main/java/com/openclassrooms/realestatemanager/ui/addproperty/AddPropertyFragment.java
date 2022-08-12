@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -28,7 +27,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
@@ -49,8 +47,6 @@ import com.openclassrooms.realestatemanager.ui.viewmodels.PlacesViewModel;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PlacesViewModelFactory;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModel;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModelFactory;
-import com.openclassrooms.realestatemanager.ui.viewmodels.UserViewModel;
-import com.openclassrooms.realestatemanager.ui.viewmodels.UserViewModelFactory;
 import com.openclassrooms.realestatemanager.utils.FileManager;
 import com.openclassrooms.realestatemanager.utils.PropertyCreationNotificationService;
 import com.openclassrooms.realestatemanager.utils.Utils;
@@ -64,9 +60,7 @@ public class AddPropertyFragment extends Fragment implements AddAndModifyPropert
     private FragmentAddPropertyBinding binding;
     private PropertyViewModel mPropertyViewModel;
     private PlacesViewModel mPlacesViewModel;
-    private UserViewModel mUserViewModel;
     private ArrayList<BitmapAndString> mBitmapAndStringList;
-    private RecyclerView mRecyclerView;
     private PropertyMediasAdapter mPropertyMediasAdapter;
     private String mPropertyType;
     private Date marketEntryDate;
@@ -88,62 +82,61 @@ public class AddPropertyFragment extends Fragment implements AddAndModifyPropert
         mBitmapAndStringList = new ArrayList<>();
         configureViewModels();
         mPlacesViewModel.getPlacesMutableLiveData().postValue(null);
+        initErrorsListener();
         initRecyclerView();
-        setMediaFromCameraClickListener();
-        setMediaFromGalleryClickListener();
-        setClickListener();
+        initClickListeners();
         initSpinner();
         initDate();
-        initDateButton();
         initPropertyPlaceListener();
-        initNetworkStatus();
         if (!Places.isInitialized()) {
             Places.initialize(requireContext(), BuildConfig.MAPS_API_KEY);
         }
         initAutocompleteAddress();
         notificationService = new PropertyCreationNotificationService(requireContext());
-        //mPlacesViewModel.fetchPlacesTest(BuildConfig.MAPS_API_KEY, Utils.createLocationString(48.8507714, 2.3414844));
-        //mPlacesViewModel.fetchPlaces(BuildConfig.MAPS_API_KEY, "48.8335697,2.2553826");
         return binding.getRoot();
     }
 
     private void configureViewModels() {
         mPropertyViewModel = new ViewModelProvider(this, PropertyViewModelFactory.getInstance(requireContext())).get(PropertyViewModel.class);
-        mPlacesViewModel = new ViewModelProvider(requireActivity(), PlacesViewModelFactory.getInstance()).get(PlacesViewModel.class);
-        mUserViewModel = new ViewModelProvider(requireActivity(), UserViewModelFactory.getInstance(requireContext())).get(UserViewModel.class);
+        mPlacesViewModel = new ViewModelProvider(this, PlacesViewModelFactory.getInstance()).get(PlacesViewModel.class);
     }
 
-    private void initNetworkStatus() {
-        mUserViewModel.getConnectionStatus().observe(getViewLifecycleOwner(), this::onNetworkStatusChange);
-    }
-
-    private void onNetworkStatusChange(boolean isConnected) {
-        //Not working
-        if (isConnected) {
-            binding.autocompleteAddressAddProperty.setClickable(true);
-            binding.autocompleteAddressAddProperty.getRootView().setEnabled(true);
-        } else {
-            binding.autocompleteAddressAddProperty.setClickable(false);
-            binding.autocompleteAddressAddProperty.getRootView().setEnabled(false);
-        }
+    private void initErrorsListener() {
+        mPlacesViewModel.getFetchNearbyPlacesError().observe(getViewLifecycleOwner(), error -> {
+            if (error) {
+                Snackbar.make(binding.getRoot(), "Error while fetching nearby places", Toast.LENGTH_SHORT).show();
+                binding.progressBar.setVisibility(View.GONE);
+            }
+        });
+        mPlacesViewModel.getAutocompleteRequestError().observe(getViewLifecycleOwner(), error -> {
+            if (error) {
+                Snackbar.make(binding.getRoot(), "Error during autocomplete request", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void initRecyclerView() {
-        mRecyclerView = binding.recyclerViewImages;
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(requireContext(),
                 DividerItemDecoration.VERTICAL);
-        mRecyclerView.addItemDecoration(dividerItemDecoration);
+        binding.recyclerViewImages.addItemDecoration(dividerItemDecoration);
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireActivity());
-        mRecyclerView.setLayoutManager(layoutManager);
+        binding.recyclerViewImages.setLayoutManager(layoutManager);
         mPropertyMediasAdapter = new PropertyMediasAdapter(new ArrayList<>(), this);
-        mRecyclerView.setAdapter(mPropertyMediasAdapter);
+        binding.recyclerViewImages.setAdapter(mPropertyMediasAdapter);
     }
 
-    private void setClickListener() {
+    private void initClickListeners() {
+        initMediaFromCameraClickListener();
+        initMediaFromGalleryClickListener();
+        initCreateButtonClickListener();
+        initDateButton();
+    }
+
+    private void initCreateButtonClickListener() {
         binding.buttonCreate.setOnClickListener(v -> onSubmit());
     }
 
-    private void setMediaFromGalleryClickListener() {
+    private void initMediaFromGalleryClickListener() {
         binding.imageButtonAddImageGallery.setOnClickListener(v -> {
             Intent i = new Intent(
                     Intent.ACTION_PICK,
@@ -152,7 +145,7 @@ public class AddPropertyFragment extends Fragment implements AddAndModifyPropert
         });
     }
 
-    private void setMediaFromCameraClickListener() {
+    private void initMediaFromCameraClickListener() {
         binding.imageButtonAddImageCamera.setOnClickListener(v -> {
             Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             uriCamera.launch(i);
@@ -238,7 +231,11 @@ public class AddPropertyFragment extends Fragment implements AddAndModifyPropert
 
             @Override
             public void afterTextChanged(Editable s) {
-                mPropertyType = null;
+                if (propertyTypesTranslated.contains(s.toString())) {
+                    mPropertyType = PropertyType.types.get(propertyTypesTranslated.indexOf(s.toString()));
+                } else {
+                    mPropertyType = null;
+                }
             }
         });
         binding.autoCompleteTextViewPropertyType.setOnItemClickListener(this::onItemSelectedHandler);
@@ -425,12 +422,14 @@ public class AddPropertyFragment extends Fragment implements AddAndModifyPropert
     }
 
     private void nearbyPlacesRequest(Property property, ArrayList<Media> mediaList) {
+        binding.progressBar.setVisibility(View.VISIBLE);
         mPlacesViewModel.getPlacesMutableLiveData().observe(getViewLifecycleOwner(), places -> {
             if (places != null) {
                 mPropertyViewModel.insertPropertyAndMediasAndPlaces(property, mediaList, places);
             }
         });
         mPropertyViewModel.getPropertyCreatedIdLiveData().observe(getViewLifecycleOwner(), id -> {
+            binding.progressBar.setVisibility(View.GONE);
             notificationService.showNotification(id);
             requireActivity().getSupportFragmentManager().popBackStack();
         });

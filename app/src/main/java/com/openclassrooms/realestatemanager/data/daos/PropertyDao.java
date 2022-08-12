@@ -4,6 +4,7 @@ import android.database.Cursor;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -26,7 +27,7 @@ public interface PropertyDao {
     @Query("SELECT * FROM Property WHERE property_id = :propertyId")
     Cursor getPropertyByIdCursor(long propertyId);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insertProperty(Property property);
 
     @Update

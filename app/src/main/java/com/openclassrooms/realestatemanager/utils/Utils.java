@@ -131,4 +131,27 @@ public class Utils {
         return ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                 || ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
+
+
+    public static long getLoanAmount(long propertyPrice, long downPayment) {
+        return propertyPrice-downPayment;
+    }
+
+    public static double getMonthlyInterestRate(double interestRatePercent) {
+        return (interestRatePercent/100)/12;
+    }
+
+    public static long getTotalNumberOfPayments(long loanNumberOfYears) {
+        return loanNumberOfYears*12;
+    }
+
+    public static double mortgageCalculator(long propertyPrice, long downPayment, long loanNumberOfYears, double interestRatePercent) {
+        long loanAmount = getLoanAmount(propertyPrice, downPayment);
+        double monthlyInterestRate = getMonthlyInterestRate(interestRatePercent);
+        long totalNumberOfPayments = getTotalNumberOfPayments(loanNumberOfYears);
+        double a = (1+monthlyInterestRate);
+        double b = Math.pow(a, totalNumberOfPayments);
+        double monthlyMortgagePayment = loanAmount*((monthlyInterestRate*b)/(b-1));
+        return (int) Math.round(monthlyMortgagePayment);
+    }
 }

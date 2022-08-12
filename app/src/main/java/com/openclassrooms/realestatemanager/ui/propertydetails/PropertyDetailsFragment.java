@@ -1,7 +1,6 @@
 package com.openclassrooms.realestatemanager.ui.propertydetails;
 
 import android.annotation.SuppressLint;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -20,8 +19,6 @@ import com.openclassrooms.realestatemanager.data.StaticMapService;
 import com.openclassrooms.realestatemanager.data.model.entities.Property;
 import com.openclassrooms.realestatemanager.databinding.FragmentPropertyDetailsBinding;
 import com.openclassrooms.realestatemanager.ui.modifyproperty.ModifyPropertyFragment;
-import com.openclassrooms.realestatemanager.ui.propertieslist.PropertiesMapFragment;
-import com.openclassrooms.realestatemanager.ui.propertysearch.PropertySearchFragment;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModel;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModelFactory;
 import com.openclassrooms.realestatemanager.utils.Utils;

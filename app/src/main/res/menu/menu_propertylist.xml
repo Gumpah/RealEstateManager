@@ -16,4 +16,11 @@
         android:title="Map"
         />
 
+    <item
+        android:id="@+id/menuItem_loanSimulator"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_baseline_attach_money_24"
+        android:title="Loan simulator"
+        />
+
 </menu>
