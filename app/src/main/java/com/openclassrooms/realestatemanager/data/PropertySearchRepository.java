@@ -4,6 +4,8 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.database.Cursor;
 
+import androidx.annotation.VisibleForTesting;
+
 import com.openclassrooms.realestatemanager.data.daos.SearchDao;
 import com.openclassrooms.realestatemanager.data.model.entities.Media;
 import com.openclassrooms.realestatemanager.data.model.entities.Place;
@@ -128,14 +130,14 @@ public class PropertySearchRepository {
         return cursorToMediaList(contentResolver.query(MyContentProvider.URI_MEDIA, null, null, arguments, null));
     }
 
-    private Property cursorToProperty(Cursor cursor) {
+    public Property cursorToProperty(Cursor cursor) {
         Property property = new Property();
         if (cursor.moveToFirst()){ property = Property.fromCursor(cursor); }
         cursor.close();
         return property;
     }
 
-    private List<Property> cursorToPropertyList(Cursor cursor) {
+    public List<Property> cursorToPropertyList(Cursor cursor) {
         ArrayList<Property> properties = new ArrayList<>();
         if (cursor.moveToFirst()){
             do {
@@ -146,7 +148,7 @@ public class PropertySearchRepository {
         return properties;
     }
 
-    private List<Place> cursorToPlaceList(Cursor cursor) {
+    public List<Place> cursorToPlaceList(Cursor cursor) {
         ArrayList<Place> properties = new ArrayList<>();
         if (cursor.moveToFirst()){
             do {
@@ -157,7 +159,7 @@ public class PropertySearchRepository {
         return properties;
     }
 
-    private List<PropertyPlace> cursorToPropertyPlaceList(Cursor cursor) {
+    public List<PropertyPlace> cursorToPropertyPlaceList(Cursor cursor) {
         ArrayList<PropertyPlace> properties = new ArrayList<>();
         if (cursor.moveToFirst()){
             do {
@@ -168,7 +170,7 @@ public class PropertySearchRepository {
         return properties;
     }
 
-    private List<Media> cursorToMediaList(Cursor cursor) {
+    public List<Media> cursorToMediaList(Cursor cursor) {
         ArrayList<Media> medias = new ArrayList<>();
         if (cursor.moveToFirst()){
             do {

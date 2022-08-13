@@ -7,6 +7,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import java.util.Objects;
+
 @Entity
 public class Property {
 
@@ -186,5 +188,18 @@ public class Property {
         property.setSold(cursor.getLong(cursor.getColumnIndexOrThrow("sold")));
         property.setAgent(cursor.getString(cursor.getColumnIndexOrThrow("agent")));
         return property;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Property property = (Property) o;
+        return id == property.id && surface == property.surface && rooms_count == property.rooms_count && bathrooms_count == property.bathrooms_count && bedrooms_count == property.bedrooms_count && Double.compare(property.latitude, latitude) == 0 && Double.compare(property.longitude, longitude) == 0 && market_entry == property.market_entry && sold == property.sold && Objects.equals(property_type, property.property_type) && Objects.equals(price, property.price) && Objects.equals(description, property.description) && Objects.equals(address, property.address) && status == property.status && Objects.equals(agent, property.agent);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, property_type, price, surface, rooms_count, bathrooms_count, bedrooms_count, description, address, latitude, longitude, status, market_entry, sold, agent);
     }
 }

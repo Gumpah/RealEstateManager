@@ -185,6 +185,24 @@ public class PropertySearchFragment extends Fragment {
         int selectedDayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(), R.style.ThemeOverlay_MaterialComponents_MaterialAlertDialog_Picker_Date, getOnDateSetListener(dateButton), selectedYear, selectedMonth, selectedDayOfMonth);
+
+        Calendar cal = Calendar.getInstance();
+        if (dateButton == MARKET_ENTRY_DATE_MIN && mMarketEntryDateMax != null) {
+            cal.setTime(mMarketEntryDateMax);
+            datePickerDialog.getDatePicker().setMaxDate(cal.getTimeInMillis());
+        }
+        if (dateButton == MARKET_ENTRY_DATE_MAX && mMarketEntryDateMin != null) {
+            cal.setTime(mMarketEntryDateMin);
+            datePickerDialog.getDatePicker().setMinDate(cal.getTimeInMillis());
+        }
+        if (dateButton == SOLD_DATE_MIN && mSoldDateMax != null) {
+            cal.setTime(mSoldDateMax);
+            datePickerDialog.getDatePicker().setMaxDate(cal.getTimeInMillis());
+        }
+        if (dateButton == SOLD_DATE_MAX && mSoldDateMin != null) {
+            cal.setTime(mSoldDateMin);
+            datePickerDialog.getDatePicker().setMinDate(cal.getTimeInMillis());
+        }
         datePickerDialog.show();
     }
 
