@@ -87,6 +87,7 @@ public class PlacesViewModel extends ViewModel {
             public void onComplete() {
                 for (PlacesNearbyResult placesNearbyResult : mPlacesNearbyResults) {
                     for (PlaceAPI placeAPI : placesNearbyResult.getResults()) {
+                        System.out.println(placeAPI.getTypes().get(0));
                         String commonType = getFirstCommonStringIn2Lists(possibleTypes, placeAPI.getTypes());
                         if (commonType != null) {
                             places.add(placeAPI);
