@@ -51,8 +51,10 @@ public class PropertySearchRepositoryTest {
     @Mock
     PropertySearchRepository spyPropertySearchRepository;
 
-
     private static MockedStatic<Property> propertyClass;
+    private static MockedStatic<Media> mediaClass;
+    private static MockedStatic<PropertyPlace> propertyPlaceClass;
+    private static MockedStatic<Place> placeClass;
 
     @Before
     public void setUp() throws Exception {
@@ -64,11 +66,17 @@ public class PropertySearchRepositoryTest {
     @BeforeClass
     public static void init() {
         propertyClass = mockStatic(Property.class);
+        mediaClass = mockStatic(Media.class);
+        propertyPlaceClass = mockStatic(PropertyPlace.class);
+        placeClass = mockStatic(Place.class);
     }
 
     @AfterClass
     public static void close() {
         propertyClass.close();
+        mediaClass.close();
+        propertyPlaceClass.close();
+        placeClass.close();
     }
 
     @Test
@@ -354,7 +362,6 @@ public class PropertySearchRepositoryTest {
 
     @Test
     public void cursorToProperty() {
-
         Property propertyExpected = new Property(
                 "type",
                 5d,
@@ -416,7 +423,6 @@ public class PropertySearchRepositoryTest {
 
     @Test
     public void cursorToPlaceList() {
-        MockedStatic<Place> placeClass = mockStatic(Place.class);
         Place place = new Place("1", "name", 1.1, 2.2, "address", "type");
 
         placeClass.when(() -> Place.fromCursor(cursor))
@@ -435,7 +441,6 @@ public class PropertySearchRepositoryTest {
 
     @Test
     public void cursorToPropertyPlaceList() {
-        MockedStatic<PropertyPlace> propertyPlaceClass = mockStatic(PropertyPlace.class);
 
         PropertyPlace propertyPlace = new PropertyPlace("1", 2);
         propertyPlace.setId(3);
@@ -456,7 +461,6 @@ public class PropertySearchRepositoryTest {
 
     @Test
     public void cursorToMediaList() {
-        MockedStatic<Media> mediaClass = mockStatic(Media.class);
 
         Media media = new Media("mediaUri", "name");
         media.setId(1);

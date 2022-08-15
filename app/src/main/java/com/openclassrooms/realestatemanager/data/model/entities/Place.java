@@ -8,6 +8,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import java.util.Objects;
+
 @Entity
 public class Place {
 
@@ -91,5 +93,18 @@ public class Place {
         place.setAddress(cursor.getString(cursor.getColumnIndexOrThrow("address")));
         place.setType(cursor.getString(cursor.getColumnIndexOrThrow("type")));
         return place;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Place place = (Place) o;
+        return Double.compare(place.latitude, latitude) == 0 && Double.compare(place.longitude, longitude) == 0 && id.equals(place.id) && Objects.equals(name, place.name) && Objects.equals(address, place.address) && Objects.equals(type, place.type);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, latitude, longitude, address, type);
     }
 }

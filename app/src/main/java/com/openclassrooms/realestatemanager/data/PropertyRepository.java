@@ -78,14 +78,14 @@ public class PropertyRepository {
         return contentResolver.query(MyContentProvider.URI_PLACE, null, null, arguments, null);
     }
 
-    private Property cursorToProperty(Cursor cursor) {
+    public Property cursorToProperty(Cursor cursor) {
         Property property = new Property();
         if (cursor.moveToFirst()){ property = Property.fromCursor(cursor); }
         cursor.close();
         return property;
     }
 
-    private List<Media> cursorToMediaList(Cursor cursor) {
+    public List<Media> cursorToMediaList(Cursor cursor) {
         ArrayList<Media> medias = new ArrayList<>();
         if (cursor.moveToFirst()){
             do {

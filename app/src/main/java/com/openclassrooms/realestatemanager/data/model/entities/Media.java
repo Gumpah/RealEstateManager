@@ -9,6 +9,8 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import java.util.Objects;
+
 @Entity(indices = @Index("propertyId"), foreignKeys = @ForeignKey(entity = Property.class,
         parentColumns = "property_id",
         childColumns = "propertyId"))
@@ -69,5 +71,18 @@ public class Media {
         media.setMedia_uri(cursor.getString(cursor.getColumnIndexOrThrow(("media_uri"))));
         media.setName(cursor.getString((cursor.getColumnIndexOrThrow("name"))));
         return media;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Media media = (Media) o;
+        return id == media.id && propertyId == media.propertyId && Objects.equals(media_uri, media.media_uri) && Objects.equals(name, media.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, propertyId, media_uri, name);
     }
 }

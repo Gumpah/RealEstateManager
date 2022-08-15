@@ -63,16 +63,8 @@ public class PropertyViewModel extends ViewModel {
         return null;
     }
 
-    public void insertProperty(Property property) { mExecutor.execute(() -> {
-        mPropertyRepository.insertProperty(property);
-    });  }
-
     public void updateProperty(Property property) { mExecutor.execute(() -> {
         mPropertyRepository.updateProperty(property);
-    });  }
-
-    public void deleteProperty(long propertyId) { mExecutor.execute(() -> {
-        mPropertyRepository.deleteProperty(propertyId);
     });  }
 
     public LiveData<List<Media>> getMediasByPropertyIdLiveData() { return mMedias; }

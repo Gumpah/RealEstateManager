@@ -9,6 +9,8 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import java.util.Objects;
+
 @Entity(indices = {@Index("place_id"), @Index("property_id")}, foreignKeys = {@ForeignKey(entity = Property.class,
         parentColumns = "property_id",
         childColumns = "property_id"), @ForeignKey(entity = Place.class,
@@ -61,5 +63,18 @@ public class PropertyPlace {
         propertyPlace.setPlace_id(cursor.getString(cursor.getColumnIndexOrThrow("place_id")));
         propertyPlace.setProperty_id(cursor.getLong(cursor.getColumnIndexOrThrow("property_id")));
         return propertyPlace;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PropertyPlace that = (PropertyPlace) o;
+        return id == that.id && property_id == that.property_id && Objects.equals(place_id, that.place_id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, place_id, property_id);
     }
 }

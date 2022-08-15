@@ -18,24 +18,9 @@ public interface PlaceDao {
     @Query("SELECT * FROM Place")
     List<Place> getPlaces();
 
-    @Query("SELECT * FROM Place")
-    Cursor getPlacesCursor();
-
-    @Query("SELECT * FROM Place WHERE place_id = :placeId")
-    Place getPlaceById(String placeId);
-
     @Query("SELECT * FROM Place WHERE place_id = :placeId")
     Cursor getPlaceByIdCursor(String placeId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertPlace(Place place);
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertMultiplePlaces(List<Place> places);
-
-    @Update
-    void updatePlace(Place place);
-
-    @Query("DELETE FROM Place WHERE place_id = :placeId")
-    void deletePlace(long placeId);
 }

@@ -4,6 +4,8 @@ import android.net.Uri;
 
 import com.openclassrooms.realestatemanager.data.model.entities.Property;
 
+import java.util.Objects;
+
 public class PropertyAndImage {
 
     Property property;
@@ -28,5 +30,18 @@ public class PropertyAndImage {
 
     public void setUri(Uri uri) {
         this.uri = uri;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PropertyAndImage that = (PropertyAndImage) o;
+        return Objects.equals(property, that.property) && Objects.equals(uri, that.uri);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(property, uri);
     }
 }

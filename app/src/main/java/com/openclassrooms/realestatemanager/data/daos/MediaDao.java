@@ -22,25 +22,13 @@ public interface MediaDao {
     Cursor getMediasCursor();
 
     @Query("SELECT * FROM Media WHERE media_id = :mediaId")
-    Media getMediaById(long mediaId);
-
-    @Query("SELECT * FROM Media WHERE media_id = :mediaId")
     Cursor getMediaByIdCursor(long mediaId);
-
-    @Query("SELECT * FROM Media WHERE propertyId = :propertyId")
-    List<Media> getMediasByPropertyId(long propertyId);
 
     @Query("SELECT * FROM Media WHERE propertyId = :propertyId")
     Cursor getMediasByPropertyIdCursor(long propertyId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    long insertMedia(Media media);
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertMultipleMedias(List<Media> medias);
-
-    @Update
-    void updateMedia(Media media);
 
     @Query("DELETE FROM Media WHERE media_id = :mediaId")
     void deleteMedia(long mediaId);
