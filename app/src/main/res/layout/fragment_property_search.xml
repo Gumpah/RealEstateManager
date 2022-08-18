@@ -22,13 +22,13 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:padding="@dimen/padding1">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout_propertyType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/margin"
                 app:layout_constraintTop_toTopOf="parent"
                 app:hintTextColor="@color/colorAccent"
                 app:boxStrokeColor="@color/colorAccent"
@@ -38,8 +38,8 @@
                     android:id="@+id/autoCompleteTextView_propertyType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:layout_marginTop="12dp"
+                    android:padding="@dimen/padding1"
+                    android:layout_marginTop="@dimen/margin"
                     android:hint="Type"
                     app:layout_constraintTop_toBottomOf="@id/textInputLayout_propertyType"/>
 
@@ -49,7 +49,7 @@
                 android:id="@+id/textInputLayout_priceMin"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/margin"
                 app:layout_constraintTop_toBottomOf="@id/textInputLayout_propertyType"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/textInputLayout_priceMax"
@@ -58,6 +58,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/priceMin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableEnd="@drawable/ic_baseline_attach_money_24"
@@ -70,7 +71,7 @@
                 android:id="@+id/textInputLayout_priceMax"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
+                android:layout_marginStart="@dimen/margin"
                 app:layout_constraintTop_toTopOf="@id/textInputLayout_priceMin"
                 app:layout_constraintStart_toEndOf="@id/textInputLayout_priceMin"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -79,6 +80,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/priceMax"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableEnd="@drawable/ic_baseline_attach_money_24"
@@ -91,7 +93,7 @@
                 android:id="@+id/textInputLayout_surfaceMin"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/margin"
                 app:layout_constraintTop_toBottomOf="@id/textInputLayout_priceMin"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/textInputLayout_surfaceMax"
@@ -100,6 +102,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/surfaceMin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:drawableTint="@color/lightGrey"
@@ -111,7 +114,7 @@
                 android:id="@+id/textInputLayout_surfaceMax"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
+                android:layout_marginStart="@dimen/margin"
                 app:layout_constraintTop_toTopOf="@id/textInputLayout_surfaceMin"
                 app:layout_constraintStart_toEndOf="@id/textInputLayout_surfaceMin"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -120,6 +123,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/surfaceMax"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:drawableTint="@color/lightGrey"
@@ -131,7 +135,7 @@
                 android:id="@+id/textInputLayout_roomsMin"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/margin"
                 app:layout_constraintTop_toBottomOf="@id/textInputLayout_surfaceMin"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/textInputLayout_roomsMax"
@@ -140,6 +144,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/roomsMin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:drawableTint="@color/lightGrey"
@@ -151,7 +156,7 @@
                 android:id="@+id/textInputLayout_roomsMax"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
+                android:layout_marginStart="@dimen/margin"
                 app:layout_constraintTop_toTopOf="@id/textInputLayout_roomsMin"
                 app:layout_constraintStart_toEndOf="@id/textInputLayout_roomsMin"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -160,6 +165,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/roomsMax"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:drawableTint="@color/lightGrey"
@@ -171,7 +177,7 @@
                 android:id="@+id/textInputLayout_bathroomsMin"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/margin"
                 app:layout_constraintTop_toBottomOf="@id/textInputLayout_roomsMin"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/textInputLayout_bathroomsMax"
@@ -180,6 +186,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/bathroomsMin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:drawableTint="@color/lightGrey"
@@ -191,7 +198,7 @@
                 android:id="@+id/textInputLayout_bathroomsMax"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
+                android:layout_marginStart="@dimen/margin"
                 app:layout_constraintTop_toTopOf="@id/textInputLayout_bathroomsMin"
                 app:layout_constraintStart_toEndOf="@id/textInputLayout_bathroomsMin"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -200,6 +207,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/bathroomsMax"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:drawableTint="@color/lightGrey"
@@ -211,7 +219,7 @@
                 android:id="@+id/textInputLayout_bedroomsMin"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/margin"
                 app:layout_constraintTop_toBottomOf="@id/textInputLayout_bathroomsMin"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/textInputLayout_bedroomsMax"
@@ -220,6 +228,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/bedroomsMin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:drawableTint="@color/lightGrey"
@@ -231,7 +240,7 @@
                 android:id="@+id/textInputLayout_bedroomsMax"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
+                android:layout_marginStart="@dimen/margin"
                 app:layout_constraintTop_toTopOf="@id/textInputLayout_bedroomsMin"
                 app:layout_constraintStart_toEndOf="@id/textInputLayout_bedroomsMin"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -240,6 +249,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/bedroomsMax"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:drawableTint="@color/lightGrey"
@@ -251,8 +261,8 @@
                 android:id="@+id/autocomplete_address_searchProperty"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="12dp"
+                android:layout_marginTop="@dimen/margin"
+                android:layout_marginEnd="@dimen/margin"
                 app:layout_constraintTop_toBottomOf="@id/textInputLayout_bedroomsMin"
                 app:layout_constraintBottom_toBottomOf="@id/textInputLayout_addressRadius"
                 app:layout_constraintStart_toStartOf="parent"
@@ -262,7 +272,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout_addressRadius"
-                android:layout_width="132dp"
+                android:layout_width="@dimen/propertySearch_addressRadiusHeight"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="@id/autocomplete_address_searchProperty"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -271,6 +281,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/addressRadius"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:drawableTint="@color/lightGrey"
@@ -282,9 +293,9 @@
                 android:id="@+id/textView_pointsOfInterest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:textSize="@dimen/textSize5"
                 android:textColor="@color/grey"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/margin"
                 android:text="Close points of interests"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textInputLayout_addressRadius"/>
@@ -292,109 +303,109 @@
             <CheckBox
                 android:id="@+id/checkBox_amusementPark"
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
+                android:layout_height="@dimen/propertySearch_checkBoxHeight"
                 android:text="@string/amusement_park"
-                android:textSize="15sp"
-                android:layout_marginTop="12dp"
+                android:textSize="@dimen/textSize2"
+                android:layout_marginTop="@dimen/margin"
                 app:layout_constraintTop_toBottomOf="@id/textView_pointsOfInterest"
                 />
 
             <CheckBox
                 android:id="@+id/checkBox_park"
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
+                android:layout_height="@dimen/propertySearch_checkBoxHeight"
                 android:text="@string/park"
-                android:textSize="15sp"
+                android:textSize="@dimen/textSize2"
                 app:layout_constraintTop_toBottomOf="@id/checkBox_amusementPark"
                 />
 
             <CheckBox
                 android:id="@+id/checkBox_university"
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
+                android:layout_height="@dimen/propertySearch_checkBoxHeight"
                 android:text="@string/university"
-                android:textSize="15sp"
+                android:textSize="@dimen/textSize2"
                 app:layout_constraintTop_toBottomOf="@id/checkBox_park"
                 />
 
             <CheckBox
                 android:id="@+id/checkBox_primarySchool"
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
+                android:layout_height="@dimen/propertySearch_checkBoxHeight"
                 android:text="@string/primary_school"
-                android:textSize="15sp"
+                android:textSize="@dimen/textSize2"
                 app:layout_constraintTop_toBottomOf="@id/checkBox_university"
                 />
 
             <CheckBox
                 android:id="@+id/checkBox_secondarySchool"
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
+                android:layout_height="@dimen/propertySearch_checkBoxHeight"
                 android:text="@string/secondary_school"
-                android:textSize="15sp"
+                android:textSize="@dimen/textSize2"
                 app:layout_constraintTop_toBottomOf="@id/checkBox_primarySchool"
                 />
 
             <CheckBox
                 android:id="@+id/checkBox_school"
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
+                android:layout_height="@dimen/propertySearch_checkBoxHeight"
                 android:text="@string/school"
-                android:textSize="15sp"
+                android:textSize="@dimen/textSize2"
                 app:layout_constraintTop_toBottomOf="@id/checkBox_secondarySchool"
                 />
 
             <CheckBox
                 android:id="@+id/checkBox_store"
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
+                android:layout_height="@dimen/propertySearch_checkBoxHeight"
                 android:text="@string/store"
-                android:textSize="15sp"
+                android:textSize="@dimen/textSize2"
                 app:layout_constraintTop_toBottomOf="@id/checkBox_school"
                 />
 
             <CheckBox
                 android:id="@+id/checkBox_subwayStation"
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
+                android:layout_height="@dimen/propertySearch_checkBoxHeight"
                 android:text="@string/subway_station"
-                android:textSize="15sp"
+                android:textSize="@dimen/textSize2"
                 app:layout_constraintTop_toBottomOf="@id/checkBox_store"
                 />
 
             <CheckBox
                 android:id="@+id/checkBox_trainStation"
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
+                android:layout_height="@dimen/propertySearch_checkBoxHeight"
                 android:text="@string/train_station"
-                android:textSize="15sp"
+                android:textSize="@dimen/textSize2"
                 app:layout_constraintTop_toBottomOf="@id/checkBox_subwayStation"
                 />
 
             <CheckBox
                 android:id="@+id/checkBox_busStation"
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
+                android:layout_height="@dimen/propertySearch_checkBoxHeight"
                 android:text="@string/bus_station"
-                android:textSize="15sp"
+                android:textSize="@dimen/textSize2"
                 app:layout_constraintTop_toBottomOf="@id/checkBox_trainStation"
                 />
 
             <CheckBox
                 android:id="@+id/checkBox_supermarket"
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
+                android:layout_height="@dimen/propertySearch_checkBoxHeight"
                 android:text="@string/supermarket"
-                android:textSize="15sp"
+                android:textSize="@dimen/textSize2"
                 app:layout_constraintTop_toBottomOf="@id/checkBox_busStation"
                 />
 
             <CheckBox
                 android:id="@+id/checkBox_movieTheater"
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
+                android:layout_height="@dimen/propertySearch_checkBoxHeight"
                 android:text="@string/movie_theater"
-                android:textSize="15sp"
+                android:textSize="@dimen/textSize2"
                 app:layout_constraintTop_toBottomOf="@id/checkBox_supermarket"
                 />
 
@@ -402,9 +413,9 @@
                 android:id="@+id/textView_marketEntryDateTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:textSize="@dimen/textSize5"
                 android:textColor="@color/grey"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/margin"
                 app:layout_constraintTop_toBottomOf="@id/checkBox_movieTheater"
                 android:text="Market entry date"/>
 
@@ -412,7 +423,7 @@
                 android:id="@+id/button_marketEntryDateMin"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/margin"
                 android:text="Select"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView_marketEntryDateTitle"
@@ -422,7 +433,7 @@
                 android:id="@+id/button_marketEntryDateMax"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
+                android:layout_marginStart="@dimen/margin"
                 android:text="Select"
                 app:layout_constraintStart_toEndOf="@id/button_marketEntryDateMin"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -433,9 +444,9 @@
                 android:id="@+id/textView_soldDateTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:textSize="@dimen/textSize5"
                 android:textColor="@color/grey"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/margin"
                 app:layout_constraintTop_toBottomOf="@id/button_marketEntryDateMin"
                 android:text="Date of purchase"/>
 
@@ -443,7 +454,7 @@
                 android:id="@+id/button_soldDateMin"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/margin"
                 android:text="Select"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView_soldDateTitle"
@@ -453,7 +464,7 @@
                 android:id="@+id/button_soldDateMax"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
+                android:layout_marginStart="@dimen/margin"
                 android:text="Select"
                 app:layout_constraintStart_toEndOf="@id/button_soldDateMin"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -464,7 +475,7 @@
                 android:id="@+id/textInputLayout_mediaCountMin"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/margin"
                 app:layout_constraintTop_toBottomOf="@id/button_soldDateMin"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/textInputLayout_mediaCountMax"
@@ -473,6 +484,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/mediaCountMin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:drawableTint="@color/lightGrey"
@@ -484,7 +496,7 @@
                 android:id="@+id/textInputLayout_mediaCountMax"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
+                android:layout_marginStart="@dimen/margin"
                 app:layout_constraintTop_toTopOf="@id/textInputLayout_mediaCountMin"
                 app:layout_constraintStart_toEndOf="@id/textInputLayout_mediaCountMin"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -493,6 +505,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/mediaCountMax"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:drawableTint="@color/lightGrey"
@@ -504,8 +517,8 @@
                 android:id="@+id/button_search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:textSize="18sp"
+                android:layout_marginTop="@dimen/margin3"
+                android:textSize="@dimen/textSize5"
                 android:backgroundTint="@color/colorAccent"
                 android:text="Search"
                 app:layout_constraintTop_toBottomOf="@id/textInputLayout_mediaCountMin"

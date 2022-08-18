@@ -6,20 +6,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.propertydetails.PropertyDetailsFragment">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_toolbarPropertyDetails"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:title="@string/toolbar_propertyDetails_title"
-        android:theme="@style/ToolBarStyle"/>
-
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager_medias"
         android:contentDescription="test"
         android:layout_width="match_parent"
         android:layout_height="@dimen/propertyDetails_viewPagerHeight"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_toolbarPropertyDetails" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
         android:id="@+id/dots_indicator"

@@ -2,25 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/menuItem_search"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_baseline_search_24"
-        android:title="Search"
-        />
-
-    <item
-        android:id="@+id/menuItem_globalMap"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_baseline_map_24"
-        android:title="Map"
-        />
-
-    <item
-        android:id="@+id/menuItem_loanSimulator"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_baseline_attach_money_24"
-        android:title="Loan simulator"
-        />
+        <item
+            android:id="@+id/menuItem_search"
+            app:showAsAction="always"
+            android:icon="@drawable/ic_baseline_search_24"
+            android:title="Search"
+            />
 
 </menu>

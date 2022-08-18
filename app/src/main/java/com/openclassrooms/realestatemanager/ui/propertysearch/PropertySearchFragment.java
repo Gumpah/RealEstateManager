@@ -15,8 +15,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.material.snackbar.Snackbar;
@@ -64,7 +62,8 @@ public class PropertySearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentPropertySearchBinding.inflate(inflater, container, false);
         configureViewModels();
-        initErrorListener();
+        initAutocompleteErrorListener();
+        initSearchDataErrorListener();
         initPropertyTypeField();
         initAutocompleteAddress();
         initPropertyPlaceListener();
@@ -82,10 +81,18 @@ public class PropertySearchFragment extends Fragment {
         mPlacesViewModel = new ViewModelProvider(this, PlacesViewModelFactory.getInstance()).get(PlacesViewModel.class);
     }
 
-    private void initErrorListener() {
+    private void initAutocompleteErrorListener() {
         mPlacesViewModel.getAutocompleteRequestError().observe(getViewLifecycleOwner(), error -> {
             if (error) {
                 Snackbar.make(binding.getRoot(), "Error during autocomplete request", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void initSearchDataErrorListener() {
+        mPropertySearchViewModel.getPropertySearchError().observe(getViewLifecycleOwner(), error -> {
+            if (error != null && !error.isEmpty()) {
+                Snackbar.make(requireView(), error, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -241,116 +248,24 @@ public class PropertySearchFragment extends Fragment {
     }
 
     private void onSubmit() {
-        String propertyType;
-        Integer priceMin = null;
-        Integer priceMax = null;
-        Integer surfaceMin = null;
-        Integer surfaceMax = null;
-        Integer roomsMin = null;
-        Integer roomsMax = null;
-        Integer bathroomsMin = null;
-        Integer bathroomsMax = null;
-        Integer bedroomsMin = null;
-        Integer bedroomsMax = null;
-        Place propertyPlace;
-        Integer radius = null;
-        ArrayList<String> placesTypes;
-        Long marketEntryDateMin = null;
-        Long marketEntryDateMax = null;
-        Long soldDateMin = null;
-        Long soldDateMax = null;
-        Integer mediaCountMin = null;
-        Integer mediaCountMax = null;
-
-        propertyType = mPropertyType;
-        if (binding.textInputLayoutPriceMin.getEditText() != null && !binding.textInputLayoutPriceMin.getEditText().getText().toString().equals("")) {
-            priceMin = Integer.parseInt(binding.textInputLayoutPriceMin.getEditText().getText().toString());
-        }
-        if (binding.textInputLayoutPriceMax.getEditText() != null && !binding.textInputLayoutPriceMax.getEditText().getText().toString().equals("")) {
-            priceMax = Integer.parseInt(binding.textInputLayoutPriceMax.getEditText().getText().toString());
-        }
-        if (binding.textInputLayoutSurfaceMin.getEditText() != null && !binding.textInputLayoutSurfaceMin.getEditText().getText().toString().equals("")) {
-            surfaceMin = Integer.parseInt(binding.textInputLayoutSurfaceMin.getEditText().getText().toString());
-        }
-        if (binding.textInputLayoutSurfaceMax.getEditText() != null && !binding.textInputLayoutSurfaceMax.getEditText().getText().toString().equals("")) {
-            surfaceMax = Integer.parseInt(binding.textInputLayoutSurfaceMax.getEditText().getText().toString());
-        }
-        if (binding.textInputLayoutRoomsMin.getEditText() != null && !binding.textInputLayoutRoomsMin.getEditText().getText().toString().equals("")) {
-            roomsMin = Integer.parseInt(binding.textInputLayoutRoomsMin.getEditText().getText().toString());
-        }
-        if (binding.textInputLayoutRoomsMax.getEditText() != null  && !binding.textInputLayoutRoomsMax.getEditText().getText().toString().equals("")) {
-            roomsMax = Integer.parseInt(binding.textInputLayoutRoomsMax.getEditText().getText().toString());
-        }
-        if (binding.textInputLayoutBathroomsMin.getEditText() != null && !binding.textInputLayoutBathroomsMin.getEditText().getText().toString().equals("")) {
-            bathroomsMin = Integer.parseInt(binding.textInputLayoutBathroomsMin.getEditText().getText().toString());
-        }
-        if (binding.textInputLayoutBathroomsMax.getEditText() != null  && !binding.textInputLayoutBathroomsMax.getEditText().getText().toString().equals("")) {
-            bathroomsMax = Integer.parseInt(binding.textInputLayoutBathroomsMax.getEditText().getText().toString());
-        }
-        if (binding.textInputLayoutBedroomsMin.getEditText() != null && !binding.textInputLayoutBedroomsMin.getEditText().getText().toString().equals("")) {
-            bedroomsMin = Integer.parseInt(binding.textInputLayoutBedroomsMin.getEditText().getText().toString());
-        }
-        if (binding.textInputLayoutBedroomsMax.getEditText() != null  && !binding.textInputLayoutBedroomsMax.getEditText().getText().toString().equals("")) {
-            bedroomsMax = Integer.parseInt(binding.textInputLayoutBedroomsMax.getEditText().getText().toString());
-        }
-        propertyPlace = mPropertyPlace;
-        if (binding.textInputLayoutAddressRadius.getEditText() != null  && !binding.textInputLayoutAddressRadius.getEditText().getText().toString().equals("")) {
-            radius = Integer.parseInt(binding.textInputLayoutAddressRadius.getEditText().getText().toString());
-        }
-        if (binding.textInputLayoutMediaCountMin.getEditText() != null && !binding.textInputLayoutMediaCountMin.getEditText().getText().toString().equals("")) {
-            mediaCountMin = Integer.parseInt(binding.textInputLayoutMediaCountMin.getEditText().getText().toString());
-        }
-        if (binding.textInputLayoutMediaCountMax.getEditText() != null && !binding.textInputLayoutMediaCountMax.getEditText().getText().toString().equals("")) {
-            mediaCountMax = Integer.parseInt(binding.textInputLayoutMediaCountMax.getEditText().getText().toString());
-        }
-        placesTypes = getPlacesTypesChecked();
-        if (mMarketEntryDateMin != null) marketEntryDateMin = Utils.convertDateToLong(mMarketEntryDateMin);
-        if (mMarketEntryDateMax != null) marketEntryDateMax = Utils.convertDateToLong(mMarketEntryDateMax);
-        if (mSoldDateMin != null) soldDateMin = Utils.convertDateToLong(mSoldDateMin);
-        if (mSoldDateMax != null) soldDateMax = Utils.convertDateToLong(mSoldDateMax);
-        isAtLeastOneFieldFilled(propertyType, priceMin, priceMax, surfaceMin, surfaceMax, roomsMin, roomsMax, bathroomsMin, bathroomsMax, bedroomsMin, bedroomsMax, propertyPlace, radius, placesTypes, marketEntryDateMin, marketEntryDateMax, soldDateMin, soldDateMax, mediaCountMin, mediaCountMax);
-    }
-
-    private void isAtLeastOneFieldFilled(String propertyType, Integer priceMin, Integer priceMax, Integer surfaceMin, Integer surfaceMax, Integer roomsMin, Integer roomsMax, Integer bathroomsMin, Integer bathroomsMax, Integer bedroomsMin, Integer bedroomsMax, Place propertyPlace, Integer radius, ArrayList<String> placesTypes, Long marketEntryDateMin, Long marketEntryDateMax, Long soldDateMin, Long soldDateMax, Integer mediaCountMin, Integer mediaCountMax) {
-        if (propertyType != null ||
-                priceMin != null ||
-                priceMax != null ||
-                surfaceMin != null ||
-                surfaceMax != null ||
-                roomsMin != null ||
-                roomsMax != null ||
-                bathroomsMin != null ||
-                bathroomsMax != null ||
-                bedroomsMin != null ||
-                bedroomsMax != null ||
-                (propertyPlace != null && radius != null) ||
-                (placesTypes != null && !placesTypes.isEmpty()) ||
-                marketEntryDateMin != null ||
-                marketEntryDateMax != null ||
-                soldDateMin != null ||
-                soldDateMax != null ||
-                mediaCountMin != null ||
-                mediaCountMax != null) {
-            LatLngBounds bounds = null;
-            if (propertyPlace != null && radius != null) {
-                LatLng center = new LatLng(propertyPlace.getLatitude(), propertyPlace.getLongitude());
-                bounds = Utils.generateBounds(center, radius);
-            }
-            mPropertySearchViewModel.searchProperty(requireActivity().getContentResolver(), propertyType, priceMin, priceMax, surfaceMin, surfaceMax, roomsMin, roomsMax, bathroomsMin, bathroomsMax, bedroomsMin, bedroomsMax, bounds, placesTypes, marketEntryDateMin, marketEntryDateMax, soldDateMin, soldDateMax, mediaCountMin, mediaCountMax);
-        } else if (mPropertyPlace != null && radius == null) {
-            Snackbar.make(requireView(), "Must specify a radius", Toast.LENGTH_SHORT).show();
-        }
-        else if (mPropertyPlace != null && radius < 0) {
-            Snackbar.make(requireView(), "Radius must be positive", Toast.LENGTH_SHORT).show();
-        }
-        else {
-            Snackbar.make(requireView(), "At least 1 field must be filled", Toast.LENGTH_SHORT).show();
-        }
+        mPropertySearchViewModel.searchDataProcess(
+                requireActivity().getContentResolver(),
+                mPropertyType,
+                binding.priceMin.getText(), binding.priceMax.getText(),
+                binding.surfaceMin.getText(), binding.surfaceMax.getText(),
+                binding.roomsMin.getText(), binding.roomsMax.getText(),
+                binding.bathroomsMin.getText(), binding.bathroomsMax.getText(),
+                binding.bedroomsMin.getText(), binding.bedroomsMax.getText(),
+                mPropertyPlace,
+                binding.addressRadius.getText(),
+                getPlacesTypesChecked(),
+                mMarketEntryDateMin, mMarketEntryDateMax,
+                mSoldDateMin, mSoldDateMax,
+                binding.mediaCountMin.getText(), binding.mediaCountMax.getText());
     }
 
     private ArrayList<String> getPlacesTypesChecked() {
         ArrayList<String> typesChecked = new ArrayList<>();
-
         if (binding.checkBoxAmusementPark.isChecked()) typesChecked.add("amusement_park");
         if (binding.checkBoxPark.isChecked()) typesChecked.add("park");
         if (binding.checkBoxUniversity.isChecked()) typesChecked.add("university");

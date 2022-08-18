@@ -2,23 +2,32 @@ package com.openclassrooms.realestatemanager.ui.propertieslist;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.MenuHost;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.navigation.NavigationView;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.data.model.entities.Property;
 import com.openclassrooms.realestatemanager.databinding.FragmentPropertiesListBinding;
 import com.openclassrooms.realestatemanager.ui.addproperty.AddPropertyFragment;
 import com.openclassrooms.realestatemanager.ui.loansimulator.LoanSimulatorFragment;
+import com.openclassrooms.realestatemanager.ui.modifyproperty.ModifyPropertyFragment;
 import com.openclassrooms.realestatemanager.ui.propertiesmap.PropertiesMapFragment;
 import com.openclassrooms.realestatemanager.ui.propertydetails.PropertyDetailsFragment;
 import com.openclassrooms.realestatemanager.ui.propertysearch.PropertySearchFragment;
@@ -39,6 +48,7 @@ public class PropertiesListFragment extends Fragment implements PropertyListCall
     private PropertiesListAdapter mListPropertiesAdapter;
     private List<Property> propertySearchResults;
     private List<Property> propertyList;
+    private Long propertyDetailId;
 
     public PropertiesListFragment() {
     }
@@ -55,15 +65,32 @@ public class PropertiesListFragment extends Fragment implements PropertyListCall
         initRecyclerView();
         configureViewModels();
         fetchProperties();
-        initMenu();
         initMediasLiveData();
         initSearchResults();
         setButtonLeaveSearchListener();
         setFabClickListener();
         mPropertyViewModel.getAllMediasContentProvider(requireContext().getContentResolver());
-        binding.toolbarToolbarPropertyList.inflateMenu(R.menu.menu_propertylist);
+        initMenu();
+        initDrawer();
+
+
         return binding.getRoot();
     }
+
+    private void initDrawer() {
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(binding.toolbarToolbarPropertyList);
+        ActionBar supportActionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
+        if (supportActionBar != null){
+            supportActionBar.setDisplayShowHomeEnabled(true);
+            supportActionBar.setHomeButtonEnabled(true);
+        }
+
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(requireActivity(), binding.drawerLayout, binding.toolbarToolbarPropertyList, R.string.nav_open, R.string.nav_close);
+
+        binding.drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+    }
+
 
     private void initRecyclerView() {
         mRecyclerView = binding.recyclerViewPropertiesList;
@@ -146,15 +173,27 @@ public class PropertiesListFragment extends Fragment implements PropertyListCall
     }
 
     private void initMenu() {
-        binding.toolbarToolbarPropertyList.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+        MenuHost menuHost = requireActivity();
+        menuHost.addMenuProvider(new MenuProvider() {
             @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.menuItem_search) {
+            public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+                menuInflater.inflate(R.menu.menu_propertylist, menu);
+            }
+
+            @Override
+            public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+                if (menuItem.getItemId() == R.id.menuItem_search) {
                     requireActivity().getSupportFragmentManager().beginTransaction().
                             replace(R.id.frameLayout_fragmentContainer, new PropertySearchFragment(), "PropertySearch")
                             .addToBackStack("PropertySearch")
                             .commit();
                 }
+                return true;
+            }
+        }, getViewLifecycleOwner());
+        binding.navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.menuItem_globalMap) {
                     requireActivity().getSupportFragmentManager().beginTransaction().
                             replace(R.id.frameLayout_fragmentContainer, new PropertiesMapFragment(), "PropertiesMap")
@@ -178,9 +217,18 @@ public class PropertiesListFragment extends Fragment implements PropertyListCall
         Bundle args = new Bundle();
         args.putLong("PropertyId", property.getId());
         propertyDetailsFragment.setArguments(args);
-        requireActivity().getSupportFragmentManager().beginTransaction().
-                replace(R.id.frameLayout_fragmentContainer, propertyDetailsFragment, "PropertyDetails")
-                .addToBackStack("PropertyDetails")
-                .commit();
+        boolean isTablet = requireContext().getResources().getBoolean(R.bool.isTablet);
+        if (isTablet) {
+            propertyDetailId = property.getId();
+            requireActivity().getSupportFragmentManager().beginTransaction().
+                    replace(R.id.fragment_tablet, propertyDetailsFragment, "PropertyDetails")
+                    .addToBackStack("PropertyDetails")
+                    .commit();
+        } else {
+            requireActivity().getSupportFragmentManager().beginTransaction().
+                    replace(R.id.frameLayout_fragmentContainer, propertyDetailsFragment, "PropertyDetails")
+                    .addToBackStack("PropertyDetails")
+                    .commit();
+        }
     }
 }

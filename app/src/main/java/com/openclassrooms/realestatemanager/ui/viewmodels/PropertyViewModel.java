@@ -40,7 +40,7 @@ public class PropertyViewModel extends ViewModel {
         mAllMedias = new MutableLiveData<>();
         mPlaces = new MutableLiveData<>();
         mProperty = new MutableLiveData<>();
-        mPropertyCreatedId = new MutableLiveData<>();;
+        mPropertyCreatedId = new MutableLiveData<>();
         mPropertyUpdate = new MutableLiveData<>();
     }
 

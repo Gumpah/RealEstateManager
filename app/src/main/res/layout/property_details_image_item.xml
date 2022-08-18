@@ -28,9 +28,9 @@
         app:layout_constraintTop_toTopOf="@id/imageView_media"
         android:text="Test"
         android:textColor="@color/white"
-        android:textSize="16sp"
-        android:layout_marginTop="8dp"
+        android:textSize="@dimen/textSize3"
+        android:layout_marginTop="@dimen/margin5"
         android:background="@drawable/round_corners"
-        android:padding="8dp"/>
+        android:padding="@dimen/padding2"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

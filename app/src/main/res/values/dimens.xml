@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Text sizes -->
+    <dimen name="textSize9">38sp</dimen>
+    <dimen name="textSize8">32sp</dimen>
+    <dimen name="textSize7">22sp</dimen>
+    <dimen name="textSize6">20sp</dimen>
+    <dimen name="textSize5">18sp</dimen>
+    <dimen name="textSize4">17sp</dimen>
+    <dimen name="textSize3">16sp</dimen>
+    <dimen name="textSize2">15sp</dimen>
+    <dimen name="textSize1">14sp</dimen>
+
+
+
+    <dimen name="padding2">8dp</dimen>
+    <dimen name="padding1">16dp</dimen>
+
+    <dimen name="margin4">24dp</dimen>
+    <dimen name="margin3">20dp</dimen>
+    <dimen name="margin2">16dp</dimen>
+    <dimen name="margin">12dp</dimen>
+    <dimen name="margin5">8dp</dimen>
+    <dimen name="margin6">4dp</dimen>
+
+
+    <dimen name="addAndEditProperty_recyclerViewHeight">200dp</dimen>
+
+    <!-- add_property_image_item -->
+
+    <!-- dialog_add_image.xml -->
+    <dimen name="addImage_dialogTitleWidth">280dp</dimen>
+    <dimen name="addImage_mainContainerPadding">16dp</dimen>
+
+
+    <!-- fragment_add_property -->
+    <dimen name="addProperty_progressBarSize">60dp</dimen>
+
+    <!-- fragment_properties_list -->
+    <dimen name="propertyList_leaveSearchModeHeight">40dp</dimen>
+    <dimen name="propertyList_addPropertyMargin">24dp</dimen>
+    <dimen name="propertyList_addPropertyMaxImageSize">32dp</dimen>
+
+    <!-- fragment_property_details -->
+    <dimen name="propertyDetails_viewPagerHeight">200dp</dimen>
+    <dimen name="propertyDetails_dotsCornerRadius">8dp</dimen>
+    <dimen name="propertyDetails_dotsSize">16dp</dimen>
+    <dimen name="propertyDetails_dotsSpacing">4dp</dimen>
+
+    <!-- fragment_property_search -->
+    <dimen name="propertySearch_addressRadiusHeight">132dp</dimen>
+    <dimen name="propertySearch_checkBoxHeight">32dp</dimen>
+
+    <!-- property_list_item -->
+    <dimen name="propertyListItem_mainContainerHeight">120dp</dimen>
+</resources>

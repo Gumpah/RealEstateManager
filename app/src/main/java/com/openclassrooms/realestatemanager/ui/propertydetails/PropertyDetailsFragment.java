@@ -31,6 +31,8 @@ public class PropertyDetailsFragment extends Fragment implements DisplayMediaCal
     private PropertyViewModel mPropertyViewModel;
     private Property mProperty;
     private PropertyDetailsPagerAdapter mPropertyDetailsPagerAdapter;
+    private Toolbar toolbar;
+    private boolean isTablet;
 
     public PropertyDetailsFragment() {
     }
@@ -52,24 +54,32 @@ public class PropertyDetailsFragment extends Fragment implements DisplayMediaCal
         setMapButtonClickListener();
         initData();
         getPropertyById();
-        binding.toolbarToolbarPropertyDetails.inflateMenu(R.menu.menu_propertydetails);
-        initMenu();
+        isTablet = requireContext().getResources().getBoolean(R.bool.isTablet);
+        if (isTablet) {
+            toolbar = requireActivity().findViewById(R.id.toolbar_toolbarPropertyList);
+        } else {
+            toolbar = binding.toolbarToolbarPropertyDetails;
+            initMenu();
+        }
+        if (toolbar != null) toolbar.inflateMenu(R.menu.menu_propertydetails);
         return binding.getRoot();
     }
 
     private void initMenu() {
-        binding.toolbarToolbarPropertyDetails.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.menuItem_edit) {
-                    requireActivity().getSupportFragmentManager().beginTransaction().
-                            replace(R.id.frameLayout_fragmentContainer, ModifyPropertyFragment.newInstance(mProperty.getId()), "PropertySearch")
-                            .addToBackStack("PropertySearch")
-                            .commit();
+        if (binding.toolbarToolbarPropertyDetails != null) {
+            binding.toolbarToolbarPropertyDetails.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    if (item.getItemId() == R.id.menuItem_edit) {
+                        requireActivity().getSupportFragmentManager().beginTransaction().
+                                replace(R.id.frameLayout_fragmentContainer, ModifyPropertyFragment.newInstance(mProperty.getId()), "PropertySearch")
+                                .addToBackStack("PropertySearch")
+                                .commit();
+                    }
+                    return true;
                 }
-                return true;
-            }
-        });
+            });
+        }
     }
 
     private void getPropertyById() {
@@ -157,5 +167,13 @@ public class PropertyDetailsFragment extends Fragment implements DisplayMediaCal
                 replace(R.id.frameLayout_fragmentContainer, propertyDetailsMapFragment, "PropertyDetailsMap")
                 .addToBackStack("PropertyDetailsMap")
                 .commit();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (isTablet) {
+            toolbar.getMenu().removeItem(R.id.menuItem_edit);
+        }
     }
 }

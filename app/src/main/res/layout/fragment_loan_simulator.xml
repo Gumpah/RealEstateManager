@@ -19,13 +19,13 @@
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/toolbar_toolbarLoanSimulator"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:paddingHorizontal="16dp">
+        android:paddingHorizontal="@dimen/padding1">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout_homePrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/margin2"
             app:layout_constraintTop_toTopOf="parent"
             app:hintTextColor="@color/colorAccent"
             app:boxStrokeColor="@color/colorAccent"
@@ -47,7 +47,7 @@
             android:id="@+id/textInputLayout_downPayment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/margin2"
             app:layout_constraintTop_toBottomOf="@id/textInputLayout_homePrice"
             app:hintTextColor="@color/colorAccent"
             app:boxStrokeColor="@color/colorAccent"
@@ -69,7 +69,7 @@
             android:id="@+id/textInputLayout_loanLength"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/margin2"
             app:layout_constraintTop_toBottomOf="@id/textInputLayout_downPayment"
             app:hintTextColor="@color/colorAccent"
             app:boxStrokeColor="@color/colorAccent"
@@ -90,7 +90,7 @@
             android:id="@+id/textInputLayout_interestRate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/margin2"
             app:layout_constraintTop_toBottomOf="@id/textInputLayout_loanLength"
             app:hintTextColor="@color/colorAccent"
             app:boxStrokeColor="@color/colorAccent"
@@ -113,10 +113,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            android:textSize="32sp"
+            android:textSize="@dimen/textSize8"
             android:text="Monthly payment"
             android:textColor="@color/grey"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="@dimen/margin4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textInputLayout_interestRate"/>
 
@@ -124,10 +124,10 @@
             android:id="@+id/textView_simulatorResult"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/margin5"
             app:layout_constraintTop_toBottomOf="@id/textView_simulatorResultTitle"
             app:layout_constraintStart_toEndOf="@id/textView_dollarSign"
-            android:textSize="32sp"
+            android:textSize="@dimen/textSize8"
             tools:text="1000000"
             app:layout_constraintEnd_toStartOf="parent"/>
 
@@ -138,7 +138,7 @@
             app:layout_constraintTop_toTopOf="@id/textView_simulatorResult"
             app:layout_constraintEnd_toStartOf="@id/textView_simulatorResult"
             app:layout_constraintStart_toEndOf="parent"
-            android:textSize="32sp"
+            android:textSize="@dimen/textSize8"
             android:text="$"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

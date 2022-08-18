@@ -8,8 +8,8 @@
 
     <ProgressBar
         android:id="@+id/progressBar"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="@dimen/addProperty_progressBarSize"
+        android:layout_height="@dimen/addProperty_progressBarSize"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +33,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:padding="@dimen/padding1">
 
             <TextView
                 android:id="@+id/textView_details"
@@ -44,13 +44,13 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:textColor="@color/grey"
                 android:text="Details"
-                android:textSize="20sp"/>
+                android:textSize="@dimen/textSize6"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout_propertyType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/margin"
                 app:layout_constraintTop_toBottomOf="@id/textView_details"
                 app:hintTextColor="@color/colorAccent"
                 app:boxStrokeColor="@color/colorAccent"
@@ -60,8 +60,8 @@
                     android:id="@+id/autoCompleteTextView_propertyType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:layout_marginTop="12dp"
+                    android:padding="@dimen/padding1"
+                    android:layout_marginTop="@dimen/margin"
                     android:hint="Type"
                     app:layout_constraintTop_toBottomOf="@id/textInputLayout_propertyType"/>
 
@@ -72,7 +72,7 @@
                 android:id="@+id/textInputLayout_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/margin"
                 app:layout_constraintTop_toBottomOf="@id/textInputLayout_propertyType"
                 app:hintTextColor="@color/colorAccent"
                 app:boxStrokeColor="@color/colorAccent"
@@ -92,7 +92,7 @@
                 android:id="@+id/textInputLayout_surface"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/margin"
                 app:layout_constraintTop_toBottomOf="@id/textInputLayout_price"
                 app:hintTextColor="@color/colorAccent"
                 app:boxStrokeColor="@color/colorAccent"
@@ -110,7 +110,7 @@
                 android:id="@+id/textInputLayout_roomsCount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/margin"
                 app:layout_constraintTop_toBottomOf="@id/textInputLayout_surface"
                 app:hintTextColor="@color/colorAccent"
                 app:boxStrokeColor="@color/colorAccent"
@@ -128,7 +128,7 @@
                 android:id="@+id/textInputLayout_bathroomsCount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/margin"
                 app:layout_constraintTop_toBottomOf="@id/textInputLayout_roomsCount"
                 app:hintTextColor="@color/colorAccent"
                 app:boxStrokeColor="@color/colorAccent"
@@ -146,7 +146,7 @@
                 android:id="@+id/textInputLayout_bedroomsCount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/margin"
                 app:layout_constraintTop_toBottomOf="@id/textInputLayout_bathroomsCount"
                 app:hintTextColor="@color/colorAccent"
                 app:boxStrokeColor="@color/colorAccent"
@@ -164,7 +164,7 @@
                 android:id="@+id/textInputLayout_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/margin"
                 app:layout_constraintTop_toBottomOf="@id/textInputLayout_bedroomsCount"
                 app:hintTextColor="@color/colorAccent"
                 app:boxStrokeColor="@color/colorAccent"
@@ -181,7 +181,7 @@
                 android:id="@+id/autocomplete_address_addProperty"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/margin"
                 app:layout_constraintTop_toBottomOf="@id/textInputLayout_description"
                 android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
                 />
@@ -194,14 +194,14 @@
                 app:layout_constraintBottom_toBottomOf="@id/button_marketEntryDate"
                 app:layout_constraintStart_toStartOf="parent"
                 android:textColor="@color/black"
-                android:textSize="17sp"
+                android:textSize="@dimen/textSize4"
                 android:text="Market entry date :"/>
 
             <Button
                 android:id="@+id/button_marketEntryDate"
                 app:layout_constraintTop_toBottomOf="@id/autocomplete_address_addProperty"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/margin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
@@ -209,7 +209,7 @@
                 android:id="@+id/textInputLayout_agent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/margin"
                 app:layout_constraintTop_toBottomOf="@id/button_marketEntryDate"
                 app:hintTextColor="@color/colorAccent"
                 app:boxStrokeColor="@color/colorAccent"
@@ -231,8 +231,8 @@
                 app:layout_constraintEnd_toStartOf="@id/imageButton_addImageGallery"
                 android:textColor="@color/grey"
                 android:text="Medias"
-                android:layout_marginTop="12dp"
-                android:textSize="20sp"/>
+                android:layout_marginTop="@dimen/margin"
+                android:textSize="@dimen/textSize6"/>
 
             <ImageButton
                 android:id="@+id/imageButton_addImageGallery"
@@ -261,9 +261,9 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView_images"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="@dimen/addAndEditProperty_recyclerViewHeight"
                 app:layout_constraintTop_toBottomOf="@id/textView_addImage"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/margin"
                 tools:itemCount="3"
                 tools:listitem="@layout/add_property_image_item"/>
 
@@ -271,8 +271,8 @@
                 android:id="@+id/button_create"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:textSize="17sp"
+                android:layout_marginTop="@dimen/margin3"
+                android:textSize="@dimen/textSize4"
                 app:layout_constraintTop_toBottomOf="@id/recyclerView_images"
                 android:text="Create"
                 android:backgroundTint="@color/colorAccent"
