@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">Real Estate Manager</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="nav_open">Open</string>
     <string name="nav_close">Close</string>
@@ -47,19 +45,95 @@
 
     <string name="location_permission_denied_dialog_title">Permission required</string>
     <string name="location_permission_denied_dialog_message">This app needs the location permission to work properly. Open the app settings screen to modify app permissions.</string>
+    <string name="internetConnected">Back online</string>
+    <string name="internetDisconnected">No connection</string>
 
-    <!-- Main activity -->
+    <!-- Texts in common -->
+    <string name="autocompleteError">Error during autocomplete request</string>
 
-    <!-- Add property fragment -->
-    <!-- image item -->
+    <string name="detailsText">Details</string>
+    <string name="typeHint">Type</string>
+    <string name="priceHint">Price</string>
+    <string name="surfaceHint">Surface in m²</string>
+    <string name="roomsHint">Number of rooms</string>
+    <string name="bathroomsHint">Number of bathrooms</string>
+    <string name="bedroomsHint">Number of bedrooms</string>
+    <string name="descriptionHint">Description</string>
+    <string name="marketEntryDateText">Market entry date:</string>
+    <string name="marketEntryDate_contentDesc">Pick a date for marker entry</string>
+    <string name="agentHint">Agent</string>
+    <string name="mediasText">Medias</string>
+    <string name="addImageGallery_contentDesc">Add image from gallery</string>
+    <string name="addImageCamera_contentDesc">Add image from camera</string>
 
-    <!-- Media display fragment -->
+    <string name="noDescription">No description</string>
 
-    <!-- Property list fragment -->
-    <!-- list item -->
+    <string name="dateButtonText">Select</string>
 
-    <!-- Property details fragment -->
-    <!-- image item -->
-    <!-- map -->
+    <!-- AddPropertyFragment -->
+    <string name="nearbySearchError">Error while fetching nearby places</string>
+    <string name="noDescriptionError">Must enter a description</string>
+    <string name="noPropertyTypeSelected">Select a property type</string>
+    <string name="propertyTypeSelectedNotInList">The property type has to be in the list</string>
+    <string name="fieldCantBeEmpty">Can\'t be empty</string>
+    <string name="countCantBeSuperiorThanRoomsCount">Can\'t be superior than number of rooms</string>
+    <string name="noAddressSpecified">Specify an address</string>
+    <string name="noImage">Pick at least 1 image</string>
 
+    <!-- PropertySearchViewModel -->
+    <string name="noRadiusSpecified">Must specify a radius</string>
+    <string name="radiusNotPositive">Radius must be positive</string>
+    <string name="noFieldFilled">At least 1 field must be filled</string>
+
+    <!-- add_property_image_item.xml -->
+    <string name="propertyImage_contentDesc">Property image</string>
+    <string name="deleteButton_contentDesc">Delete</string>
+    <string name="dialogTitle">Enter an image description</string>
+    <string name="imageDescription">Image description</string>
+    <string name="negativeButton">Cancel</string>
+    <string name="positiveButton">OK</string>
+
+    <!-- fragment_add_property.xml -->
+    <string name="createText">Create</string>
+    <string name="create_contentDesc">Create property</string>
+
+    <!-- fragment_loan_simulator.xml -->
+    <string name="homePriceHint">Home price</string>
+    <string name="downPaymentHint">Down payment</string>
+    <string name="loanLengthHint">Length of loan (years)</string>
+    <string name="interestRateHint">Interest rate</string>
+    <string name="monthlyPaymentText">Monthly payment</string>
+    <string name="dollarSign">$</string>
+
+    <!-- fragment_modify_property.xml -->
+    <string name="addressText">Address</string>
+    <string name="marketEntryDateButtonText">Select</string>
+    <string name="propertySoldText">Property sold:</string>
+    <string name="propertySoldTextNo">No</string>
+    <string name="updateButtonText">Update</string>
+    <string name="updateButton_contentDesc">Update property</string>
+
+    <!-- fragment_properties_list.xml -->
+    <string name="noPropertiesText">No Properties</string>
+    <string name="noInternetConnectionText">No internet connection</string>
+    <string name="leaveSearchModeText">Leave search mode</string>
+
+    <!-- fragment_property_search.xml -->
+    <string name="minimumPriceHint">Minimum price</string>
+    <string name="maximumPriceHint">Maximum price</string>
+    <string name="minimumSurfaceHint">Minimum surface</string>
+    <string name="maximumSurfaceHint">Maximum surface</string>
+    <string name="minimumRoomCountHint">Rooms min.</string>
+    <string name="maximumRoomCountHint">Rooms max.</string>
+    <string name="minimumBathroomCountHint">Bathrooms min.</string>
+    <string name="maximumBathroomCountHint">Bathrooms max.</string>
+    <string name="minimumBedroomCountHint">Bedrooms min.</string>
+    <string name="maximumBedroomCountHint">Bedrooms max.</string>
+    <string name="radiusHint">Radius in m²</string>
+    <string name="closePointsOfInterestsText">Close points of interests</string>
+    <string name="search_marketEntryDateText">Market entry date</string>
+    <string name="search_soldDateText">Date of purchase</string>
+    <string name="minimumMediaCount">Media count min.</string>
+    <string name="maximumMediaCount">Media count max.</string>
+    <string name="searchButtonText">Search</string>
 </resources>

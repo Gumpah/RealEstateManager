@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.material.snackbar.Snackbar;
+import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.data.PropertySearchRepository;
 import com.openclassrooms.realestatemanager.data.model.SearchCriteria;
 import com.openclassrooms.realestatemanager.data.model.entities.Media;
@@ -28,7 +29,7 @@ public class PropertySearchViewModel extends ViewModel {
     private PropertySearchRepository mPropertySearchRepository;
     private Executor mExecutor;
     private MutableLiveData<List<Property>> propertySearchResults;
-    private MutableLiveData<String> mPropertySearchError;
+    private MutableLiveData<Integer> mPropertySearchError;
 
     public PropertySearchViewModel(PropertySearchRepository propertySearchRepository, Executor executor) {
         mPropertySearchRepository = propertySearchRepository;
@@ -39,8 +40,7 @@ public class PropertySearchViewModel extends ViewModel {
 
     public MutableLiveData<List<Property>> getPropertySearchResultsLiveData() { return propertySearchResults; }
 
-
-    public LiveData<String> getPropertySearchError() {
+    public LiveData<Integer> getPropertySearchError() {
         return mPropertySearchError;
     }
 
@@ -157,13 +157,13 @@ public class PropertySearchViewModel extends ViewModel {
         if (searchCriteria.isAtLeastOneOfCriteriaNonNull()) {
             searchProperty(contentResolver, searchCriteria);
         } else if (place != null && !isCharSequenceNotNullOrEmpty(radius)) {
-            mPropertySearchError.postValue("Must specify a radius");
+            mPropertySearchError.postValue(R.string.noRadiusSpecified);
         }
         else if (isCharSequenceNotNullOrEmpty(radius) && place != null && Integer.parseInt(radius.toString()) < 0) {
-            mPropertySearchError.postValue("Radius must be positive");
+            mPropertySearchError.postValue(R.string.radiusNotPositive);
         }
         else {
-            mPropertySearchError.postValue("At least 1 field must be filled");
+            mPropertySearchError.postValue(R.string.noFieldFilled);
         }
     }
 

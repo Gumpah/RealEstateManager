@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -47,6 +49,7 @@ public class PropertyDetailsFragment extends Fragment implements DisplayMediaCal
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentPropertyDetailsBinding.inflate(inflater, container, false);
+        isTablet = requireContext().getResources().getBoolean(R.bool.isTablet);
         configureViewModel();
         initViewPager();
         setMediasListener();
@@ -54,19 +57,39 @@ public class PropertyDetailsFragment extends Fragment implements DisplayMediaCal
         setMapButtonClickListener();
         initData();
         getPropertyById();
-        isTablet = requireContext().getResources().getBoolean(R.bool.isTablet);
-        if (isTablet) {
-            toolbar = requireActivity().findViewById(R.id.toolbar_toolbarPropertyList);
-        } else {
-            toolbar = binding.toolbarToolbarPropertyDetails;
-            initMenu();
-        }
-        if (toolbar != null) toolbar.inflateMenu(R.menu.menu_propertydetails);
+        initToolbar();
         return binding.getRoot();
     }
 
+    private void initToolbar() {
+        if (isTablet) {
+            toolbar = requireActivity().findViewById(R.id.toolbar_toolbarPropertyList);
+            toolbar.getMenu().removeItem(R.id.menuItem_edit);
+        } else {
+            toolbar = binding.toolbarToolbarPropertyDetails;
+            setToolbar();
+            initMenu();
+        }
+        if (toolbar != null) toolbar.inflateMenu(R.menu.menu_propertydetails);
+    }
+
+    private void setToolbar() {
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(binding.toolbarToolbarPropertyDetails);
+        ActionBar supportActionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
+        if (supportActionBar != null){
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+            supportActionBar.setDisplayShowHomeEnabled(true);
+        }
+        binding.toolbarToolbarPropertyDetails.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requireActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
+    }
+
     private void initMenu() {
-        if (binding.toolbarToolbarPropertyDetails != null) {
+        if (!isTablet && binding.toolbarToolbarPropertyDetails != null) {
             binding.toolbarToolbarPropertyDetails.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
@@ -109,11 +132,31 @@ public class PropertyDetailsFragment extends Fragment implements DisplayMediaCal
     }
 
     private void initUIData() {
-        binding.textViewDescription.setText(mProperty.getDescription());
-        binding.textViewSurface.setText(String.valueOf(mProperty.getSurface()));
-        binding.textViewRoomsCount.setText(String.valueOf(mProperty.getRooms_count()));
-        binding.textViewBathroomsCount.setText(String.valueOf(mProperty.getBathrooms_count()));
-        binding.textViewBedroomsCount.setText(String.valueOf(mProperty.getBedrooms_count()));
+        if (mProperty.getDescription().isEmpty()) {
+            binding.textViewDescription.setText(R.string.noDescription);
+        } else {
+            binding.textViewDescription.setText(mProperty.getDescription());
+        }
+        if (mProperty.getSurface() != -1) {
+            binding.textViewSurface.setText(String.valueOf(mProperty.getSurface()));
+        } else {
+            binding.textViewSurface.setText("-");
+        }
+        if (mProperty.getRooms_count() != -1) {
+            binding.textViewRoomsCount.setText(String.valueOf(mProperty.getRooms_count()));
+        } else {
+            binding.textViewRoomsCount.setText("-");
+        }
+        if (mProperty.getBathrooms_count() != -1) {
+            binding.textViewBathroomsCount.setText(String.valueOf(mProperty.getBathrooms_count()));
+        } else {
+            binding.textViewBathroomsCount.setText("-");
+        }
+        if (mProperty.getBedrooms_count() != -1) {
+            binding.textViewBedroomsCount.setText(String.valueOf(mProperty.getBedrooms_count()));
+        } else {
+            binding.textViewBedroomsCount.setText("-");
+        }
         binding.textViewLocation.setText(mProperty.getAddress());
     }
 

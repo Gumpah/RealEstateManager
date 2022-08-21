@@ -17,24 +17,24 @@ public class Property {
     public long id = 0;
     String property_type;
     Double price;
-    int surface;
-    int rooms_count;
-    int bathrooms_count;
-    int bedrooms_count;
+    Integer surface;
+    Integer rooms_count;
+    Integer bathrooms_count;
+    Integer bedrooms_count;
     String description;
     String address;
-    double latitude;
-    double longitude;
+    Double latitude;
+    Double longitude;
     PropertyStatus status;
-    long market_entry;
-    long sold;
+    Long market_entry;
+    Long sold;
     String agent;
 
     @Ignore
     public Property() {
     }
 
-    public Property(String property_type, Double price, int surface, int rooms_count, int bathrooms_count, int bedrooms_count, String description, String address, double latitude, double longitude, PropertyStatus status, long market_entry, String agent) {
+    public Property(String property_type, Double price,  Integer surface, Integer rooms_count, Integer bathrooms_count, Integer bedrooms_count, String description, String address, Double latitude, Double longitude, PropertyStatus status, Long market_entry, String agent) {
         this.property_type = property_type;
         this.price = price;
         this.surface = surface;
@@ -62,19 +62,19 @@ public class Property {
         return price;
     }
 
-    public int getSurface() {
+    public Integer getSurface() {
         return surface;
     }
 
-    public int getRooms_count() {
+    public Integer getRooms_count() {
         return rooms_count;
     }
 
-    public int getBathrooms_count() {
+    public Integer getBathrooms_count() {
         return bathrooms_count;
     }
 
-    public int getBedrooms_count() {
+    public Integer getBedrooms_count() {
         return bedrooms_count;
     }
 
@@ -86,11 +86,11 @@ public class Property {
         return address;
     }
 
-    public double getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public double getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
@@ -98,11 +98,11 @@ public class Property {
         return status;
     }
 
-    public long getMarket_entry() {
+    public Long getMarket_entry() {
         return market_entry;
     }
 
-    public long getSold() {
+    public Long getSold() {
         return sold;
     }
 
@@ -122,19 +122,19 @@ public class Property {
         this.price = price;
     }
 
-    public void setSurface(int surface) {
+    public void setSurface(Integer surface) {
         this.surface = surface;
     }
 
-    public void setRooms_count(int rooms_count) {
+    public void setRooms_count(Integer rooms_count) {
         this.rooms_count = rooms_count;
     }
 
-    public void setBathrooms_count(int bathrooms_count) {
+    public void setBathrooms_count(Integer bathrooms_count) {
         this.bathrooms_count = bathrooms_count;
     }
 
-    public void setBedrooms_count(int bedrooms_count) {
+    public void setBedrooms_count(Integer bedrooms_count) {
         this.bedrooms_count = bedrooms_count;
     }
 
@@ -195,7 +195,7 @@ public class Property {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Property property = (Property) o;
-        return id == property.id && surface == property.surface && rooms_count == property.rooms_count && bathrooms_count == property.bathrooms_count && bedrooms_count == property.bedrooms_count && Double.compare(property.latitude, latitude) == 0 && Double.compare(property.longitude, longitude) == 0 && market_entry == property.market_entry && sold == property.sold && Objects.equals(property_type, property.property_type) && Objects.equals(price, property.price) && Objects.equals(description, property.description) && Objects.equals(address, property.address) && status == property.status && Objects.equals(agent, property.agent);
+        return id == property.id && Objects.equals(surface, property.surface) && Objects.equals(rooms_count, property.rooms_count) && Objects.equals(bathrooms_count, property.bathrooms_count) && Objects.equals(bedrooms_count, property.bedrooms_count) && Double.compare(property.latitude, latitude) == 0 && Double.compare(property.longitude, longitude) == 0 && Objects.equals(market_entry, property.market_entry) && Objects.equals(sold, property.sold) && Objects.equals(property_type, property.property_type) && Objects.equals(price, property.price) && Objects.equals(description, property.description) && Objects.equals(address, property.address) && status == property.status && Objects.equals(agent, property.agent);
     }
 
     @Override

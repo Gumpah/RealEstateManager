@@ -3,6 +3,8 @@ package com.openclassrooms.realestatemanager.ui.loansimulator;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -36,6 +38,7 @@ public class LoanSimulatorFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentLoanSimulatorBinding.inflate(inflater, container, false);
+        setToolbar();
         configureViewModel();
         initMortgageTextListener();
         initHomePriceTextChangeListener();
@@ -43,6 +46,21 @@ public class LoanSimulatorFragment extends Fragment {
         initLoanLengthTextChangeListener();
         initInterestRateTextChangeListener();
         return binding.getRoot();
+    }
+
+    private void setToolbar() {
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(binding.toolbarToolbarLoanSimulator);
+        ActionBar supportActionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
+        if (supportActionBar != null){
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+            supportActionBar.setDisplayShowHomeEnabled(true);
+        }
+        binding.toolbarToolbarLoanSimulator.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requireActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
     }
 
     private void configureViewModel() {

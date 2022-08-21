@@ -1,10 +1,8 @@
 <resources>
     <string name="app_name">Real Estate Manager</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
-    <string name="nav_open">Open</string>
-    <string name="nav_close">Close</string>
+    <string name="nav_open">Ouvrir</string>
+    <string name="nav_close">Fermer</string>
 
     <string name="default_notification_channel_id">Création de propriété</string>
     <string name="property_creation_notification_title">Bien créé</string>
@@ -47,4 +45,96 @@
 
     <string name="location_permission_denied_dialog_title">Permission requise</string>
     <string name="location_permission_denied_dialog_message">Cette application nécessite l\'accès à votre localisation. Ouvrez les réglages de l\'application pour modifier les permissions.</string>
+    <string name="internetConnected">De nouveau connecté à internet</string>
+    <string name="internetDisconnected">Aucune connexion</string>
+
+    <!-- Texts in common -->
+    <string name="autocompleteError">Erreur de requête autocomplete</string>
+
+    <string name="detailsText">Détails</string>
+    <string name="typeHint">Type</string>
+    <string name="priceHint">Prix</string>
+    <string name="surfaceHint">Surface en m²</string>
+    <string name="roomsHint">Nombre de pièces</string>
+    <string name="bathroomsHint">Nombre de salles de bains</string>
+    <string name="bedroomsHint">Nombre de chambres</string>
+    <string name="descriptionHint">Description</string>
+    <string name="marketEntryDateText">Date de mise en vente :</string>
+    <string name="marketEntryDate_contentDesc">Choisir la date de mise en vente</string>
+    <string name="agentHint">Agent</string>
+    <string name="mediasText">Images</string>
+    <string name="addImageGallery_contentDesc">Ajouter une image depuis la galerie</string>
+    <string name="addImageCamera_contentDesc">Ajouter une image depuis la caméra</string>
+
+    <string name="noDescription">Aucune description</string>
+
+    <string name="dateButtonText">Choisir</string>
+
+    <!-- AddPropertyFragment -->
+    <string name="nearbySearchError">Erreur pendant la recherche de points d\'intérêts</string>
+    <string name="noDescriptionError">Description requise</string>
+    <string name="noPropertyTypeSelected">Type de bien requis</string>
+    <string name="propertyTypeSelectedNotInList">Le type de bien n\'est pas valide</string>
+    <string name="fieldCantBeEmpty">Ne peut être vide</string>
+    <string name="countCantBeSuperiorThanRoomsCount">Ne peut être supérieur au nombre de pièces</string>
+    <string name="noAddressSpecified">Une adresse est requise</string>
+    <string name="noImage">Choisissez au moins une image</string>
+
+    <!-- PropertySearchViewModel -->
+    <string name="noRadiusSpecified">Rayon requis</string>
+    <string name="radiusNotPositive">Le rayon doit être positif</string>
+    <string name="noFieldFilled">Au moins un champ doit être rempli</string>
+
+    <!-- add_property_image_item.xml -->
+    <string name="propertyImage_contentDesc">Image du bien</string>
+    <string name="deleteButton_contentDesc">Supprimer</string>
+    <string name="dialogTitle">Entrer une description pour l\'image</string>
+    <string name="imageDescription">Description</string>
+    <string name="negativeButton">Annuler</string>
+    <string name="positiveButton">Ok</string>
+
+    <!-- fragment_add_property.xml -->
+    <string name="createText">Créer</string>
+    <string name="create_contentDesc">Créer une propriété</string>
+
+    <!-- fragment_loan_simulator.xml -->
+    <string name="homePriceHint">Prix du bien</string>
+    <string name="downPaymentHint">Apport</string>
+    <string name="loanLengthHint">Durée du prêt</string>
+    <string name="interestRateHint">Intérêts</string>
+    <string name="monthlyPaymentText">Paiement mensuel de</string>
+    <string name="dollarSign">$</string>
+
+    <!-- fragment_modify_property.xml -->
+    <string name="addressText">Adresse</string>
+    <string name="marketEntryDateButtonText">Choisir</string>
+    <string name="propertySoldText">Propriété vendue :</string>
+    <string name="propertySoldTextNo">Non</string>
+    <string name="updateButtonText">Mettre à jour</string>
+    <string name="updateButton_contentDesc">Mettre à jour le bien</string>
+
+    <!-- fragment_properties_list.xml -->
+    <string name="noPropertiesText">Aucune propriété</string>
+    <string name="noInternetConnectionText">Pas de connexion</string>
+    <string name="leaveSearchModeText">Quitter la recherche</string>
+
+    <!-- fragment_property_search.xml -->
+    <string name="minimumPriceHint">Prix min.</string>
+    <string name="maximumPriceHint">Prix max.</string>
+    <string name="minimumSurfaceHint">Surface min.</string>
+    <string name="maximumSurfaceHint">Surface max.</string>
+    <string name="minimumRoomCountHint">Pièces min.</string>
+    <string name="maximumRoomCountHint">Pièces max.</string>
+    <string name="minimumBathroomCountHint">Salles de bain min.</string>
+    <string name="maximumBathroomCountHint">Salles de bain max.</string>
+    <string name="minimumBedroomCountHint">Chambres min.</string>
+    <string name="maximumBedroomCountHint">Chambres max.</string>
+    <string name="radiusHint">Rayon en m²</string>
+    <string name="closePointsOfInterestsText">Points d\'intérêts</string>
+    <string name="search_marketEntryDateText">Date de mise en vente</string>
+    <string name="search_soldDateText">Date de vente</string>
+    <string name="minimumMediaCount">Nombre min. d\'images</string>
+    <string name="maximumMediaCount">Nombre max. d\'images</string>
+    <string name="searchButtonText">Rechercher</string>
+
 </resources>

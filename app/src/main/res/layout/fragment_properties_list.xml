@@ -31,7 +31,7 @@
             android:visibility="invisible"
             android:textColor="@color/lightGrey"
             android:textSize="@dimen/textSize9"
-            android:text="No Properties"/>
+            android:text="@string/noPropertiesText"/>
 
         <TextView
             android:id="@+id/textView_internetNoConnection"
@@ -42,7 +42,7 @@
             android:background="@color/quantum_vanillared700"
             android:gravity="center"
             android:visibility="gone"
-            android:text="No internet connection"
+            android:text="@string/noInternetConnectionText"
             app:layout_constraintTop_toBottomOf="@id/toolbar_toolbarPropertyList"
             app:layout_constraintStart_toStartOf="parent"
             android:textColor="@color/white"
@@ -56,7 +56,7 @@
             app:backgroundTint="@null"
             android:gravity="center"
             android:visibility="gone"
-            android:text="Quitter la recherche"
+            android:text="@string/leaveSearchModeText"
             app:layout_constraintTop_toBottomOf="@id/textView_internetNoConnection"
             app:layout_constraintStart_toStartOf="parent"
             android:textColor="@color/lightGrey"

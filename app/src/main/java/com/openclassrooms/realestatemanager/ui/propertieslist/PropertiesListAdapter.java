@@ -66,7 +66,13 @@ public class PropertiesListAdapter extends RecyclerView.Adapter<PropertiesListAd
 
         void bind(PropertyAndImage propertyAndImage) {
             binding.textViewLocation.setText(propertyAndImage.getProperty().getAddress());
-            binding.textViewPrice.setText(String.valueOf(propertyAndImage.getProperty().getPrice()));
+            if (propertyAndImage.getProperty().getPrice() != -1) {
+                if (propertyAndImage.getProperty().getPrice() % 1 == 0) {
+                    binding.textViewPrice.setText(String.valueOf(propertyAndImage.getProperty().getPrice().intValue()));
+                } else {
+                    binding.textViewPrice.setText(String.valueOf(propertyAndImage.getProperty().getPrice()));
+                }
+            }
             binding.textViewPropertyType.setText(Utils.getTypeInUserLanguage(binding.getRoot().getContext(), propertyAndImage.getProperty().getProperty_type()));
             Glide.with(binding.getRoot())
                     .load(propertyAndImage.getUri())

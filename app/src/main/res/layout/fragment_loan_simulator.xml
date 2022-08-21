@@ -29,7 +29,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:hintTextColor="@color/colorAccent"
             app:boxStrokeColor="@color/colorAccent"
-            android:hint="Home price"
+            android:hint="@string/homePriceHint"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -51,7 +51,7 @@
             app:layout_constraintTop_toBottomOf="@id/textInputLayout_homePrice"
             app:hintTextColor="@color/colorAccent"
             app:boxStrokeColor="@color/colorAccent"
-            android:hint="Down payment"
+            android:hint="@string/downPaymentHint"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -73,7 +73,7 @@
             app:layout_constraintTop_toBottomOf="@id/textInputLayout_downPayment"
             app:hintTextColor="@color/colorAccent"
             app:boxStrokeColor="@color/colorAccent"
-            android:hint="Length of loan (years)"
+            android:hint="@string/loanLengthHint"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -94,7 +94,7 @@
             app:layout_constraintTop_toBottomOf="@id/textInputLayout_loanLength"
             app:hintTextColor="@color/colorAccent"
             app:boxStrokeColor="@color/colorAccent"
-            android:hint="Interest rate"
+            android:hint="@string/interestRateHint"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -114,7 +114,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             android:textSize="@dimen/textSize8"
-            android:text="Monthly payment"
+            android:text="@string/monthlyPaymentText"
             android:textColor="@color/grey"
             android:layout_marginTop="@dimen/margin4"
             app:layout_constraintEnd_toEndOf="parent"
@@ -139,7 +139,7 @@
             app:layout_constraintEnd_toStartOf="@id/textView_simulatorResult"
             app:layout_constraintStart_toEndOf="parent"
             android:textSize="@dimen/textSize8"
-            android:text="$"/>
+            android:text="@string/dollarSign"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

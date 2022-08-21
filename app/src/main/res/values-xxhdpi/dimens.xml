@@ -21,11 +21,11 @@
     <dimen name="margin">12dp</dimen>
     <dimen name="margin5">8dp</dimen>
     <dimen name="margin6">4dp</dimen>
-    
+
     <dimen name="addAndEditProperty_recyclerViewHeight">200dp</dimen>
 
     <!-- add_property_image_item.xml -->
-    <dimen name="addPropertyImageItem_deleteSize">32dp</dimen>
+    <dimen name="addPropertyImageItem_deleteSize">40dp</dimen>
 
     <!-- dialog_add_image.xml -->
     <dimen name="addImage_dialogTitleWidth">280dp</dimen>

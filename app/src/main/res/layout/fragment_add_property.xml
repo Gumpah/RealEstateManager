@@ -43,7 +43,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:textColor="@color/grey"
-                android:text="Details"
+                android:text="@string/detailsText"
                 android:textSize="@dimen/textSize6"/>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -62,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/padding1"
                     android:layout_marginTop="@dimen/margin"
-                    android:hint="Type"
+                    android:hint="@string/typeHint"
                     app:layout_constraintTop_toBottomOf="@id/textInputLayout_propertyType"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -76,7 +76,7 @@
                 app:layout_constraintTop_toBottomOf="@id/textInputLayout_propertyType"
                 app:hintTextColor="@color/colorAccent"
                 app:boxStrokeColor="@color/colorAccent"
-                android:hint="Price"
+                android:hint="@string/priceHint"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -96,7 +96,7 @@
                 app:layout_constraintTop_toBottomOf="@id/textInputLayout_price"
                 app:hintTextColor="@color/colorAccent"
                 app:boxStrokeColor="@color/colorAccent"
-                android:hint="Surface in m²"
+                android:hint="@string/surfaceHint"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -114,7 +114,7 @@
                 app:layout_constraintTop_toBottomOf="@id/textInputLayout_surface"
                 app:hintTextColor="@color/colorAccent"
                 app:boxStrokeColor="@color/colorAccent"
-                android:hint="Number of rooms"
+                android:hint="@string/roomsHint"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -132,7 +132,7 @@
                 app:layout_constraintTop_toBottomOf="@id/textInputLayout_roomsCount"
                 app:hintTextColor="@color/colorAccent"
                 app:boxStrokeColor="@color/colorAccent"
-                android:hint="Number of bathrooms"
+                android:hint="@string/bathroomsHint"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -150,7 +150,7 @@
                 app:layout_constraintTop_toBottomOf="@id/textInputLayout_bathroomsCount"
                 app:hintTextColor="@color/colorAccent"
                 app:boxStrokeColor="@color/colorAccent"
-                android:hint="Number of bedrooms"
+                android:hint="@string/bedroomsHint"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -168,7 +168,7 @@
                 app:layout_constraintTop_toBottomOf="@id/textInputLayout_bedroomsCount"
                 app:hintTextColor="@color/colorAccent"
                 app:boxStrokeColor="@color/colorAccent"
-                android:hint="Description"
+                android:hint="@string/descriptionHint"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -195,10 +195,11 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:textColor="@color/black"
                 android:textSize="@dimen/textSize4"
-                android:text="Market entry date :"/>
+                android:text="@string/marketEntryDateText"/>
 
             <Button
                 android:id="@+id/button_marketEntryDate"
+                android:contentDescription="@string/marketEntryDate_contentDesc"
                 app:layout_constraintTop_toBottomOf="@id/autocomplete_address_addProperty"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="@dimen/margin"
@@ -213,7 +214,7 @@
                 app:layout_constraintTop_toBottomOf="@id/button_marketEntryDate"
                 app:hintTextColor="@color/colorAccent"
                 app:boxStrokeColor="@color/colorAccent"
-                android:hint="Agent"
+                android:hint="@string/agentHint"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -230,7 +231,7 @@
                 app:layout_constraintTop_toBottomOf="@id/textInputLayout_agent"
                 app:layout_constraintEnd_toStartOf="@id/imageButton_addImageGallery"
                 android:textColor="@color/grey"
-                android:text="Medias"
+                android:text="@string/mediasText"
                 android:layout_marginTop="@dimen/margin"
                 android:textSize="@dimen/textSize6"/>
 
@@ -240,6 +241,8 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_baseline_image_24"
                 android:backgroundTint="@color/colorPrimary"
+                android:contentDescription="@string/addImageGallery_contentDesc"
+                android:padding="@dimen/padding3"
                 app:tint="@color/white"
                 app:layout_constraintTop_toTopOf="@id/textView_addImage"
                 app:layout_constraintStart_toEndOf="@id/textView_addImage"
@@ -252,6 +255,8 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_baseline_camera_alt_24"
                 android:backgroundTint="@color/colorPrimary"
+                android:padding="@dimen/padding3"
+                android:contentDescription="@string/addImageCamera_contentDesc"
                 app:tint="@color/white"
                 app:layout_constraintTop_toTopOf="@id/textView_addImage"
                 app:layout_constraintStart_toEndOf="@id/imageButton_addImageGallery"
@@ -274,7 +279,8 @@
                 android:layout_marginTop="@dimen/margin3"
                 android:textSize="@dimen/textSize4"
                 app:layout_constraintTop_toBottomOf="@id/recyclerView_images"
-                android:text="Create"
+                android:text="@string/createText"
+                android:contentDescription="@string/create_contentDesc"
                 android:backgroundTint="@color/colorAccent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />

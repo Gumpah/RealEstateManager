@@ -10,7 +10,7 @@
         android:layout_width="@dimen/addImage_dialogTitleWidth"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Enter an image description"
+        android:text="@string/dialogTitle"
         android:textSize="@dimen/textSize5"
         android:textColor="@color/black"
         app:layout_constraintTop_toTopOf="parent"
@@ -27,7 +27,7 @@
         app:layout_constraintTop_toBottomOf="@id/textView_dialogTitle"
         app:hintTextColor="@color/colorAccent"
         app:boxStrokeColor="@color/colorAccent"
-        android:hint="Image description"
+        android:hint="@string/imageDescription"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin2"
         app:layout_constraintTop_toBottomOf="@id/textInputLayout_imageDescription"
-        android:text="Cancel"
+        android:text="@string/negativeButton"
         android:backgroundTint="@color/grey"
         app:layout_constraintEnd_toStartOf="@id/button_positiveButton"
         app:layout_constraintStart_toStartOf="parent"/>
@@ -56,7 +56,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/colorAccent"
-        android:text="Ok"
+        android:text="@string/positiveButton"
+        android:textColor="@color/lightBlack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/button_negativeButton"
         app:layout_constraintTop_toTopOf="@id/button_negativeButton" />

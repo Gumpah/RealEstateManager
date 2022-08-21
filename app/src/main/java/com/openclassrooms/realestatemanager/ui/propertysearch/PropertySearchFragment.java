@@ -12,6 +12,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -61,6 +63,7 @@ public class PropertySearchFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentPropertySearchBinding.inflate(inflater, container, false);
+        setToolbar();
         configureViewModels();
         initAutocompleteErrorListener();
         initSearchDataErrorListener();
@@ -76,6 +79,21 @@ public class PropertySearchFragment extends Fragment {
         return binding.getRoot();
     }
 
+    private void setToolbar() {
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(binding.toolbarToolbarPropertySearch);
+        ActionBar supportActionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
+        if (supportActionBar != null){
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+            supportActionBar.setDisplayShowHomeEnabled(true);
+        }
+        binding.toolbarToolbarPropertySearch.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requireActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
+    }
+
     private void configureViewModels() {
         mPropertySearchViewModel = new ViewModelProvider(requireActivity(), PropertySearchViewModelFactory.getInstance()).get(PropertySearchViewModel.class);
         mPlacesViewModel = new ViewModelProvider(this, PlacesViewModelFactory.getInstance()).get(PlacesViewModel.class);
@@ -84,14 +102,14 @@ public class PropertySearchFragment extends Fragment {
     private void initAutocompleteErrorListener() {
         mPlacesViewModel.getAutocompleteRequestError().observe(getViewLifecycleOwner(), error -> {
             if (error) {
-                Snackbar.make(binding.getRoot(), "Error during autocomplete request", Toast.LENGTH_SHORT).show();
+                Snackbar.make(binding.getRoot(), R.string.autocompleteError, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void initSearchDataErrorListener() {
         mPropertySearchViewModel.getPropertySearchError().observe(getViewLifecycleOwner(), error -> {
-            if (error != null && !error.isEmpty()) {
+            if (error != null) {
                 Snackbar.make(requireView(), error, Toast.LENGTH_SHORT).show();
             }
         });

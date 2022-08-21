@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/padding1"
                     android:layout_marginTop="@dimen/margin"
-                    android:hint="Type"
+                    android:hint="@string/typeHint"
                     app:layout_constraintTop_toBottomOf="@id/textInputLayout_propertyType"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -54,7 +54,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/textInputLayout_priceMax"
                 app:hintTextColor="@color/colorAccent"
-                android:hint="Minimum price"
+                android:hint="@string/minimumPriceHint"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -76,7 +76,7 @@
                 app:layout_constraintStart_toEndOf="@id/textInputLayout_priceMin"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:hintTextColor="@color/colorAccent"
-                android:hint="Maximum price"
+                android:hint="@string/maximumPriceHint"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -98,7 +98,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/textInputLayout_surfaceMax"
                 app:hintTextColor="@color/colorAccent"
-                android:hint="Minimum surface"
+                android:hint="@string/minimumSurfaceHint"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -119,7 +119,7 @@
                 app:layout_constraintStart_toEndOf="@id/textInputLayout_surfaceMin"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:hintTextColor="@color/colorAccent"
-                android:hint="Maximum surface"
+                android:hint="@string/maximumSurfaceHint"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -140,7 +140,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/textInputLayout_roomsMax"
                 app:hintTextColor="@color/colorAccent"
-                android:hint="Rooms count min."
+                android:hint="@string/minimumRoomCountHint"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -161,7 +161,7 @@
                 app:layout_constraintStart_toEndOf="@id/textInputLayout_roomsMin"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:hintTextColor="@color/colorAccent"
-                android:hint="Rooms count max."
+                android:hint="@string/maximumRoomCountHint"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -182,7 +182,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/textInputLayout_bathroomsMax"
                 app:hintTextColor="@color/colorAccent"
-                android:hint="Bathrooms count min."
+                android:hint="@string/minimumBathroomCountHint"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -203,7 +203,7 @@
                 app:layout_constraintStart_toEndOf="@id/textInputLayout_bathroomsMin"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:hintTextColor="@color/colorAccent"
-                android:hint="Bathrooms count max."
+                android:hint="@string/maximumBathroomCountHint"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -224,7 +224,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/textInputLayout_bedroomsMax"
                 app:hintTextColor="@color/colorAccent"
-                android:hint="Bedrooms count min."
+                android:hint="@string/minimumBedroomCountHint"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -245,7 +245,7 @@
                 app:layout_constraintStart_toEndOf="@id/textInputLayout_bedroomsMin"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:hintTextColor="@color/colorAccent"
-                android:hint="Bedrooms count max."
+                android:hint="@string/maximumBedroomCountHint"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -277,7 +277,7 @@
                 app:layout_constraintTop_toTopOf="@id/autocomplete_address_searchProperty"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:hintTextColor="@color/colorAccent"
-                android:hint="Radius in m²"
+                android:hint="@string/radiusHint"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -296,7 +296,7 @@
                 android:textSize="@dimen/textSize5"
                 android:textColor="@color/grey"
                 android:layout_marginTop="@dimen/margin"
-                android:text="Close points of interests"
+                android:text="@string/closePointsOfInterestsText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textInputLayout_addressRadius"/>
 
@@ -417,14 +417,14 @@
                 android:textColor="@color/grey"
                 android:layout_marginTop="@dimen/margin"
                 app:layout_constraintTop_toBottomOf="@id/checkBox_movieTheater"
-                android:text="Market entry date"/>
+                android:text="@string/search_marketEntryDateText"/>
 
             <Button
                 android:id="@+id/button_marketEntryDateMin"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin"
-                android:text="Select"
+                android:text="@string/dateButtonText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView_marketEntryDateTitle"
                 app:layout_constraintEnd_toStartOf="@id/button_marketEntryDateMax"/>
@@ -434,7 +434,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin"
-                android:text="Select"
+                android:text="@string/dateButtonText"
                 app:layout_constraintStart_toEndOf="@id/button_marketEntryDateMin"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/button_marketEntryDateMin"
@@ -448,14 +448,14 @@
                 android:textColor="@color/grey"
                 android:layout_marginTop="@dimen/margin"
                 app:layout_constraintTop_toBottomOf="@id/button_marketEntryDateMin"
-                android:text="Date of purchase"/>
+                android:text="@string/search_soldDateText"/>
 
             <Button
                 android:id="@+id/button_soldDateMin"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin"
-                android:text="Select"
+                android:text="@string/dateButtonText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView_soldDateTitle"
                 app:layout_constraintEnd_toStartOf="@id/button_soldDateMax"/>
@@ -465,7 +465,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin"
-                android:text="Select"
+                android:text="@string/dateButtonText"
                 app:layout_constraintStart_toEndOf="@id/button_soldDateMin"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/button_soldDateMin"
@@ -480,7 +480,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/textInputLayout_mediaCountMax"
                 app:hintTextColor="@color/colorAccent"
-                android:hint="Media count min."
+                android:hint="@string/minimumMediaCount"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -501,7 +501,7 @@
                 app:layout_constraintStart_toEndOf="@id/textInputLayout_mediaCountMin"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:hintTextColor="@color/colorAccent"
-                android:hint="Media count max."
+                android:hint="@string/maximumMediaCount"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -520,7 +520,7 @@
                 android:layout_marginTop="@dimen/margin3"
                 android:textSize="@dimen/textSize5"
                 android:backgroundTint="@color/colorAccent"
-                android:text="Search"
+                android:text="@string/searchButtonText"
                 app:layout_constraintTop_toBottomOf="@id/textInputLayout_mediaCountMin"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

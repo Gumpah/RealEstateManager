@@ -28,6 +28,7 @@ import com.openclassrooms.realestatemanager.data.model.entities.Property;
 import com.openclassrooms.realestatemanager.databinding.FragmentPropertyDetailsMapBinding;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModel;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModelFactory;
+import com.openclassrooms.realestatemanager.utils.Utils;
 
 import java.util.List;
 
@@ -103,14 +104,13 @@ public class PropertyDetailsMapFragment extends Fragment implements OnMapReadyCa
 
     private void getPropertyPlaces() {
         mPropertyViewModel.getPlacesLiveData().observe(getViewLifecycleOwner(), this::displayPlacesMarkers);
-        // OLD-REQUEST mPropertyViewModel.getPlacesByPropertyId(mProperty.getId());
         mPropertyViewModel.getPlacesByPropertyIdContentProvider(requireContext().getContentResolver(), mProperty.getId());
     }
 
     private void displayPropertyMarker() {
         MarkerOptions markerOptions = new MarkerOptions()
                 .position(new LatLng(mProperty.getLatitude(), mProperty.getLongitude()))
-                .title("Property");
+                .title(Utils.getTypeInUserLanguage(requireContext(), mProperty.getProperty_type()));
         Marker marker = mMap.addMarker(markerOptions);
         if (marker != null) {
             marker.showInfoWindow();
@@ -122,7 +122,8 @@ public class PropertyDetailsMapFragment extends Fragment implements OnMapReadyCa
             MarkerOptions markerOptions = new MarkerOptions()
                     .position(new LatLng(place.getLatitude(), place.getLongitude()))
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
-                    .title(place.getName());
+                    .title(place.getName())
+                    .snippet(Utils.getTypeInUserLanguage(requireContext(), place.getType()));
             mMap.addMarker(markerOptions);
         }
     }
@@ -134,7 +135,6 @@ public class PropertyDetailsMapFragment extends Fragment implements OnMapReadyCa
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
-        System.out.println("Map ready");
         mMap = googleMap;
         mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style));
         getPropertyById();

@@ -3,13 +3,17 @@ package com.openclassrooms.realestatemanager.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding;
 import com.openclassrooms.realestatemanager.ui.propertieslist.PropertiesListFragment;
+import com.openclassrooms.realestatemanager.ui.propertiesmap.UserViewModel;
+import com.openclassrooms.realestatemanager.ui.propertiesmap.UserViewModelFactory;
 import com.openclassrooms.realestatemanager.ui.propertydetails.PropertyDetailsFragment;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModel;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModelFactory;
@@ -17,13 +21,31 @@ import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModelFacto
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    private PropertyViewModel mPropertyViewModel;
+    private UserViewModel mUserViewModel;
+    private boolean internetJustDisconnected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         configureViewModel();
         initUI(savedInstanceState);
+        internetJustDisconnected = false;
+        initNetworkStatus();
+    }
+
+
+    private void initNetworkStatus() {
+        mUserViewModel.getConnectionStatus().observe(this, this::onNetworkStatusChange);
+    }
+
+    private void onNetworkStatusChange(boolean isConnected) {
+        if (isConnected && internetJustDisconnected) {
+            internetJustDisconnected = false;
+            Snackbar.make(binding.getRoot(), R.string.internetConnected, Toast.LENGTH_SHORT).show();
+        } else if (!isConnected) {
+            internetJustDisconnected = true;
+            Snackbar.make(binding.getRoot(), R.string.internetDisconnected, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void initUI(Bundle savedInstanceState) {
@@ -55,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void configureViewModel() {
-        mPropertyViewModel = new ViewModelProvider(this, PropertyViewModelFactory.getInstance(this)).get(PropertyViewModel.class);
+        mUserViewModel = new ViewModelProvider(this, UserViewModelFactory.getInstance(this)).get(UserViewModel.class);
     }
 
     @Override

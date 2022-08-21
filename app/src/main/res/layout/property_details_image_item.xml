@@ -26,11 +26,10 @@
         app:layout_constraintStart_toStartOf="@id/imageView_media"
         app:layout_constraintEnd_toEndOf="@id/imageView_media"
         app:layout_constraintTop_toTopOf="@id/imageView_media"
-        android:text="Test"
         android:textColor="@color/white"
         android:textSize="@dimen/textSize3"
         android:layout_marginTop="@dimen/margin5"
         android:background="@drawable/round_corners"
-        android:padding="@dimen/padding2"/>
+        android:padding="@dimen/padding3"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -48,6 +48,7 @@
             app:layout_constraintTop_toBottomOf="@id/textView_propertyType"
             app:layout_constraintBottom_toTopOf="@id/textView_price"
             android:textSize="@dimen/textSize5"
+            android:maxLines="3"
             tools:text="Location" />
 
         <TextView

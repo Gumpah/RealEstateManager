@@ -8,9 +8,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,9 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -51,6 +56,9 @@ import com.openclassrooms.realestatemanager.utils.FileManager;
 import com.openclassrooms.realestatemanager.utils.PropertyCreationNotificationService;
 import com.openclassrooms.realestatemanager.utils.Utils;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -66,6 +74,9 @@ public class AddPropertyFragment extends Fragment implements AddAndModifyPropert
     private Date marketEntryDate;
     private Place propertyPlace;
     private PropertyCreationNotificationService notificationService;
+    private Property propertyToCreate;
+
+    private String mCurrentPhotoPath;
 
     public AddPropertyFragment() {
     }
@@ -80,6 +91,7 @@ public class AddPropertyFragment extends Fragment implements AddAndModifyPropert
                              Bundle savedInstanceState) {
         binding = FragmentAddPropertyBinding.inflate(inflater, container, false);
         mBitmapAndStringList = new ArrayList<>();
+        setToolbar();
         configureViewModels();
         mPlacesViewModel.getPlacesMutableLiveData().postValue(null);
         initErrorsListener();
@@ -92,8 +104,24 @@ public class AddPropertyFragment extends Fragment implements AddAndModifyPropert
             Places.initialize(requireContext(), BuildConfig.MAPS_API_KEY);
         }
         initAutocompleteAddress();
+        initPropertyCreationListeners();
         notificationService = new PropertyCreationNotificationService(requireContext());
         return binding.getRoot();
+    }
+
+    private void setToolbar() {
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(binding.toolbarToolbarAddProperty);
+        ActionBar supportActionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
+        if (supportActionBar != null){
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+            supportActionBar.setDisplayShowHomeEnabled(true);
+        }
+        binding.toolbarToolbarAddProperty.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requireActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
     }
 
     private void configureViewModels() {
@@ -104,13 +132,14 @@ public class AddPropertyFragment extends Fragment implements AddAndModifyPropert
     private void initErrorsListener() {
         mPlacesViewModel.getFetchNearbyPlacesError().observe(getViewLifecycleOwner(), error -> {
             if (error) {
-                Snackbar.make(binding.getRoot(), "Error while fetching nearby places", Toast.LENGTH_SHORT).show();
+                Snackbar.make(binding.getRoot(), R.string.nearbySearchError, Toast.LENGTH_SHORT).show();
                 binding.progressBar.setVisibility(View.GONE);
+                propertyToCreate = null;
             }
         });
         mPlacesViewModel.getAutocompleteRequestError().observe(getViewLifecycleOwner(), error -> {
             if (error) {
-                Snackbar.make(binding.getRoot(), "Error during autocomplete request", Toast.LENGTH_SHORT).show();
+                Snackbar.make(binding.getRoot(), R.string.autocompleteError, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -147,17 +176,36 @@ public class AddPropertyFragment extends Fragment implements AddAndModifyPropert
 
     private void initMediaFromCameraClickListener() {
         binding.imageButtonAddImageCamera.setOnClickListener(v -> {
-            Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            uriCamera.launch(i);
+            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            File photoFile = null;
+            try {
+                photoFile = FileManager.createImageFile(requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES));
+                mCurrentPhotoPath = "file:" + photoFile.getAbsolutePath();
+            } catch (IOException ex) {
+                //Error
+            }
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(requireContext(),
+                        "com.openclassrooms.realestatemanager.fileprovider",
+                        photoFile);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                uriCamera.launch(cameraIntent);
+            }
         });
     }
 
     private final ActivityResultLauncher<Intent> uriCamera =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), i -> {
                 if (i.getResultCode() == Activity.RESULT_OK && i.getData() != null) {
-                    Bundle bundle = i.getData().getExtras();
-                    Bitmap bitmap = (Bitmap) bundle.get("data");
-                    showImageDescriptionDialog(bitmap);
+                    Bitmap mImageBitmap = null;
+                    try {
+                        mImageBitmap = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), Uri.parse(mCurrentPhotoPath));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    if (mImageBitmap != null) {
+                        showImageDescriptionDialog(mImageBitmap);
+                    }
                 }
             });
 
@@ -212,7 +260,7 @@ public class AddPropertyFragment extends Fragment implements AddAndModifyPropert
             mPropertyMediasAdapter.setData(mBitmapAndStringList);
             dialogInterface.dismiss();
         } else {
-            descriptionEditText.setError("Must enter a description");
+            descriptionEditText.setError(requireContext().getString(R.string.noDescriptionError));
         }
     }
 
@@ -304,128 +352,102 @@ public class AddPropertyFragment extends Fragment implements AddAndModifyPropert
     }
 
     private void onSubmit() {
-        String price = "";
-        if (binding.textInputLayoutPrice.getEditText() != null) {
-            binding.textInputLayoutPrice.setErrorEnabled(false);
-            price = binding.textInputLayoutPrice.getEditText().getText().toString();
+        Integer price = -1;
+        EditText editTextPrice = binding.textInputLayoutPrice.getEditText();
+        if (editTextPrice != null && !editTextPrice.getText().toString().isEmpty()) {
+            price = Integer.parseInt(editTextPrice.getText().toString());
         }
-        String surface = "";
-        if (binding.textInputLayoutSurface.getEditText() != null) {
-            binding.textInputLayoutSurface.setErrorEnabled(false);
-            surface = binding.textInputLayoutSurface.getEditText().getText().toString();
+        Integer surface = -1;
+        EditText editTextSurface = binding.textInputLayoutSurface.getEditText();
+        if (editTextSurface != null && !editTextSurface.getText().toString().isEmpty()) {
+            surface = Integer.parseInt(editTextSurface.getText().toString());
         }
-        String roomsCount = "";
-        if (binding.textInputLayoutRoomsCount.getEditText() != null) {
-            binding.textInputLayoutRoomsCount.setErrorEnabled(false);
-            roomsCount = binding.textInputLayoutRoomsCount.getEditText().getText().toString();
+        Integer roomsCount = -1;
+        EditText editTextRooms = binding.textInputLayoutRoomsCount.getEditText();
+        if (editTextRooms != null && !editTextRooms.getText().toString().isEmpty()) {
+            roomsCount = Integer.parseInt(editTextRooms.getText().toString());
         }
-        String bathroomsCount = "";
-        if (binding.textInputLayoutBathroomsCount.getEditText() != null) {
-            binding.textInputLayoutBathroomsCount.setErrorEnabled(false);
-            bathroomsCount = binding.textInputLayoutBathroomsCount.getEditText().getText().toString();
+        Integer bathroomsCount = -1;
+        EditText editTextBathrooms = binding.textInputLayoutBathroomsCount.getEditText();
+        if (editTextBathrooms != null && !editTextBathrooms.getText().toString().isEmpty()) {
+            bathroomsCount = Integer.parseInt(editTextBathrooms.getText().toString());
         }
-        String bedroomsCount = "";
-        if (binding.textInputLayoutBedroomsCount.getEditText() != null) {
-            binding.textInputLayoutBedroomsCount.setErrorEnabled(false);
-            bedroomsCount = binding.textInputLayoutBedroomsCount.getEditText().getText().toString();
+        Integer bedroomsCount = -1;
+        EditText editTextBedrooms = binding.textInputLayoutBedroomsCount.getEditText();
+        if (editTextBedrooms != null && !editTextBedrooms.getText().toString().isEmpty()) {
+            bedroomsCount = Integer.parseInt(editTextBedrooms.getText().toString());
         }
-        String description = "";
+        String description = null;
         if (binding.textInputLayoutDescription.getEditText() != null) {
-            binding.textInputLayoutDescription.setErrorEnabled(false);
             description = binding.textInputLayoutDescription.getEditText().getText().toString();
         }
-        String agent = "";
+        String agent = null;
         if (binding.textInputLayoutAgent.getEditText() != null) {
             binding.textInputLayoutAgent.setErrorEnabled(false);
             agent = binding.textInputLayoutAgent.getEditText().getText().toString();
         }
 
         if (mPropertyType == null || mPropertyType.isEmpty()) {
-            Snackbar.make(requireView(), "Select a property type", Toast.LENGTH_SHORT).show();
+            Snackbar.make(requireView(), R.string.noPropertyTypeSelected, Toast.LENGTH_SHORT).show();
             return;
         }
         if (!PropertyType.types.contains(mPropertyType)) {
-            Snackbar.make(requireView(),"The property type has to be in the list", Toast.LENGTH_SHORT).show();
+            Snackbar.make(requireView(),R.string.propertyTypeSelectedNotInList, Toast.LENGTH_SHORT).show();
             return;
         }
-        if (price.isEmpty()) {
-            binding.textInputLayoutPrice.setError("Can't be empty");
+        if ((roomsCount != -1 && bathroomsCount != -1) && roomsCount < bathroomsCount) {
+            binding.textInputLayoutBathroomsCount.setError(requireContext().getString(R.string.countCantBeSuperiorThanRoomsCount));
             return;
         }
-        if (surface.isEmpty()) {
-            binding.textInputLayoutSurface.setError("Can't be empty");
-            return;
-        }
-        if (roomsCount.isEmpty()) {
-            binding.textInputLayoutRoomsCount.setError("Can't be empty");
-            return;
-        }
-        if (bathroomsCount.isEmpty()) {
-            binding.textInputLayoutBathroomsCount.setError("Can't be empty");
-            return;
-        }
-        if (Integer.parseInt(roomsCount) < Integer.parseInt(bathroomsCount)) {
-            binding.textInputLayoutBathroomsCount.setError("Can't be superior than number of rooms");
-            return;
-        }
-        if (bedroomsCount.isEmpty()) {
-            binding.textInputLayoutBedroomsCount.setError("Can't be empty");
-            return;
-        }
-        if (Integer.parseInt(roomsCount) < Integer.parseInt(bedroomsCount)) {
-            binding.textInputLayoutBedroomsCount.setError("Can't be superior than number of rooms");
-            return;
-        }
-        if (description.isEmpty()) {
-            binding.textInputLayoutDescription.setError("Can't be empty");
+        if ((roomsCount != -1 && bedroomsCount != -1) && roomsCount < bedroomsCount) {
+            binding.textInputLayoutBedroomsCount.setError(requireContext().getString(R.string.countCantBeSuperiorThanRoomsCount));
             return;
         }
         if (propertyPlace == null) {
-            Snackbar.make(requireView(),"Specify an address", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (agent.isEmpty()) {
-            binding.textInputLayoutAgent.setError("Can't be empty");
+            Snackbar.make(requireView(),R.string.noAddressSpecified, Toast.LENGTH_SHORT).show();
             return;
         }
         if (mBitmapAndStringList.isEmpty()) {
-            Snackbar.make(requireView(),"Pick at least 1 image", Toast.LENGTH_SHORT).show();
+            Snackbar.make(requireView(),R.string.noImage, Toast.LENGTH_SHORT).show();
             return;
         }
-        //String marketEntryDateString = Utils.convertDateToString(marketEntryDate);
         long marketEntryDateMillis = Utils.convertDateToLong(marketEntryDate);
-        ArrayList<Media> mediaList = new ArrayList<>();
-        for (BitmapAndString bitmapAndString : mBitmapAndStringList) {
-            Uri storedImage = FileManager.createFile(bitmapAndString.getMedia(), requireActivity().getFilesDir());
-            if (storedImage != null) {
-                mediaList.add(new Media(storedImage.toString(), bitmapAndString.getMedia_description()));
-            }
-        }
-        Property property = new Property(
+
+        propertyToCreate = new Property(
                 mPropertyType,
                 Double.valueOf(price),
-                Integer.parseInt(surface),
-                Integer.parseInt(roomsCount),
-                Integer.parseInt(bathroomsCount),
-                Integer.parseInt(bedroomsCount),
-                description, propertyPlace.getAddress(),
+                surface,
+                roomsCount,
+                bathroomsCount,
+                bedroomsCount,
+                description,
+                propertyPlace.getAddress(),
                 propertyPlace.getLatitude(),
                 propertyPlace.getLongitude(),
                 PropertyStatus.AVAILABLE,
                 marketEntryDateMillis,
                 agent);
-        nearbyPlacesRequest(property, mediaList);
+        nearbyPlacesRequest();
     }
 
-    private void emptyFieldSnackBar() {
-        Snackbar.make(requireView(),"Verify the form", Toast.LENGTH_SHORT).show();
-    }
-
-    private void nearbyPlacesRequest(Property property, ArrayList<Media> mediaList) {
+    private void nearbyPlacesRequest() {
         binding.progressBar.setVisibility(View.VISIBLE);
+        if (propertyToCreate != null) {
+            mPlacesViewModel.fetchPlaces(BuildConfig.MAPS_API_KEY, Utils.createLocationString(propertyToCreate.getLatitude(), propertyToCreate.getLongitude()));
+        }
+    }
+
+    private void initPropertyCreationListeners() {
         mPlacesViewModel.getPlacesMutableLiveData().observe(getViewLifecycleOwner(), places -> {
             if (places != null) {
-                mPropertyViewModel.insertPropertyAndMediasAndPlaces(property, mediaList, places);
+                ArrayList<Media> mediaList = new ArrayList<>();
+                for (BitmapAndString bitmapAndString : mBitmapAndStringList) {
+                    Uri storedImage = FileManager.createFile(bitmapAndString.getMedia(), requireActivity().getFilesDir());
+                    if (storedImage != null) {
+                        mediaList.add(new Media(storedImage.toString(), bitmapAndString.getMedia_description()));
+                    }
+                }
+                mPropertyViewModel.insertPropertyAndMediasAndPlaces(propertyToCreate, mediaList, places);
             }
         });
         mPropertyViewModel.getPropertyCreatedIdLiveData().observe(getViewLifecycleOwner(), id -> {
@@ -433,7 +455,6 @@ public class AddPropertyFragment extends Fragment implements AddAndModifyPropert
             notificationService.showNotification(id);
             requireActivity().getSupportFragmentManager().popBackStack();
         });
-        mPlacesViewModel.fetchPlaces(BuildConfig.MAPS_API_KEY, Utils.createLocationString(property.getLatitude(), property.getLongitude()));
     }
 
     @Override
