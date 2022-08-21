@@ -22,7 +22,6 @@ public class UtilsTest {
         Thread.sleep(5000);
 
         boolean isInternetAvailableActual = Utils.isInternetAvailable(instrumentationContext);
-
         assertTrue(isInternetAvailableActual);
     }
 
@@ -32,7 +31,6 @@ public class UtilsTest {
         InstrumentationRegistry.getInstrumentation().getUiAutomation().executeShellCommand("svc wifi disable");
         InstrumentationRegistry.getInstrumentation().getUiAutomation().executeShellCommand("svc data disable");
         Thread.sleep(2000);
-
 
         boolean isInternetAvailableActual = Utils.isInternetAvailable(instrumentationContext);
         assertFalse(isInternetAvailableActual);

@@ -77,6 +77,8 @@ dependencies {
     testImplementation 'org.mockito:mockito-inline:3.8.0'
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'com.jraska.livedata:testing:1.2.0'
+    androidTestImplementation 'androidx.arch.core:core-testing:2.1.0'
+    androidTestImplementation 'com.jraska.livedata:testing:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     androidTestImplementation 'com.linkedin.testbutler:test-butler-library:2.2.1'
 
