@@ -66,7 +66,6 @@ public class PropertyDetailsMapFragment extends Fragment implements OnMapReadyCa
     private void getPropertyById() {
         Bundle args = getArguments();
         if (args != null && args.getLong("PropertyId", 0) != 0) {
-            System.out.println("Id is: ");
             mPropertyViewModel.getPropertyByIdContentProvider(requireActivity().getContentResolver(), args.getLong("PropertyId", 0));
         }
     }
