@@ -8,7 +8,6 @@
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager_medias"
-        android:contentDescription="test"
         android:layout_width="match_parent"
         android:layout_height="@dimen/propertyDetails_viewPagerHeight"
         app:layout_constraintTop_toTopOf="parent" />
@@ -58,7 +57,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     android:textColor="@color/grey"
                     android:textSize="@dimen/textSize6"
-                    android:text="Description"/>
+                    android:text="@string/descriptionHint"/>
 
                 <TextView
                     android:id="@+id/textView_description"
@@ -77,7 +76,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     android:textColor="@color/grey"
                     android:textSize="@dimen/textSize6"
-                    android:text="Informations"/>
+                    android:text="@string/detailsText"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraintLayout_container1"
@@ -107,7 +106,7 @@
                         android:gravity="center"
                         android:textColor="@color/grey"
                         android:textSize="@dimen/textSize3"
-                        android:text="Surface"
+                        android:text="@string/surfaceHint"
                         app:drawableTint="@color/grey" />
 
                     <TextView
@@ -141,7 +140,7 @@
                         android:gravity="center"
                         android:textColor="@color/grey"
                         android:textSize="@dimen/textSize3"
-                        android:text="Rooms count"
+                        android:text="@string/roomsHint"
                         app:drawableTint="@color/grey" />
 
                     <TextView
@@ -175,7 +174,7 @@
                         android:gravity="center"
                         android:textColor="@color/grey"
                         android:textSize="@dimen/textSize3"
-                        android:text="Bathrooms count"
+                        android:text="@string/bathroomsHint"
                         app:drawableTint="@color/grey" />
 
                     <TextView
@@ -209,7 +208,7 @@
                         android:gravity="center"
                         android:textColor="@color/grey"
                         android:textSize="@dimen/textSize3"
-                        android:text="Bedrooms count"
+                        android:text="@string/bedroomsHint"
                         app:drawableTint="@color/grey" />
 
                     <TextView
@@ -243,7 +242,7 @@
                         android:gravity="center"
                         android:textColor="@color/grey"
                         android:textSize="@dimen/textSize3"
-                        android:text="Location"
+                        android:text="@string/addressText"
                         app:drawableTint="@color/grey" />
 
                     <TextView
@@ -275,7 +274,7 @@
                     app:layout_constraintTop_toBottomOf="@id/imageView_staticMap"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:text="Points of interest"
+                    android:text="@string/closePointsOfInterestsText"
                     android:backgroundTint="@color/green"
                     android:layout_marginTop="@dimen/margin"/>
 

@@ -53,6 +53,7 @@ public class PropertiesListFragment extends Fragment implements PropertyListCall
     private List<Property> propertySearchResults;
     private List<Property> propertyList;
     private Long propertyId;
+    private Menu mMenu;
 
     public PropertiesListFragment() {
     }
@@ -178,6 +179,7 @@ public class PropertiesListFragment extends Fragment implements PropertyListCall
             @Override
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
                 menuInflater.inflate(R.menu.menu_propertylist, menu);
+                mMenu = menu;
             }
 
             @Override
@@ -190,8 +192,8 @@ public class PropertiesListFragment extends Fragment implements PropertyListCall
                 }
                 if (menuItem.getItemId() == R.id.menuItem_edit && propertyId != null) {
                     requireActivity().getSupportFragmentManager().beginTransaction().
-                            replace(R.id.frameLayout_fragmentContainer, ModifyPropertyFragment.newInstance(propertyId), "PropertySearch")
-                            .addToBackStack("PropertySearch")
+                            replace(R.id.frameLayout_fragmentContainer, ModifyPropertyFragment.newInstance(propertyId), "ModifyProperty")
+                            .addToBackStack("ModifyProperty")
                             .commit();
                 }
                 return true;
@@ -226,12 +228,12 @@ public class PropertiesListFragment extends Fragment implements PropertyListCall
         boolean isTablet = requireContext().getResources().getBoolean(R.bool.isTablet);
         if (isTablet) {
             propertyId = property.getId();
-            requireActivity().getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_tablet, propertyDetailsFragment, "PropertyDetails")
+            getChildFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_tablet, propertyDetailsFragment, "PropertyDetails")
                     .commit();
         } else {
-            requireActivity().getSupportFragmentManager().beginTransaction().
-                    replace(R.id.frameLayout_fragmentContainer, propertyDetailsFragment, "PropertyDetails")
+            requireActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.frameLayout_fragmentContainer, propertyDetailsFragment, "PropertyDetails")
                     .addToBackStack("PropertyDetails")
                     .commit();
         }

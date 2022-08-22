@@ -3,6 +3,8 @@ package com.openclassrooms.realestatemanager.ui.propertydetails;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.MenuHost;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -21,6 +25,7 @@ import com.openclassrooms.realestatemanager.data.StaticMapService;
 import com.openclassrooms.realestatemanager.data.model.entities.Property;
 import com.openclassrooms.realestatemanager.databinding.FragmentPropertyDetailsBinding;
 import com.openclassrooms.realestatemanager.ui.modifyproperty.ModifyPropertyFragment;
+import com.openclassrooms.realestatemanager.ui.propertysearch.PropertySearchFragment;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModel;
 import com.openclassrooms.realestatemanager.ui.viewmodels.PropertyViewModelFactory;
 import com.openclassrooms.realestatemanager.utils.Utils;
@@ -33,7 +38,6 @@ public class PropertyDetailsFragment extends Fragment implements DisplayMediaCal
     private PropertyViewModel mPropertyViewModel;
     private Property mProperty;
     private PropertyDetailsPagerAdapter mPropertyDetailsPagerAdapter;
-    private Toolbar toolbar;
     private boolean isTablet;
 
     public PropertyDetailsFragment() {
@@ -63,14 +67,10 @@ public class PropertyDetailsFragment extends Fragment implements DisplayMediaCal
 
     private void initToolbar() {
         if (isTablet) {
-            toolbar = requireActivity().findViewById(R.id.toolbar_toolbarPropertyList);
-            toolbar.getMenu().removeItem(R.id.menuItem_edit);
         } else {
-            toolbar = binding.toolbarToolbarPropertyDetails;
             setToolbar();
-            initMenu();
         }
-        if (toolbar != null) toolbar.inflateMenu(R.menu.menu_propertydetails);
+        initMenu();
     }
 
     private void setToolbar() {
@@ -89,20 +89,24 @@ public class PropertyDetailsFragment extends Fragment implements DisplayMediaCal
     }
 
     private void initMenu() {
-        if (!isTablet && binding.toolbarToolbarPropertyDetails != null) {
-            binding.toolbarToolbarPropertyDetails.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    if (item.getItemId() == R.id.menuItem_edit) {
-                        requireActivity().getSupportFragmentManager().beginTransaction().
-                                replace(R.id.frameLayout_fragmentContainer, ModifyPropertyFragment.newInstance(mProperty.getId()), "PropertySearch")
-                                .addToBackStack("PropertySearch")
-                                .commit();
-                    }
-                    return true;
+        MenuHost menuHost = requireActivity();
+        menuHost.addMenuProvider(new MenuProvider() {
+            @Override
+            public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+                menuInflater.inflate(R.menu.menu_propertydetails, menu);
+            }
+
+            @Override
+            public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+                if (menuItem.getItemId() == R.id.menuItem_edit) {
+                    requireActivity().getSupportFragmentManager().beginTransaction().
+                            replace(R.id.frameLayout_fragmentContainer, ModifyPropertyFragment.newInstance(mProperty.getId()), "ModifyProperty")
+                            .addToBackStack("ModifyProperty")
+                            .commit();
                 }
-            });
-        }
+                return true;
+            }
+        }, getViewLifecycleOwner());
     }
 
     private void getPropertyById() {
@@ -210,13 +214,5 @@ public class PropertyDetailsFragment extends Fragment implements DisplayMediaCal
                 replace(R.id.frameLayout_fragmentContainer, propertyDetailsMapFragment, "PropertyDetailsMap")
                 .addToBackStack("PropertyDetailsMap")
                 .commit();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (isTablet) {
-            toolbar.getMenu().removeItem(R.id.menuItem_edit);
-        }
     }
 }
