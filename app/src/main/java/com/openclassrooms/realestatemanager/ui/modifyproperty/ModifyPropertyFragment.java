@@ -406,10 +406,10 @@ public class ModifyPropertyFragment extends Fragment implements AddAndModifyProp
     }
 
     private void onSubmit() {
-        Integer price = -1;
+        Double price = -1d;
         EditText editTextPrice = binding.textInputLayoutPrice.getEditText();
         if (editTextPrice != null && !editTextPrice.getText().toString().isEmpty()) {
-            price = Integer.parseInt(editTextPrice.getText().toString());
+            price = Double.parseDouble(editTextPrice.getText().toString());
         }
         Integer surface = -1;
         EditText editTextSurface = binding.textInputLayoutSurface.getEditText();
@@ -475,7 +475,7 @@ public class ModifyPropertyFragment extends Fragment implements AddAndModifyProp
         }
         Property property = new Property(
                 mPropertyType,
-                Double.valueOf(price),
+                price,
                 surface,
                 roomsCount,
                 bathroomsCount,
