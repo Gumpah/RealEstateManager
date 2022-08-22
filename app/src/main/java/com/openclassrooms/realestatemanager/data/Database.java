@@ -18,26 +18,25 @@ import com.openclassrooms.realestatemanager.data.model.entities.PropertyPlace;
 @androidx.room.Database(entities = {Property.class, Media.class, Place.class, PropertyPlace.class}, version = 1, exportSchema = false)
 public abstract class Database extends RoomDatabase {
 
-        private final static String databaseName = "MyDatabase.db";
+    private final static String databaseName = "MyDatabase.db";
+    private static volatile Database INSTANCE;
 
-        private static volatile Database INSTANCE;
-
-        public abstract PropertyDao propertyDao();
-        public abstract MediaDao mediaDao();
-        public abstract PlaceDao placeDao();
-        public abstract PropertyPlaceDao propertyPlaceDao();
+    public abstract PropertyDao propertyDao();
+    public abstract MediaDao mediaDao();
+    public abstract PlaceDao placeDao();
+    public abstract PropertyPlaceDao propertyPlaceDao();
     public abstract SearchDao searchDao();
 
-        public static Database getDatabase(final Context context) {
-            if (INSTANCE == null) {
-                synchronized (Database.class) {
-                    if (INSTANCE == null) {
-                        INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                                        Database.class, databaseName)
-                                .build();
-                    }
+    public static Database getDatabase(final Context context) {
+        if (INSTANCE == null) {
+            synchronized (Database.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+                                    Database.class, databaseName)
+                            .build();
                 }
             }
-            return INSTANCE;
         }
+        return INSTANCE;
+    }
 }
